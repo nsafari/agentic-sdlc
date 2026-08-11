@@ -968,9 +968,6 @@ html[data-theme="paper"] .principle-card {
 }
 
 /* ------------------------------------------------------------------ RTL */
-html[dir="rtl"] .detail {
-  grid-template-columns: minmax(0, 1fr) 290px;
-}
 html[dir="rtl"] .sidebar {
   border-left: 1px solid var(--hairline);
   border-inline-start: none;
