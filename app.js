@@ -14,11 +14,18 @@
     },
   });
 
+  const I18n = window.I18n || {
+    t: (k) => k,
+    getLanguage: () => 'en',
+    getDirection: () => 'ltr',
+    setLanguage: () => {},
+  };
+
   const FACETS = [
-    { key: "opportunities", label: "Opportunities", desc: "what agents can do here" },
-    { key: "risks", label: "Risks", desc: "what goes wrong at machine speed" },
-    { key: "feedforward", label: "Feed-forward", desc: "context, skills & MCPs the agent needs" },
-    { key: "guardrails", label: "Guardrails", desc: "deterministic gates & human checkpoints" },
+    { key: "opportunities", label: () => I18n.t("facets.opportunities"), desc: () => I18n.t("facetDescriptions.opportunities") },
+    { key: "risks", label: () => I18n.t("facets.risks"), desc: () => I18n.t("facetDescriptions.risks") },
+    { key: "feedforward", label: () => I18n.t("facets.feedforward"), desc: () => I18n.t("facetDescriptions.feedforward") },
+    { key: "guardrails", label: () => I18n.t("facets.guardrails"), desc: () => I18n.t("facetDescriptions.guardrails") },
   ];
 
   /* ------------------------------------------------------------ routing */
@@ -83,7 +90,7 @@
       <button class="node-row" onClick=${() => expandable && setOpen(!open)}>
         <span class="tw">${expandable ? "▸" : "·"}</span>
         <span class="t">${node.title}</span>
-        ${draft && html`<span class="badge-draft" title="AI-drafted seed — not yet endorsed">draft</span>`}
+        ${draft && html`<span class="badge-draft" title="${I18n.t("common.draftTooltip")}">${I18n.t("common.draft")}</span>`}
       </button>
       ${open &&
       html`<div class="node-body">
@@ -225,13 +232,19 @@
     const [flx, fly] = pt(cx, cy, fbR + 18, -90);
 
     // half-dial crop: viewBox starts at the wheel's center so only the right
-    // half renders, pinned to the sidebar's left edge by xMinYMid
+    // half renders, pinned to the sidebar's left edge by xMinYMid.
+    // In RTL the sidebar is on the right, so show the LEFT half instead.
     const R = r2 + 16;
-    const vb = mini ? `${cx} ${cy - R} ${R + 12} ${R * 2}` : `0 0 ${S} ${S + 10}`;
+    const isRTL = I18n.getDirection() === "rtl";
+    const vb = mini
+      ? (isRTL
+          ? `${cx - R - 12} ${cy - R} ${R + 12} ${R * 2}`
+          : `${cx} ${cy - R} ${R + 12} ${R * 2}`)
+      : `0 0 ${S} ${S + 10}`;
     return html`<svg
       class="wheel ${mini ? "mini" : ""}"
       viewBox=${vb}
-      preserveAspectRatio=${mini ? "xMinYMid meet" : "xMidYMid meet"}
+      preserveAspectRatio=${mini ? (isRTL ? "xMaxYMid meet" : "xMinYMid meet") : "xMidYMid meet"}
       aria-label="SDLC wheel"
     >
       <defs>
@@ -271,11 +284,11 @@
         <circle class="core" cx=${cx} cy=${cy} r=${r1 - 44} />
         <circle class="glow" cx=${cx} cy=${cy} r=${r1 - 45} fill="url(#hubGlow)" />
         <circle class="orbit" cx=${cx} cy=${cy} r=${r1 - 58} />
-        <text class="hub-kicker" x=${mini ? cx + 80 : cx} y=${mini ? cy - 14 : cy - 28} text-anchor="middle">THE HUB</text>
-        <text class="hub-title" x=${mini ? cx + 80 : cx} y=${mini ? cy + 12 : cy + 2} text-anchor="middle">Principles</text>
+        <text class="hub-kicker" x=${mini ? cx + 80 : cx} y=${mini ? cy - 14 : cy - 28} text-anchor="middle">${I18n.t("nav.principlesHub")}</text>
+        <text class="hub-title" x=${mini ? cx + 80 : cx} y=${mini ? cy + 12 : cy + 2} text-anchor="middle">${I18n.t("nav.principles")}</text>
         ${!mini &&
         html`<text class="hub-sub" x=${cx} y=${cy + 26} text-anchor="middle">
-          what holds on every stage
+          ${I18n.t("hub.whatHolds")}
         </text>`}
         ${!mini &&
         DATA.principles.map((_, i) => {
@@ -291,9 +304,14 @@
   // panel) → "paper" (cozy field notes). index.html applies the saved choice
   // before first paint; this just advances the cycle.
   const THEMES = ["pro", "dark", "paper"];
-  const THEME_LABEL = { pro: "○ light", dark: "◐ dark", paper: "✎ paper" };
+  const THEME_LABEL = {
+    pro: () => I18n.t("topbar.theme"),
+    dark: () => I18n.t("topbar.darkTheme"),
+    paper: () => I18n.t("topbar.paperTheme"),
+  };
   function Topbar() {
     const [theme, setTheme] = useState(document.documentElement.dataset.theme || "pro");
+    const [lang, setLang] = useState(I18n.getLanguage());
     const cycleTheme = () => {
       const idx = THEMES.indexOf(theme);
       const next = THEMES[(idx + 1) % THEMES.length];
@@ -305,16 +323,29 @@
       }
       setTheme(next);
     };
+    const toggleLang = () => {
+      const next = lang === "en" ? "fa" : "en";
+      I18n.setLanguage(next);
+    };
+    useEffect(() => {
+      const handler = () => setLang(I18n.getLanguage());
+      window.addEventListener("languagechange", handler);
+      return () => window.removeEventListener("languagechange", handler);
+    }, []);
     const next = THEMES[(THEMES.indexOf(theme) + 1) % THEMES.length];
     return html`<header class="topbar">
       <div class="brand" onClick=${() => (location.hash = "#/")}>
-        <h1>${DATA.meta.title}</h1>
+        <h1>${I18n.t("meta.title")}</h1>
         <span class="version">v${DATA.meta.version}</span>
       </div>
       <div class="topbar-right">
-        <div class="org">${DATA.meta.org}</div>
+        <div class="org">${I18n.t("meta.org")}</div>
+        <button class="lang-btn" onClick=${toggleLang} title=${lang === "en" ? "Switch to Persian" : "تغییر به انگلیسی"}>
+          <span class="lang-globe">◉</span>
+          <span class="lang-label">${lang === "en" ? "فارسی" : "English"}</span>
+        </button>
         <button class="theme-btn" onClick=${cycleTheme} title="Switch visual theme">
-          ${THEME_LABEL[next]}
+          ${THEME_LABEL[next]()}
         </button>
       </div>
     </header>`;
@@ -327,8 +358,8 @@
         <${Wheel} mini activeStage=${route.view === "principles" ? "__principles" : route.stage} />
       </div>
       <nav>
-        <a href="#/" class=${route.view === "home" ? "active" : ""}><span class="n">⌂</span> Overview</a>
-        <a href="#/principles" class=${route.view === "principles" ? "active" : ""}><span class="n">◉</span> Principles</a>
+        <a href="#/" class=${route.view === "home" ? "active" : ""}><span class="n">⌂</span> ${I18n.t("nav.overview")}</a>
+        <a href="#/principles" class=${route.view === "principles" ? "active" : ""}><span class="n">◉</span> ${I18n.t("nav.principles")}</a>
         <div class="sep"></div>
         ${DATA.stages.map(
           (st, i) =>
@@ -352,14 +383,14 @@
     }, [stage.id, facetFocus]);
 
     return html`<main class="panel">
-      <div class="crumb"><a href="#/">SDLC</a> / stage 0${idx + 1}</div>
+      <div class="crumb"><a href="#/">${I18n.t("common.breadcrumb")}</a> / ${I18n.t("stage.stageNum")} 0${idx + 1}</div>
       <div class="stage-head">
-        <div class="stage-num">STAGE 0${idx + 1} / 06</div>
+        <div class="stage-num">${I18n.t("stage.stageNum")} 0${idx + 1} / ${I18n.t("stage.of")} 06</div>
         <h2>${stage.name}</h2>
         <p class="tagline">${stage.tagline}</p>
       </div>
       <div class="principle-quote">
-        <span class="pq-kicker">stage principle</span>
+        <span class="pq-kicker">${I18n.t("stage.stagePrinciple")}</span>
         ${stage.principle}
       </div>
       <div class="chips">${(stage.outcomes || []).map((o) => html`<span class="chip">${o}</span>`)}</div>
@@ -371,7 +402,7 @@
               href="#/stage/${stage.id}/${f.key}"
               data-facet=${f.key}
               class=${facetFocus === f.key ? "active" : ""}
-              >${f.label}</a
+              >${f.label()}</a
             >`
         )}
       </div>
@@ -381,14 +412,14 @@
         return html`<section class="facet" data-facet=${f.key} id="facet-${f.key}">
           <div class="facet-head">
             <span class="f-mark"></span>
-            <h3>${f.label}</h3>
-            <span class="f-desc">${f.desc}</span>
+            <h3>${f.label()}</h3>
+            <span class="f-desc">${f.desc()}</span>
             <span class="f-count">${nodes.length}</span>
           </div>
           ${nodes.map((nd) => html`<${Node} node=${nd} />`)}
         </section>`;
       })}
-      <div class="foot">amber dashed = AI-drafted seed, pending your endorsement · edit data.js to extend</div>
+      <div class="foot">${I18n.t("common.footer")}</div>
     </main>`;
   }
 
@@ -396,10 +427,10 @@
   function PrinciplesPanel() {
     useEffect(() => window.scrollTo(0, 0), []);
     return html`<main class="panel">
-      <div class="crumb"><a href="#/">SDLC</a> / hub</div>
+      <div class="crumb"><a href="#/">${I18n.t("common.breadcrumb")}</a> / ${I18n.t("common.hubBreadcrumb")}</div>
       <div class="stage-head">
-        <div class="stage-num">THE HUB</div>
-        <h2>Principles</h2>
+        <div class="stage-num">${I18n.t("nav.principlesHub")}</div>
+        <h2>${I18n.t("nav.principles")}</h2>
         <${Md} src=${DATA.principlesIntro} />
       </div>
       ${DATA.principles.map(
@@ -416,16 +447,23 @@
   /* ----------------------------------------------------------------- app */
   function App() {
     const route = useRoute();
+    const [lang, setLang] = useState(I18n.getLanguage());
+
+    useEffect(() => {
+      const handler = () => setLang(I18n.getLanguage());
+      window.addEventListener("languagechange", handler);
+      return () => window.removeEventListener("languagechange", handler);
+    }, []);
 
     if (route.view === "home") {
       return html`<div>
         <${Topbar} />
         <div class="home">
-          <div class="kicker">software delivery × ai agents</div>
-          <h2>${DATA.meta.title}</h2>
-          <p class="subtitle">${DATA.meta.subtitle}</p>
+          <div class="kicker">${I18n.t("home.kicker")}</div>
+          <h2>${I18n.t("meta.title")}</h2>
+          <p class="subtitle">${I18n.t("meta.subtitle")}</p>
           <div class="wheel-wrap"><${Wheel} /></div>
-          <div class="hint">click a stage to drill down — or the hub for the principles</div>
+          <div class="hint">${I18n.t("stage.clickHint")}</div>
         </div>
       </div>`;
     }
@@ -439,7 +477,7 @@
           ? html`<${PrinciplesPanel} />`
           : stageIdx >= 0
           ? html`<${StagePanel} stage=${DATA.stages[stageIdx]} idx=${stageIdx} facetFocus=${route.facet} />`
-          : html`<main class="panel"><p>Unknown stage.</p></main>`}
+          : html`<main class="panel"><p>${I18n.t("common.unknownStage")}</p></main>`}
       </div>
     </div>`;
   }
