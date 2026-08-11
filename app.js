@@ -6,7 +6,7 @@
   const { html, render, useState, useEffect } = window.htmPreact;
   let DATA = window.SDLC_DATA;
   function syncData() {
-    DATA = (I18n.getLanguage() === "fa" && window.SDLC_DATA_FA) ? window.SDLC_DATA_FA : window.SDLC_DATA;
+    DATA = (window.I18n.getLanguage() === "fa" && window.SDLC_DATA_FA) ? window.SDLC_DATA_FA : window.SDLC_DATA;
   }
   syncData();
 
