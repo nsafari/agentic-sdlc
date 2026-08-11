@@ -4,7 +4,10 @@
    ========================================================================== */
 (function () {
   const { html, render, useState, useEffect } = window.htmPreact;
-  const DATA = window.SDLC_DATA;
+  let DATA = window.SDLC_DATA;
+  function syncData() {
+    DATA = (I18n.getLanguage() === "fa" && window.SDLC_DATA_FA) ? window.SDLC_DATA_FA : window.SDLC_DATA;
+  }
 
   marked.use({
     renderer: {
@@ -148,6 +151,7 @@
     // at 3 o'clock with its neighbours above and below
     const activeIdx = DATA.stages.findIndex((st) => st.id === activeStage);
     const base = mini && activeIdx >= 0 ? -(activeIdx + 0.5) * step : -90;
+    const isRTL = I18n.getDirection() === "rtl";
 
     const segs = DATA.stages.map((st, i) => {
       const a0 = base + i * step + gap;
@@ -174,8 +178,8 @@
       const rLbl = flip ? rm + 8 : rm - 2;
       const rSub = flip ? rm + 30 : rm - 26;
       const sub = st.name !== st.short ? st.name.replace(`${st.short} & `, "& ") : "";
-      // segments rotated onto the dial's hidden left half skip their labels
-      const inView = !mini || Math.cos(rad) > 0.1;
+      // segments rotated onto the dial's hidden half skip their labels
+      const inView = !mini || (isRTL ? Math.cos(rad) < -0.1 : Math.cos(rad) > 0.1);
       const labels =
         inView &&
         html`<path class="tp" id="${pid}-num" d=${tArc(rNum)} />
@@ -235,7 +239,6 @@
     // half renders, pinned to the sidebar's left edge by xMinYMid.
     // In RTL the sidebar is on the right, so show the LEFT half instead.
     const R = r2 + 16;
-    const isRTL = I18n.getDirection() === "rtl";
     const vb = mini
       ? (isRTL
           ? `${cx - R - 12} ${cy - R} ${R + 12} ${R * 2}`
@@ -450,11 +453,10 @@
     const [lang, setLang] = useState(I18n.getLanguage());
 
     useEffect(() => {
-      const handler = () => setLang(I18n.getLanguage());
+      const handler = () => { syncData(); setLang(I18n.getLanguage()); };
       window.addEventListener("languagechange", handler);
       return () => window.removeEventListener("languagechange", handler);
     }, []);
-
     if (route.view === "home") {
       return html`<div>
         <${Topbar} />
