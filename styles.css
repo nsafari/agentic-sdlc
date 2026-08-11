@@ -591,7 +591,7 @@ html[data-theme="dark"] .wheel .feedback-arc {
   min-height: calc(100vh - 65px);
 }
 .sidebar {
-  border-inline-start: 1px solid var(--hairline);
+  border-inline-end: 1px solid var(--hairline);
   padding: 1.5rem 1.25rem;
   position: sticky;
   top: 0;
@@ -836,7 +836,8 @@ html[data-theme="dark"] .facet[data-facet="risks"] .node:hover { box-shadow: 0 0
   padding: 0.08rem 0.55rem;
 }
 .node-body {
-  padding: 0 1rem 0.85rem 2.35rem;
+  padding: 0 1rem 0.85rem;
+  padding-inline-start: 2.35rem;
   padding-inline-start: 2.35rem;
   color: var(--ink-dim);
   font-size: 0.92rem;
@@ -969,20 +970,12 @@ html[data-theme="paper"] .principle-card {
 /* responsive */
 @media (max-width: 900px) {
   .detail { grid-template-columns: 1fr; }
-  .sidebar { position: static; max-height: none; border-right: none; border-bottom: 1px solid var(--hairline); }
+  .sidebar { position: static; max-height: none; border-inline-end: none; border-bottom: 1px solid var(--hairline); }
   .sidebar .mini-wheel { max-width: 320px; margin: 0 auto 1rem; }
   .panel { padding: 1.5rem 1.25rem 4rem; }
 }
 
 /* ------------------------------------------------------------------ RTL */
-html[dir="rtl"] .sidebar {
-  border-left: 1px solid var(--hairline);
-  border-inline-start: none;
-}
-html[dir="rtl"] .sidebar nav a.active {
-  border-left: none;
-  border-inline-start-color: var(--accent);
-}
 html[dir="rtl"] .principle-quote {
   border-left: none;
   border-right: 2px solid var(--accent);
@@ -993,25 +986,16 @@ html[dir="rtl"] .principle-quote .pq-kicker {
   text-align: right;
 }
 html[dir="rtl"] .node.open > .node-row .tw {
-  transform: rotate(-90deg);
+  transform: rotate(90deg);
+}
+html[dir="rtl"] .node-row .tw {
+  transform: rotate(180deg);
 }
 html[dir="rtl"] .block-links a::before {
   content: "↖";
 }
-html[dir="rtl"] .topbar {
-  flex-direction: row-reverse;
-}
-html[dir="rtl"] .topbar-right {
-  flex-direction: row-reverse;
-}
 html[dir="rtl"] .crumb {
   text-align: right;
-}
-html[dir="rtl"] .sidebar nav a {
-  justify-content: flex-end;
-}
-html[dir="rtl"] .sidebar nav a .n {
-  order: 2;
 }
 html[dir="rtl"] .facet-head .f-count {
   margin-left: 0;
@@ -1048,11 +1032,5 @@ html[dir="rtl"] .principle-card {
   .theme-btn {
     min-height: 40px;
     padding: 0.5rem 0.85rem;
-  }
-}
-
-@media (max-width: 900px) and (dir: rtl) {
-  .sidebar {
-    border-left: none;
   }
 }

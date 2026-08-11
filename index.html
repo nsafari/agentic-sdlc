@@ -21,7 +21,9 @@
   <!-- apply the saved language before first paint -->
   <script>
     try {
-      var savedLang = localStorage.getItem("sdlc-lang") || "en";
+      var supportedLangs = { en: true, fa: true };
+      var savedLang = localStorage.getItem("sdlc-lang");
+      if (!savedLang || !supportedLangs[savedLang]) savedLang = "en";
       document.documentElement.lang = savedLang;
       document.documentElement.dir = savedLang === "fa" ? "rtl" : "ltr";
     } catch (e) {

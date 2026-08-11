@@ -24,10 +24,16 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v4
 
+      - name: Stage site files
+        run: |
+          mkdir _site
+          cp index.html styles.css app.js data.js data-fa.js i18n.js myNeirizi.ttf _site/
+          cp -r vendor/ docs/ _site/
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: .
+          path: _site
 
       - name: Deploy to GitHub Pages
         id: deployment

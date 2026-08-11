@@ -8,6 +8,7 @@
   function syncData() {
     DATA = (I18n.getLanguage() === "fa" && window.SDLC_DATA_FA) ? window.SDLC_DATA_FA : window.SDLC_DATA;
   }
+  syncData();
 
   marked.use({
     renderer: {
@@ -150,8 +151,8 @@
     // half of the wheel is in the viewBox, rotated so the active stage sits
     // at 3 o'clock with its neighbours above and below
     const activeIdx = DATA.stages.findIndex((st) => st.id === activeStage);
-    const base = mini && activeIdx >= 0 ? -(activeIdx + 0.5) * step : -90;
     const isRTL = I18n.getDirection() === "rtl";
+    const base = mini && activeIdx >= 0 ? -(activeIdx + 0.5) * step + (isRTL ? 180 : 0) : -90;
 
     const segs = DATA.stages.map((st, i) => {
       const a0 = base + i * step + gap;
@@ -282,13 +283,13 @@
         onClick=${() => go("#/principles")}
         tabindex="0"
         role="button"
-        aria-label="Principles"
+        aria-label=${I18n.t("nav.principles")}
       >
         <circle class="core" cx=${cx} cy=${cy} r=${r1 - 44} />
         <circle class="glow" cx=${cx} cy=${cy} r=${r1 - 45} fill="url(#hubGlow)" />
         <circle class="orbit" cx=${cx} cy=${cy} r=${r1 - 58} />
-        <text class="hub-kicker" x=${mini ? cx + 80 : cx} y=${mini ? cy - 14 : cy - 28} text-anchor="middle">${I18n.t("nav.principlesHub")}</text>
-        <text class="hub-title" x=${mini ? cx + 80 : cx} y=${mini ? cy + 12 : cy + 2} text-anchor="middle">${I18n.t("nav.principles")}</text>
+        <text class="hub-kicker" x=${mini ? (isRTL ? cx - 80 : cx + 80) : cx} y=${mini ? cy - 14 : cy - 28} text-anchor="middle">${I18n.t("nav.principlesHub")}</text>
+        <text class="hub-title" x=${mini ? (isRTL ? cx - 80 : cx + 80) : cx} y=${mini ? cy + 12 : cy + 2} text-anchor="middle">${I18n.t("nav.principles")}</text>
         ${!mini &&
         html`<text class="hub-sub" x=${cx} y=${cy + 26} text-anchor="middle">
           ${I18n.t("hub.whatHolds")}
