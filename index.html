@@ -25,7 +25,8 @@
       var savedLang = localStorage.getItem("sdlc-lang");
       if (!savedLang || !supportedLangs[savedLang]) savedLang = "en";
       document.documentElement.lang = savedLang;
-      document.documentElement.dir = savedLang === "fa" ? "rtl" : "ltr";
+      // must match the RTL_LANGS set in i18n.js: { fa: true, ar: true, he: true, ur: true }
+      document.documentElement.dir = (savedLang === "fa" || savedLang === "ar" || savedLang === "he" || savedLang === "ur") ? "rtl" : "ltr";
     } catch (e) {
       document.documentElement.lang = "en";
       document.documentElement.dir = "ltr";
