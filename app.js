@@ -4,9 +4,35 @@
    ========================================================================== */
 (function () {
   const { html, render, useState, useEffect } = window.htmPreact;
+
+  /* ---- level state ---- */
+  const LEVELS = ["l1", "l2", "l3"];
+  const LEVEL_KEY = "sdlc-level";
+  try {
+    var savedLevel = localStorage.getItem(LEVEL_KEY);
+    document.documentElement.dataset.level =
+      (savedLevel === "l1" || savedLevel === "l3") ? savedLevel : "l2";
+  } catch (e) {
+    document.documentElement.dataset.level = "l2";
+  }
+  function getLevel() { return document.documentElement.dataset.level || "l2"; }
+  function setLevel(level) {
+    document.documentElement.dataset.level = level;
+    document.documentElement.dataset.transitioning = "";
+    setTimeout(() => { delete document.documentElement.dataset.transitioning; }, 350);
+    try { localStorage.setItem(LEVEL_KEY, level); } catch (e) {}
+    syncData();
+    window.dispatchEvent(new Event("levelchange"));
+  }
+
   let DATA = window.SDLC_DATA;
   function syncData() {
-    DATA = (window.I18n.getLanguage() === "fa" && window.SDLC_DATA_FA) ? window.SDLC_DATA_FA : window.SDLC_DATA;
+    const lang = window.I18n ? window.I18n.getLanguage() : "en";
+    const level = getLevel();
+    let key = "SDLC_DATA";
+    if (lang !== "en") key += "_" + lang.toUpperCase();
+    if (level !== "l2") key += "_" + level.toUpperCase();
+    DATA = window[key] || window.SDLC_DATA;
   }
   syncData();
 
@@ -316,27 +342,38 @@
   function Topbar() {
     const [theme, setTheme] = useState(document.documentElement.dataset.theme || "pro");
     const [lang, setLang] = useState(I18n.getLanguage());
+    const [level, setLevelState] = useState(getLevel());
     const cycleTheme = () => {
       const idx = THEMES.indexOf(theme);
       const next = THEMES[(idx + 1) % THEMES.length];
       document.documentElement.dataset.theme = next;
       try {
         localStorage.setItem("sdlc-theme", next);
-      } catch (e) {
-        /* file:// without storage — theme still applies for this session */
-      }
+      } catch (e) {}
       setTheme(next);
     };
+    const LANGS = ["en", "fa", "de"];
+    const LANG_LABELS = { en: "فارسی", fa: "Deutsch", de: "English" };
     const toggleLang = () => {
-      const next = lang === "en" ? "fa" : "en";
+      const idx = LANGS.indexOf(lang);
+      const next = LANGS[(idx + 1) % LANGS.length];
       I18n.setLanguage(next);
     };
+    const changeLevel = (lvl) => {
+      setLevel(lvl);
+      setLevelState(lvl);
+    };
     useEffect(() => {
-      const handler = () => setLang(I18n.getLanguage());
-      window.addEventListener("languagechange", handler);
-      return () => window.removeEventListener("languagechange", handler);
+      const langHandler = () => { syncData(); setLang(I18n.getLanguage()); };
+      const levelHandler = () => setLevelState(getLevel());
+      window.addEventListener("languagechange", langHandler);
+      window.addEventListener("levelchange", levelHandler);
+      return () => {
+        window.removeEventListener("languagechange", langHandler);
+        window.removeEventListener("levelchange", levelHandler);
+      };
     }, []);
-    const next = THEMES[(THEMES.indexOf(theme) + 1) % THEMES.length];
+    const nextTheme = THEMES[(THEMES.indexOf(theme) + 1) % THEMES.length];
     return html`<header class="topbar">
       <div class="brand" onClick=${() => (location.hash = "#/")}>
         <h1>${I18n.t("meta.title")}</h1>
@@ -344,12 +381,20 @@
       </div>
       <div class="topbar-right">
         <div class="org">${I18n.t("meta.org")}</div>
-        <button class="lang-btn" onClick=${toggleLang} title=${lang === "en" ? "Switch to Persian" : "تغییر به انگلیسی"}>
+        <div class="level-cards">
+          ${LEVELS.map((l) =>
+            html`<div class="level-card ${level === l ? "active" : ""}" onClick=${() => changeLevel(l)}>
+              <div class="level-name">${I18n.t("levels." + l)}</div>
+              <div class="level-desc">${I18n.t("levelCards." + l + "desc")}</div>
+            </div>`
+          )}
+        </div>
+        <button class="lang-btn" onClick=${toggleLang} title="Switch language">
           <span class="lang-globe">◉</span>
-          <span class="lang-label">${lang === "en" ? "فارسی" : "English"}</span>
+          <span class="lang-label">${LANG_LABELS[lang] || "English"}</span>
         </button>
         <button class="theme-btn" onClick=${cycleTheme} title="Switch visual theme">
-          ${THEME_LABEL[next]()}
+          ${THEME_LABEL[nextTheme]()}
         </button>
       </div>
     </header>`;
@@ -448,19 +493,49 @@
     </main>`;
   }
 
+  /* ----------------------------------------------------------- balance beam */
+  function BalanceBeam() {
+    const [level, setLvl] = useState(getLevel());
+    useEffect(() => {
+      const handler = () => setLvl(getLevel());
+      window.addEventListener("levelchange", handler);
+      return () => window.removeEventListener("levelchange", handler);
+    }, []);
+    const humanCount = level === "l1" ? 3 : level === "l2" ? 2 : 1;
+    const aiCount = level === "l1" ? 1 : level === "l2" ? 2 : 4;
+    return html`<div class="balance-beam" data-level=${level}>
+      <div class="beam-track">
+        <div class="beam-side beam-human">
+          ${Array.from({ length: humanCount }, (_, i) => html`<span key=${level + "-h" + i} class="beam-dot h"></span>`)}
+        </div>
+        <div class="beam-fulcrum"></div>
+        <div class="beam-side beam-ai">
+          ${Array.from({ length: aiCount }, (_, i) => html`<span key=${level + "-a" + i} class="beam-dot a"></span>`)}
+        </div>
+      </div>
+    </div>`;
+  }
+
   /* ----------------------------------------------------------------- app */
   function App() {
     const route = useRoute();
     const [lang, setLang] = useState(I18n.getLanguage());
+    const [level, setLvl] = useState(getLevel());
 
     useEffect(() => {
-      const handler = () => { syncData(); setLang(I18n.getLanguage()); };
-      window.addEventListener("languagechange", handler);
-      return () => window.removeEventListener("languagechange", handler);
+      const langHandler = () => { syncData(); setLang(I18n.getLanguage()); };
+      const levelHandler = () => setLvl(getLevel());
+      window.addEventListener("languagechange", langHandler);
+      window.addEventListener("levelchange", levelHandler);
+      return () => {
+        window.removeEventListener("languagechange", langHandler);
+        window.removeEventListener("levelchange", levelHandler);
+      };
     }, []);
     if (route.view === "home") {
       return html`<div>
         <${Topbar} />
+        <${BalanceBeam} />
         <div class="home">
           <div class="kicker">${I18n.t("home.kicker")}</div>
           <h2>${I18n.t("meta.title")}</h2>
@@ -474,6 +549,7 @@
     const stageIdx = DATA.stages.findIndex((s) => s.id === route.stage);
     return html`<div>
       <${Topbar} />
+      <${BalanceBeam} />
       <div class="detail">
         <${Sidebar} route=${route} />
         ${route.view === "principles"

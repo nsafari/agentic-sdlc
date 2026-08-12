@@ -21,7 +21,7 @@
   <!-- apply the saved language before first paint -->
   <script>
     try {
-      var supportedLangs = { en: true, fa: true };
+      var supportedLangs = { en: true, fa: true, de: true };
       var savedLang = localStorage.getItem("sdlc-lang");
       if (!savedLang || !supportedLangs[savedLang]) savedLang = "en";
       document.documentElement.lang = savedLang;
@@ -30,6 +30,15 @@
     } catch (e) {
       document.documentElement.lang = "en";
       document.documentElement.dir = "ltr";
+    }
+  </script>
+  <script>
+    try {
+      var savedLevel = localStorage.getItem("sdlc-level");
+      document.documentElement.dataset.level =
+        (savedLevel === "l1" || savedLevel === "l3") ? savedLevel : "l2";
+    } catch (e) {
+      document.documentElement.dataset.level = "l2";
     }
   </script>
   <link rel="stylesheet" href="styles.css" />
@@ -41,6 +50,8 @@
   <script src="i18n.js"></script>
   <script src="data.js"></script>
   <script src="data-fa.js"></script>
+  <script src="data-l1.js"></script>
+  <script src="data-l3.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

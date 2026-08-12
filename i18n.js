@@ -53,6 +53,16 @@
       hub: {
         whatHolds: "what holds on every stage",
       },
+      levels: {
+        l1: "Basic",
+        l2: "Team",
+        l3: "Autonomous",
+      },
+      levelCards: {
+        l1desc: "For businesses with no SDLC \u2014 AI drafts prototypes, you approve",
+        l2desc: "For software teams \u2014 AI assists at every stage",
+        l3desc: "Full automation \u2014 AI drives, humans approve at critical gates",
+      },
       facetDescriptions: {
         opportunities: "what agents can do here",
         risks: "what goes wrong at machine speed",
@@ -108,6 +118,16 @@
       hub: {
         whatHolds: "\u0622\u0646\u0686\u0647 \u062F\u0631 \u0647\u0645\u0647\u0654 \u0645\u0631\u0627\u062D\u0644 \u0628\u0631\u0642\u0631\u0627\u0631 \u0627\u0633\u062A",
       },
+      levels: {
+        l1: "\u067E\u0627\u06CC\u0647",
+        l2: "\u062A\u06CC\u0645",
+        l3: "\u062E\u0648\u062F\u06A9\u0627\u0631",
+      },
+      levelCards: {
+        l1desc: "\u0628\u0631\u0627\u06CC \u06A9\u0633\u0628\u200C\u0648\u06A9\u0627\u0631\u0647\u0627\u06CC \u0628\u062F\u0648\u0646 SDLC \u2014 \u0647\u0648\u0634 \u0645\u0635\u0646\u0648\u0639\u06CC \u067E\u06CC\u0634\u200C\u0646\u0648\u06CC\u0633 \u062A\u0648\u0644\u06CC\u062F \u0645\u06CC\u200C\u06A9\u0646\u062F\u060C \u0634\u0645\u0627 \u062A\u0623\u06CC\u06CC\u062F \u0645\u06CC\u200C\u06A9\u0646\u06CC\u062F",
+        l2desc: "\u0628\u0631\u0627\u06CC \u062A\u06CC\u0645\u200C\u0647\u0627\u06CC \u0646\u0631\u0645\u200C\u0627\u0641\u0632\u0627\u0631\u06CC \u2014 \u0647\u0648\u0634 \u0645\u0635\u0646\u0648\u0639\u06CC \u062F\u0631 \u0647\u0631 \u0645\u0631\u062D\u0644\u0647 \u06A9\u0645\u06A9 \u0645\u06CC\u200C\u06A9\u0646\u062F",
+        l3desc: "\u0627\u062A\u0648\u0645\u0627\u0633\u06CC\u0648\u0646 \u06A9\u0627\u0645\u0644 \u2014 \u0647\u0648\u0634 \u0645\u0635\u0646\u0648\u0639\u06CC \u0647\u062F\u0627\u06CC\u062A \u0645\u06CC\u200C\u06A9\u0646\u062F\u060C \u0627\u0646\u0633\u0627\u0646\u200C\u0647\u0627 \u062F\u0631 \u062F\u0631\u0648\u0627\u0632\u0647\u200C\u0647\u0627\u06CC \u062D\u06CC\u0627\u062A\u06CC \u062A\u0623\u06CC\u06CC\u062F \u0645\u06CC\u200C\u06A9\u0646\u0646\u062F",
+      },
       facetDescriptions: {
         opportunities: "\u06A9\u0627\u0631\u0647\u0627\u06CC\u06CC \u06A9\u0647 \u0639\u0627\u0645\u0644\u200C\u0647\u0627 \u0645\u06CC\u200C\u062A\u0648\u0627\u0646\u0646\u062F \u0627\u0646\u062C\u0627\u0645 \u062F\u0647\u0646\u062F",
         risks: "\u0645\u0634\u06A9\u0644\u0627\u062A\u06CC \u06A9\u0647 \u0628\u0627 \u0633\u0631\u0639\u062A \u0645\u0627\u0634\u06CC\u0646 \u0631\u062E \u0645\u06CC\u200C\u062F\u0647\u062F",
@@ -115,6 +135,68 @@
           "\u0632\u0645\u06CC\u0646\u0647\u060C \u0645\u0647\u0627\u0631\u062A\u200C\u0647\u0627 \u0648 MCP\u0647\u0627\u06CC\u06CC \u06A9\u0647 \u0639\u0627\u0645\u0644 \u0646\u06CC\u0627\u0632 \u062F\u0627\u0631\u062F",
         guardrails:
           "\u062F\u0631\u0648\u0627\u0632\u0647\u200C\u0647\u0627\u06CC \u0642\u0637\u0639\u06CC \u0648 \u0646\u0642\u0627\u0637 \u0628\u0627\u0632\u0631\u0633\u06CC \u0627\u0646\u0633\u0627\u0646\u06CC",
+      },
+    },
+    de: {
+      meta: {
+        title: "Der agentengest\u00FCtzte SDLC",
+        subtitle:
+          "Wie KI-Agenten jede Phase der Softwarelieferung verbessern, ohne Ingenieursdisziplin aufzugeben",
+        org: "Specific-Group Austria",
+      },
+      topbar: {
+        theme: "\u25CB Hell",
+        darkTheme: "\u25D0 Dunkel",
+        paperTheme: "\u270E Papier",
+      },
+      nav: {
+        overview: "\u00DCbersicht",
+        principles: "Prinzipien",
+        principlesHub: "Prinzipien-Hub",
+      },
+      hub: {
+        whatHolds: "was in jeder Phase gilt",
+      },
+      levels: {
+        l1: "Basis",
+        l2: "Team",
+        l3: "Autonom",
+      },
+      levelCards: {
+        l1desc: "F\u00FCr Unternehmen ohne SDLC \u2014 KI entwirft Prototypen, Sie genehmigen",
+        l2desc: "F\u00FCr Software-Teams \u2014 KI unterst\u00FCtzt in jeder Phase",
+        l3desc: "Volle Autonomie \u2014 KI steuert, Menschen genehmigen an kritischen Gates",
+      },
+      facets: {
+        opportunities: "Chancen",
+        risks: "Risiken",
+        feedforward: "Vorgriff",
+        guardrails: "Leitplanken",
+      },
+      stage: {
+        stageNum: "Phase",
+        of: "von",
+        stagePrinciple: "Phasenprinzip",
+        clickHint:
+          "Klicken Sie auf eine Phase f\u00FCr Details \u2014 oder auf das Zentrum f\u00FCr Prinzipien",
+      },
+      home: {
+        kicker: "Softwarelieferung \u00D7 KI-Agenten",
+      },
+      common: {
+        draft: "Entwurf",
+        draftTooltip: "KI-Entwurf \u2014 noch nicht best\u00E4tigt",
+        breadcrumb: "SDLC",
+        hubBreadcrumb: "Hub",
+        unknownStage: "Unbekannte Phase.",
+        footer:
+          "Bernstein gestrichelt = KI-Entwurf, wartet auf Ihre Best\u00E4tigung \u00B7 data.js bearbeiten zum Erweitern",
+      },
+      facetDescriptions: {
+        opportunities: "was Agenten hier tun k\u00F6nnen",
+        risks: "was mit Maschinengeschwindigkeit schiefgeht",
+        feedforward: "Kontext, Skills & MCPs, die der Agent ben\u00F6tigt",
+        guardrails: "deterministische Gates & menschliche Kontrollpunkte",
       },
     },
   };

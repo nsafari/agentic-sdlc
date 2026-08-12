@@ -1034,3 +1034,151 @@ html[dir="rtl"] .principle-card {
     padding: 0.5rem 0.85rem;
   }
 }
+
+/* ------------------------------------------------------ level cards */
+.level-cards {
+  display: flex;
+  gap: 0.5rem;
+}
+.level-card {
+  flex: 1;
+  padding: 0.45rem 0.65rem;
+  border: 1px solid var(--hairline);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+  min-width: 0;
+}
+.level-card:hover {
+  border-color: var(--hairline-strong);
+  box-shadow: var(--card-hover-shadow);
+}
+.level-card.active {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  box-shadow: 0 0 0 1px var(--accent-border);
+}
+.level-card .level-name {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink);
+  font-weight: 500;
+}
+.level-card.active .level-name { color: var(--accent); }
+.level-card .level-desc {
+  font-size: 0.68rem;
+  color: var(--ink-faint);
+  margin-top: 0.15rem;
+  line-height: 1.35;
+}
+
+/* ------------------------------------------------------ balance beam */
+.balance-beam {
+  padding: 0.4rem 2rem;
+  border-bottom: 1px solid var(--hairline);
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+}
+.beam-track {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  max-width: 400px;
+  width: 100%;
+  transform-origin: center;
+  transition: transform 0.5s cubic-bezier(0.3, 0.8, 0.3, 1.2);
+}
+.beam-side {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  transition: flex 0.5s cubic-bezier(0.3, 0.8, 0.3, 1.2);
+}
+.beam-human { justify-content: flex-end; }
+.beam-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  animation: beamdot 0.5s ease both;
+}
+.beam-dot.h { background: var(--accent); opacity: 0.7; }
+.beam-dot.a { background: var(--amber); opacity: 0.7; }
+.beam-fulcrum {
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--hairline-strong);
+  border-radius: 50%;
+  flex-shrink: 0;
+  position: relative;
+}
+.beam-fulcrum::after {
+  content: "";
+  width: 2px;
+  height: 14px;
+  background: var(--hairline-strong);
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+.balance-beam[data-level="l1"] .beam-human { flex: 3; }
+.balance-beam[data-level="l1"] .beam-ai { flex: 1; }
+.balance-beam[data-level="l1"] .beam-track { transform: rotate(-3deg); }
+.balance-beam[data-level="l2"] .beam-human { flex: 2; }
+.balance-beam[data-level="l2"] .beam-ai { flex: 2; }
+.balance-beam[data-level="l2"] .beam-track { transform: rotate(0deg); }
+.balance-beam[data-level="l3"] .beam-human { flex: 1; }
+.balance-beam[data-level="l3"] .beam-ai { flex: 4; }
+.balance-beam[data-level="l3"] .beam-track { transform: rotate(3deg); }
+@keyframes beamdot {
+  from { opacity: 0; transform: scale(0.5); }
+  to { opacity: 0.7; transform: scale(1); }
+}
+
+/* ------------------------------------------------------ heat-map wheel */
+.wheel .seg path.arc {
+  transition: opacity 0.4s ease, filter 0.4s ease;
+}
+html[data-level="l1"] .wheel .seg:not(.active) path.arc { opacity: 0.55; }
+
+html[data-level="l3"] .wheel .seg path.arc {
+  animation: segpulse-l3 3s ease-in-out infinite;
+}
+@keyframes segpulse-l3 {
+  0%, 100% { filter: brightness(1) drop-shadow(0 0 4px var(--accent)); }
+  50% { filter: brightness(1.08) drop-shadow(0 0 12px var(--accent)); }
+}
+html[data-level="l3"] .wheel .feedback-arc { animation-duration: 6s; }
+
+/* level-switch overlay: masks segment count change */
+.home .wheel-wrap, .detail .wheel {
+  position: relative;
+}
+.home .wheel-wrap::after, .detail .wheel::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--bg);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  pointer-events: none;
+  z-index: 1;
+  border-radius: 8px;
+}
+html[data-transitioning] .home .wheel-wrap::after,
+html[data-transitioning] .detail .wheel::after {
+  opacity: 0.65;
+}
+
+/* mobile: compact level cards and beam */
+@media (max-width: 900px) {
+  .level-cards { gap: 0.3rem; }
+  .level-card { padding: 0.35rem 0.5rem; }
+  .level-card .level-name { font-size: 0.55rem; }
+  .level-card .level-desc { font-size: 0.6rem; }
+  .balance-beam { padding: 0.3rem 1rem; }
+  .beam-track { max-width: 280px; gap: 0.5rem; }
+}
