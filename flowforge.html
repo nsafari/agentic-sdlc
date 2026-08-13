@@ -1,0 +1,2767 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FlowForge — From Human Workflow to Working Software</title>
+  <meta name="description" content="FlowForge turns natural language descriptions of business workflows into production-ready, tested, and deployed software — end to end.">
+  <meta property="og:title" content="FlowForge — From Human Workflow to Working Software">
+  <meta property="og:description" content="FlowForge turns natural language descriptions of business workflows into production-ready, tested, and deployed software — end to end.">
+  <meta property="og:type" content="website">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    /* ============================================================
+       FlowForge — CSS Design System
+       ============================================================ */
+
+    /* --- Custom Properties --- */
+    :root {
+      /* Background Colors */
+      --bg-primary: #0a0e1a;
+      --bg-secondary: #111827;
+      --bg-tertiary: #1f2937;
+
+      /* Accent Colors */
+      --cyan: #00d9ff;
+      --green: #00ff88;
+      --cyan-dim: #00d9ff40;
+      --green-dim: #00ff8840;
+
+      /* Human Decision Colors */
+      --amber: #f59e0b;
+      --amber-dim: #f59e0b40;
+
+      /* Text Colors */
+      --text-primary: #f9fafb;
+      --text-secondary: #9ca3af;
+      --text-tertiary: #6b7280;
+
+      /* Border Colors */
+      --border: #374151;
+      --border-active: #00d9ff;
+
+      /* Spacing Scale */
+      --space-xs: 0.25rem;
+      --space-sm: 0.5rem;
+      --space-md: 1rem;
+      --space-lg: 1.5rem;
+      --space-xl: 2rem;
+      --space-2xl: 3rem;
+      --space-3xl: 4rem;
+      --space-4xl: 6rem;
+
+      /* Typography */
+      --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      --font-mono: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+
+      /* Border Radius */
+      --radius-sm: 4px;
+      --radius-md: 8px;
+      --radius-lg: 12px;
+      --radius-xl: 16px;
+
+      /* Shadows */
+      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4);
+      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+      --shadow-glow-cyan: 0 0 20px rgba(0, 217, 255, 0.3);
+      --shadow-glow-green: 0 0 20px rgba(0, 255, 136, 0.3);
+    }
+
+    /* --- CSS Reset --- */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.6;
+      color: var(--text-primary);
+      background-color: var(--bg-primary);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow-x: hidden;
+    }
+
+    /* --- Base Typography --- */
+    h1, h2, h3, h4, h5, h6 {
+      font-weight: 600;
+      line-height: 1.2;
+      margin-bottom: var(--space-md);
+    }
+
+    h1 { font-size: 3rem; }
+    h2 { font-size: 2.25rem; }
+    h3 { font-size: 1.875rem; }
+    h4 { font-size: 1.5rem; }
+    h5 { font-size: 1.25rem; }
+    h6 { font-size: 1.125rem; }
+
+    p {
+      margin-bottom: var(--space-md);
+    }
+
+    p:last-child {
+      margin-bottom: 0;
+    }
+
+    code, pre {
+      font-family: var(--font-mono);
+    }
+
+    code {
+      background-color: var(--bg-tertiary);
+      padding: 0.125rem 0.375rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.875em;
+    }
+
+    pre {
+      background-color: var(--bg-secondary);
+      padding: var(--space-md);
+      border-radius: var(--radius-md);
+      overflow-x: auto;
+      margin-bottom: var(--space-md);
+    }
+
+    pre code {
+      background: none;
+      padding: 0;
+    }
+
+    /* --- Layout Utilities --- */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 var(--space-md);
+    }
+
+    @media (min-width: 768px) {
+      .container {
+        padding: 0 var(--space-lg);
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .container {
+        padding: 0 var(--space-xl);
+      }
+    }
+
+    /* --- Button Styles --- */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: var(--space-sm) var(--space-lg);
+      font-family: var(--font-body);
+      font-size: 1rem;
+      font-weight: 500;
+      text-decoration: none;
+      border: 2px solid transparent;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-primary {
+      background-color: var(--cyan);
+      color: var(--bg-primary);
+      border-color: var(--cyan);
+    }
+
+    .btn-primary:hover {
+      background-color: transparent;
+      color: var(--cyan);
+      box-shadow: var(--shadow-glow-cyan);
+    }
+
+    .btn-secondary {
+      background-color: transparent;
+      color: var(--cyan);
+      border-color: var(--cyan);
+    }
+
+    .btn-secondary:hover {
+      background-color: var(--cyan);
+      color: var(--bg-primary);
+    }
+
+    /* --- Card and Badge Styles --- */
+    .card {
+      background-color: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: var(--space-lg);
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .card:hover {
+      border-color: var(--border-active);
+      box-shadow: var(--shadow-md);
+    }
+
+    .badge {
+      display: inline-block;
+      padding: var(--space-xs) var(--space-sm);
+      font-size: 0.75rem;
+      font-weight: 500;
+      border-radius: var(--radius-sm);
+      background-color: var(--bg-tertiary);
+      color: var(--text-secondary);
+    }
+
+    .badge-cyan {
+      background-color: var(--cyan-dim);
+      color: var(--cyan);
+    }
+
+    .badge-green {
+      background-color: var(--green-dim);
+      color: var(--green);
+    }
+
+    /* --- Animation Keyframes --- */
+    @keyframes fade-in {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes slide-up {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        opacity: 1;
+      }
+      50% {
+        opacity: 0.5;
+      }
+    }
+
+    @keyframes flow {
+      0% {
+        transform: translateY(-100%);
+        opacity: 0;
+      }
+      50% {
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(100%);
+        opacity: 0;
+      }
+    }
+
+    @keyframes glow {
+      0%, 100% {
+        box-shadow: 0 0 5px var(--cyan-dim);
+      }
+      50% {
+        box-shadow: 0 0 20px var(--cyan), 0 0 30px var(--cyan-dim);
+      }
+    }
+
+    /* --- Responsive Breakpoints --- */
+    @media (max-width: 767px) {
+      .hide-mobile {
+        display: none !important;
+      }
+    }
+
+    @media (min-width: 768px) and (max-width: 1023px) {
+      .hide-tablet {
+        display: none !important;
+      }
+
+      h1 { font-size: 2.5rem; }
+      h2 { font-size: 1.875rem; }
+      h3 { font-size: 1.5rem; }
+
+      .container {
+        max-width: 90%;
+      }
+
+      .pipeline-step {
+        flex: 0 0 270px;
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .hide-desktop {
+        display: none !important;
+      }
+    }
+
+    /* Large desktop screens */
+    @media (min-width: 1400px) {
+      .container {
+        max-width: 1280px;
+      }
+
+      h1 { font-size: 3.5rem; }
+      h2 { font-size: 2.5rem; }
+
+      .hero-content {
+        max-width: 900px;
+      }
+
+      .flow-node {
+        padding: var(--space-md) var(--space-xl);
+        font-size: 1rem;
+      }
+
+      .pipeline-step {
+        flex: 0 0 300px;
+        padding: var(--space-xl);
+      }
+
+      .step-icon {
+        font-size: 2.5rem;
+      }
+
+      .step-title {
+        font-size: 1.25rem;
+      }
+
+      .step-description {
+        font-size: 1rem;
+      }
+    }
+
+    /* --- Global Mobile Base Rules --- */
+    @media (max-width: 767px) {
+      img, svg {
+        max-width: 100%;
+        height: auto;
+      }
+
+      h1 { font-size: clamp(1.5rem, 5vw, 2.5rem); }
+      h2 { font-size: clamp(1.375rem, 4vw, 2rem); }
+      h3 { font-size: clamp(1.125rem, 3.5vw, 1.5rem); }
+      h4 { font-size: clamp(1rem, 3vw, 1.25rem); }
+      h5 { font-size: 1.125rem; }
+      h6 { font-size: 1rem; }
+
+      .btn {
+        min-height: 44px;
+        min-width: 44px;
+        padding: 0.75rem 1.25rem;
+      }
+
+      .lang-tab {
+        min-height: 44px;
+        min-width: 44px;
+      }
+
+      button, a, [role="tab"] {
+        min-height: 44px;
+      }
+
+      .pipeline-wrapper {
+        -webkit-overflow-scrolling: touch;
+        scroll-snap-type: x mandatory;
+        scrollbar-width: thin;
+      }
+
+      .section-intro {
+        font-size: 0.9375rem;
+      }
+    }
+
+    /* --- Skip Navigation Link --- */
+    .skip-link {
+      position: absolute;
+      top: -100%;
+      left: var(--space-md);
+      z-index: 9999;
+      padding: var(--space-sm) var(--space-lg);
+      background-color: var(--cyan);
+      color: var(--bg-primary);
+      font-weight: 600;
+      text-decoration: none;
+      border-radius: var(--radius-md);
+      transition: top 0.2s ease;
+    }
+
+    .skip-link:focus {
+      top: var(--space-md);
+    }
+
+    /* --- Focus Indicators --- */
+    :focus-visible {
+      outline: 2px solid var(--cyan);
+      outline-offset: 2px;
+    }
+
+    button:focus-visible,
+    a:focus-visible,
+    [role="tab"]:focus-visible {
+      outline: 2px solid var(--cyan);
+      outline-offset: 2px;
+      box-shadow: 0 0 0 4px var(--cyan-dim);
+    }
+
+    :focus:not(:focus-visible) {
+      outline: none;
+    }
+
+    .btn-primary:focus-visible {
+      outline-color: var(--bg-primary);
+      box-shadow: 0 0 0 4px var(--text-secondary);
+    }
+
+    [tabindex]:focus-visible {
+      outline: 2px solid var(--cyan);
+      outline-offset: 2px;
+    }
+
+    /* --- Prefers Reduced Motion --- */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+
+    /* ============================================================
+       SECTION 1 — HERO
+       ============================================================ */
+    header#hero {
+      position: relative;
+      min-height: 100vh;
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: var(--space-4xl) 0;
+      overflow: hidden;
+    }
+
+    /* Grid background */
+    header#hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 50px 50px;
+      opacity: 0.05;
+      pointer-events: none;
+    }
+
+    header#hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 200px;
+      background: linear-gradient(to bottom, transparent, var(--bg-primary));
+      pointer-events: none;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      max-width: 800px;
+      margin-bottom: var(--space-3xl);
+    }
+
+    .hero-content h1 {
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 700;
+      margin-bottom: var(--space-lg);
+      background: linear-gradient(135deg, var(--text-primary) 0%, var(--cyan) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-subheadline {
+      font-size: clamp(1rem, 2vw, 1.25rem);
+      color: var(--text-secondary);
+      margin-bottom: var(--space-xl);
+      line-height: 1.6;
+    }
+
+    .hero-cta {
+      display: flex;
+      gap: var(--space-md);
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    /* --- Hero Flow Visualization (NL → Code → App) --- */
+    .hero-flow {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--space-sm);
+    }
+
+    .hero-flow-request {
+      background-color: var(--bg-secondary);
+      border: 1px solid var(--amber-dim);
+      border-radius: var(--radius-lg);
+      padding: var(--space-md) var(--space-xl);
+      max-width: 560px;
+      text-align: center;
+      font-size: 1rem;
+      color: var(--text-primary);
+      line-height: 1.5;
+      min-height: 3em;
+      position: relative;
+    }
+
+    .hero-flow-request .cursor {
+      display: inline-block;
+      width: 2px;
+      height: 1.1em;
+      background-color: var(--amber);
+      vertical-align: text-bottom;
+      animation: cursor-blink 1s step-end infinite;
+    }
+
+    @keyframes cursor-blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    .hero-flow-stage {
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+      opacity: 0;
+      animation: fade-in 0.6s ease forwards;
+    }
+
+    .hero-flow-stage:nth-child(3) { animation-delay: 2s; }
+    .hero-flow-stage:nth-child(5) { animation-delay: 4s; }
+    .hero-flow-stage:nth-child(7) { animation-delay: 6s; }
+
+    .hero-flow-connector {
+      width: 2px;
+      height: 24px;
+      position: relative;
+      overflow: hidden;
+      opacity: 0;
+      animation: fade-in 0.4s ease forwards;
+    }
+
+    .hero-flow-connector:nth-child(2) { animation-delay: 2s; }
+    .hero-flow-connector:nth-child(4) { animation-delay: 4s; }
+    .hero-flow-connector:nth-child(6) { animation-delay: 6s; }
+
+    .hero-flow-connector.req-to-spec { background: linear-gradient(to bottom, var(--amber), var(--cyan)); }
+    .hero-flow-connector.spec-to-code { background: linear-gradient(to bottom, var(--cyan), var(--green)); }
+    .hero-flow-connector.code-to-app { background: linear-gradient(to bottom, var(--green), var(--cyan)); }
+
+    .hero-flow-connector::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 8px;
+      background: currentColor;
+      box-shadow: 0 0 8px currentColor;
+      animation: flow 1.5s ease-in-out infinite;
+      will-change: transform, opacity;
+    }
+
+    .hero-flow-label {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-sm);
+      padding: var(--space-xs) var(--space-md);
+      border-radius: var(--radius-md);
+      font-family: var(--font-mono);
+      font-size: 0.8125rem;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .hero-flow-label.stage-spec {
+      background-color: var(--bg-tertiary);
+      border: 1px solid var(--border);
+      color: var(--cyan);
+    }
+
+    .hero-flow-label.stage-code {
+      background-color: var(--bg-secondary);
+      border: 1px solid var(--green-dim);
+      color: var(--green);
+    }
+
+    .hero-flow-label.stage-app {
+      background-color: var(--bg-secondary);
+      border: 1px solid var(--cyan-dim);
+      color: var(--cyan);
+    }
+
+    .hero-flow-label .label-icon {
+      width: 14px;
+      height: 14px;
+      flex-shrink: 0;
+    }
+
+    /* Hero mobile */
+    @media (max-width: 767px) {
+      header#hero {
+        min-height: auto;
+        padding: var(--space-3xl) 0 var(--space-2xl);
+      }
+
+      .hero-content {
+        margin-bottom: var(--space-xl);
+        padding: 0 var(--space-sm);
+      }
+
+      .hero-cta {
+        flex-direction: column;
+        align-items: stretch;
+        gap: var(--space-sm);
+        padding: 0 var(--space-md);
+      }
+
+      .hero-cta .btn {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .hero-flow-request {
+        font-size: 0.875rem;
+        padding: var(--space-sm) var(--space-md);
+        max-width: 100%;
+      }
+
+      .hero-flow-label {
+        font-size: 0.75rem;
+        padding: var(--space-xs) var(--space-sm);
+      }
+    }
+
+    /* --- Section Spacing --- */
+    section {
+      padding: var(--space-4xl) 0;
+    }
+
+    @media (max-width: 767px) {
+      section {
+        padding: var(--space-2xl) 0;
+      }
+    }
+
+    .section-intro {
+      text-align: center;
+      color: var(--text-secondary);
+      font-size: 1.125rem;
+      margin-bottom: var(--space-3xl);
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* ============================================================
+       SECTION 2 — THE PROBLEM (The Gap)
+       ============================================================ */
+    #problem {
+      background-color: var(--bg-secondary);
+    }
+
+    #problem h2 {
+      text-align: center;
+      margin-bottom: var(--space-sm);
+    }
+
+    .problem-lead {
+      text-align: center;
+      font-size: 1.125rem;
+      color: var(--text-secondary);
+      max-width: 700px;
+      margin: 0 auto var(--space-3xl);
+      line-height: 1.7;
+    }
+
+    .comparison-grid {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: var(--space-xl);
+      align-items: start;
+      margin-bottom: var(--space-xl);
+    }
+
+    .comparison-column {
+      background-color: var(--bg-primary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: var(--space-xl);
+    }
+
+    .comparison-title {
+      font-family: var(--font-mono);
+      font-size: 0.875rem;
+      font-weight: 600;
+      text-align: center;
+      margin-bottom: var(--space-lg);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .comparison-traditional .comparison-title {
+      color: var(--text-tertiary);
+    }
+
+    .comparison-flowforge .comparison-title {
+      color: var(--cyan);
+    }
+
+    .comparison-flow {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--space-xs);
+    }
+
+    .comparison-step {
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+      padding: var(--space-sm) var(--space-md);
+      border-radius: var(--radius-md);
+      width: 100%;
+    }
+
+    .comparison-traditional .comparison-step {
+      background-color: var(--bg-tertiary);
+      border: 1px dashed var(--border);
+    }
+
+    .comparison-flowforge .comparison-step {
+      background-color: var(--bg-secondary);
+      border: 1px solid var(--cyan-dim);
+    }
+
+    .comparison-step-label {
+      font-size: 0.9375rem;
+      color: var(--text-primary);
+    }
+
+    .comparison-traditional .comparison-step-label {
+      color: var(--text-secondary);
+    }
+
+    .step-icon-mono {
+      font-family: var(--font-mono);
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--text-tertiary);
+      flex-shrink: 0;
+      width: 2.5em;
+      text-align: center;
+    }
+
+    .comparison-flowforge .step-icon-mono {
+      color: var(--cyan);
+    }
+
+    .comparison-connector {
+      width: 2px;
+      height: 16px;
+      margin-left: 1.25em;
+      background-color: var(--border);
+    }
+
+    .comparison-flowforge .comparison-connector {
+      background: linear-gradient(to bottom, var(--cyan), var(--green));
+    }
+
+    .comparison-divider {
+      width: 2px;
+      background: linear-gradient(to bottom, transparent, var(--border), transparent);
+      align-self: stretch;
+      margin: var(--space-xl) 0;
+    }
+
+    .problem-caption {
+      text-align: center;
+      font-size: 1rem;
+      color: var(--text-secondary);
+      max-width: 600px;
+      margin: var(--space-xl) auto 0;
+      line-height: 1.6;
+    }
+
+    /* Problem mobile */
+    @media (max-width: 767px) {
+      .comparison-grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-lg);
+      }
+
+      .comparison-divider {
+        width: 80%;
+        height: 2px;
+        margin: var(--space-md) auto;
+        background: linear-gradient(to right, transparent, var(--border), transparent);
+      }
+
+      .comparison-column {
+        padding: var(--space-md);
+      }
+
+      .comparison-title {
+        font-size: 0.8125rem;
+        margin-bottom: var(--space-md);
+      }
+
+      .comparison-step {
+        padding: var(--space-xs) var(--space-sm);
+        gap: var(--space-sm);
+      }
+
+      .comparison-step-label {
+        font-size: 0.8125rem;
+      }
+
+      .step-icon-mono {
+        font-size: 0.75rem;
+        width: 2em;
+      }
+
+      .comparison-connector {
+        height: 10px;
+      }
+
+      .problem-caption {
+        font-size: 0.9375rem;
+        padding: 0 var(--space-sm);
+      }
+
+      .problem-lead {
+        font-size: 1rem;
+        padding: 0 var(--space-sm);
+      }
+    }
+
+    /* ============================================================
+       SECTION 3 — PRODUCT IN ACTION
+       ============================================================ */
+    #product-in-action {
+      background-color: var(--bg-primary);
+      position: relative;
+    }
+
+    #product-in-action h2 {
+      text-align: center;
+      margin-bottom: var(--space-sm);
+    }
+
+    .demo-scenario {
+      text-align: center;
+      color: var(--text-secondary);
+      margin-bottom: var(--space-3xl);
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .demo-scenario .scenario-label {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--amber);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: var(--space-sm);
+    }
+
+    .demo-container {
+      max-width: 800px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xl);
+    }
+
+    /* Terminal request */
+    .demo-terminal {
+      background-color: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      min-height: 120px;
+    }
+
+    .demo-terminal-header {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      padding: var(--space-sm) var(--space-md);
+      background-color: var(--bg-tertiary);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .terminal-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+
+    .terminal-dot.red { background-color: #ef4444; }
+    .terminal-dot.yellow { background-color: #f59e0b; }
+    .terminal-dot.green { background-color: #22c55e; }
+
+    .terminal-title {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--text-tertiary);
+      margin-left: var(--space-sm);
+    }
+
+    .demo-terminal-body {
+      padding: var(--space-lg);
+      font-family: var(--font-mono);
+      font-size: 0.9375rem;
+      line-height: 1.7;
+      color: var(--text-primary);
+      min-height: 60px;
+    }
+
+    .demo-terminal-body .typed-cursor {
+      display: inline-block;
+      width: 8px;
+      height: 1.1em;
+      background-color: var(--cyan);
+      vertical-align: text-bottom;
+      animation: cursor-blink 0.8s step-end infinite;
+    }
+
+    /* Data model */
+    .demo-data-model {
+      background-color: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: var(--space-lg);
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+
+    .demo-data-model.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .demo-data-model .panel-label {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--cyan);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: var(--space-md);
+    }
+
+    .demo-model-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: var(--space-md);
+    }
+
+    .demo-model-entity {
+      background-color: var(--bg-primary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: var(--space-md);
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity 0.4s ease, transform 0.4s ease, border-color 0.2s ease;
+    }
+
+    .demo-model-entity.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .demo-model-entity:hover {
+      border-color: var(--border-active);
+    }
+
+    .demo-model-entity .entity-name {
+      font-family: var(--font-mono);
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: var(--space-xs);
+    }
+
+    .demo-model-entity .entity-fields {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--text-tertiary);
+      line-height: 1.6;
+    }
+
+    /* UI panels */
+    .demo-ui-panels {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: var(--space-md);
+    }
+
+    .demo-ui-panel {
+      background-color: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: var(--space-md);
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+
+    .demo-ui-panel.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .demo-ui-panel .panel-header {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      margin-bottom: var(--space-md);
+    }
+
+    .demo-ui-panel .panel-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background-color: var(--green);
+      box-shadow: 0 0 6px var(--green);
+    }
+
+    .demo-ui-panel .panel-name {
+      font-family: var(--font-mono);
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .demo-ui-panel .panel-preview {
+      background-color: var(--bg-primary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: var(--space-sm);
+      min-height: 60px;
+    }
+
+    .demo-ui-panel .panel-preview .preview-row {
+      display: flex;
+      gap: var(--space-sm);
+      padding: var(--space-xs) 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .demo-ui-panel .panel-preview .preview-row:last-child {
+      border-bottom: none;
+    }
+
+    .demo-ui-panel .panel-preview .preview-cell {
+      height: 8px;
+      border-radius: 2px;
+      background-color: var(--bg-tertiary);
+    }
+
+    /* Deployed state */
+    .demo-deployed {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-md);
+      background-color: var(--bg-secondary);
+      border: 1px solid var(--green-dim);
+      border-radius: var(--radius-lg);
+      padding: var(--space-md) var(--space-xl);
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+
+    .demo-deployed.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .demo-deployed .deploy-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+      padding: var(--space-xs) var(--space-sm);
+      background-color: var(--green-dim);
+      color: var(--green);
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 600;
+      border-radius: var(--radius-sm);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .demo-deployed .deploy-badge .check-icon {
+      width: 12px;
+      height: 12px;
+    }
+
+    .demo-deployed .deploy-repo {
+      font-family: var(--font-mono);
+      font-size: 0.8125rem;
+      color: var(--text-secondary);
+    }
+
+    /* Product in action mobile */
+    @media (max-width: 767px) {
+      .demo-scenario {
+        font-size: 0.9375rem;
+        padding: 0 var(--space-sm);
+      }
+
+      .demo-terminal-body {
+        font-size: 0.8125rem;
+        padding: var(--space-md);
+      }
+
+      .demo-model-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .demo-ui-panels {
+        grid-template-columns: 1fr;
+      }
+
+      .demo-data-model .panel-label,
+      .demo-model-entity .entity-name {
+        font-size: 0.75rem;
+      }
+
+      .demo-model-entity .entity-fields {
+        font-size: 0.6875rem;
+      }
+
+      .demo-deployed {
+        flex-direction: column;
+        gap: var(--space-sm);
+        padding: var(--space-md);
+        text-align: center;
+      }
+    }
+
+    /* ============================================================
+       SECTION 4 — 9-STEP PIPELINE
+       ============================================================ */
+    #pipeline {
+      background-color: var(--bg-secondary);
+      position: relative;
+      overflow: hidden;
+    }
+
+    #pipeline h2 {
+      text-align: center;
+      margin-bottom: var(--space-sm);
+    }
+
+    .pipeline-wrapper {
+      position: relative;
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding: var(--space-xl) 0 var(--space-4xl);
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .pipeline-wrapper::-webkit-scrollbar {
+      height: 8px;
+    }
+
+    .pipeline-wrapper::-webkit-scrollbar-track {
+      background: var(--bg-tertiary);
+      border-radius: var(--radius-sm);
+    }
+
+    .pipeline-wrapper::-webkit-scrollbar-thumb {
+      background: var(--cyan-dim);
+      border-radius: var(--radius-sm);
+    }
+
+    .pipeline-wrapper::-webkit-scrollbar-thumb:hover {
+      background: var(--cyan);
+    }
+
+    .pipeline-track {
+      display: flex;
+      gap: var(--space-md);
+      padding: 0 var(--space-md);
+      min-width: max-content;
+      align-items: stretch;
+      position: relative;
+    }
+
+    .pipeline-step {
+      flex: 0 0 280px;
+      background-color: var(--bg-primary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: var(--space-lg);
+      position: relative;
+      scroll-snap-align: center;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .pipeline-step:hover {
+      border-color: var(--border-active);
+      box-shadow: var(--shadow-glow-cyan);
+    }
+
+    .step-number {
+      position: absolute;
+      top: var(--space-sm);
+      right: var(--space-sm);
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--cyan);
+      opacity: 0.6;
+    }
+
+    .step-icon {
+      font-size: 2rem;
+      margin-bottom: var(--space-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+    }
+
+    .step-icon svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .step-title {
+      font-family: var(--font-mono);
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: var(--space-sm);
+      letter-spacing: 0.05em;
+    }
+
+    .step-description {
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+      line-height: 1.5;
+      margin-bottom: var(--space-md);
+      flex-grow: 1;
+    }
+
+    .step-status {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background-color: var(--green);
+      box-shadow: 0 0 8px var(--green);
+      animation: pulse 2s ease-in-out infinite;
+      animation-delay: calc(var(--step-index, 0) * 0.2s);
+      will-change: opacity;
+    }
+
+    .pipeline-step[data-step="1"] { --step-index: 0; }
+    .pipeline-step[data-step="2"] { --step-index: 1; }
+    .pipeline-step[data-step="3"] { --step-index: 2; }
+    .pipeline-step[data-step="4"] { --step-index: 3; }
+    .pipeline-step[data-step="5"] { --step-index: 4; }
+    .pipeline-step[data-step="6"] { --step-index: 5; }
+    .pipeline-step[data-step="7"] { --step-index: 6; }
+    .pipeline-step[data-step="8"] { --step-index: 7; }
+    .pipeline-step[data-step="9"] { --step-index: 8; }
+
+    .pipeline-connector {
+      flex: 0 0 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .pipeline-connector::before {
+      content: '';
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(to right, var(--cyan), var(--green));
+      position: relative;
+    }
+
+    .pipeline-connector::after {
+      content: '';
+      position: absolute;
+      width: 20px;
+      height: 2px;
+      top: 0;
+      left: 0;
+      background: var(--cyan);
+      box-shadow: 0 0 10px var(--cyan);
+      animation: flow-horizontal 2s ease-in-out infinite;
+      animation-delay: calc(var(--connector-index, 0) * 0.2s);
+      will-change: transform, opacity;
+    }
+
+    .pipeline-connector[data-conn="1"] { --connector-index: 0; }
+    .pipeline-connector[data-conn="2"] { --connector-index: 1; }
+    .pipeline-connector[data-conn="3"] { --connector-index: 2; }
+    .pipeline-connector[data-conn="4"] { --connector-index: 3; }
+    .pipeline-connector[data-conn="5"] { --connector-index: 4; }
+    .pipeline-connector[data-conn="6"] { --connector-index: 5; }
+    .pipeline-connector[data-conn="7"] { --connector-index: 6; }
+    .pipeline-connector[data-conn="8"] { --connector-index: 7; }
+
+    @keyframes flow-horizontal {
+      0% {
+        transform: translateX(0);
+        opacity: 0;
+      }
+      50% {
+        opacity: 1;
+      }
+      100% {
+        transform: translateX(calc(100% - 20px));
+        opacity: 0;
+      }
+    }
+
+    .pipeline-loop {
+      position: absolute;
+      bottom: -60px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--space-xs);
+    }
+
+    .loop-arrow {
+      width: 100px;
+      height: 50px;
+    }
+
+    .loop-arrow path {
+      stroke: var(--cyan);
+      stroke-width: 2;
+      fill: none;
+      stroke-dasharray: 5, 5;
+      animation: dash-flow 1s linear infinite;
+    }
+
+    .loop-arrow polygon {
+      fill: var(--cyan);
+    }
+
+    @keyframes dash-flow {
+      to {
+        stroke-dashoffset: -10;
+      }
+    }
+
+    .loop-label {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--cyan);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    /* Pipeline mobile */
+    @media (max-width: 767px) {
+      .pipeline-step {
+        flex: 0 0 260px;
+        padding: var(--space-md);
+      }
+
+      .step-icon {
+        font-size: 1.5rem;
+        margin-bottom: var(--space-sm);
+        width: 32px;
+        height: 32px;
+      }
+
+      .step-title {
+        font-size: 1rem;
+      }
+
+      .step-description {
+        font-size: 0.8125rem;
+      }
+
+      .pipeline-connector {
+        flex: 0 0 40px;
+      }
+
+      .pipeline-wrapper {
+        padding: var(--space-lg) 0 var(--space-4xl);
+        scroll-padding: 0 var(--space-md);
+      }
+
+      .pipeline-track {
+        padding: 0 var(--space-md);
+      }
+
+      .section-intro {
+        font-size: 1rem;
+        padding: 0 var(--space-sm);
+      }
+
+      .pipeline-loop {
+        bottom: -55px;
+      }
+
+      .loop-arrow {
+        width: 80px;
+        height: 40px;
+      }
+
+      .loop-label {
+        font-size: 0.6875rem;
+      }
+    }
+
+    /* ============================================================
+       SECTION 5 — HUMAN IN THE LOOP
+       ============================================================ */
+    #human-in-loop {
+      background-color: var(--bg-primary);
+      position: relative;
+      overflow: hidden;
+    }
+
+    #human-in-loop::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image:
+        radial-gradient(ellipse at 30% 50%, var(--cyan-dim) 0%, transparent 60%),
+        radial-gradient(ellipse at 70% 50%, var(--amber-dim) 0%, transparent 60%);
+      opacity: 0.15;
+      pointer-events: none;
+    }
+
+    #human-in-loop h2 {
+      text-align: center;
+      margin-bottom: var(--space-sm);
+      position: relative;
+    }
+
+    .hitl-statement {
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: var(--space-md);
+      background: linear-gradient(135deg, var(--cyan) 0%, var(--amber) 50%, var(--green) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      position: relative;
+    }
+
+    .hitl-subtitle {
+      text-align: center;
+      color: var(--text-secondary);
+      font-size: 1.125rem;
+      margin-bottom: var(--space-3xl);
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      position: relative;
+    }
+
+    /* HITL Loop */
+    .hitl-loop {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-sm);
+      flex-wrap: wrap;
+      padding: var(--space-xl) 0;
+      position: relative;
+    }
+
+    .hitl-loop-node {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--space-xs);
+      padding: var(--space-md) var(--space-lg);
+      background-color: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      min-width: 120px;
+      text-align: center;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .hitl-loop-node:hover {
+      border-color: var(--border-active);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .hitl-loop-node.node-user {
+      border-color: var(--amber-dim);
+    }
+
+    .hitl-loop-node.node-user:hover {
+      border-color: var(--amber);
+      box-shadow: 0 0 15px var(--amber-dim);
+    }
+
+    .hitl-loop-node.node-ai {
+      border-color: var(--cyan-dim);
+    }
+
+    .hitl-loop-node.node-ai:hover {
+      border-color: var(--cyan);
+      box-shadow: var(--shadow-glow-cyan);
+    }
+
+    .hitl-loop-node.node-validate {
+      border-color: var(--green-dim);
+    }
+
+    .hitl-loop-node.node-validate:hover {
+      border-color: var(--green);
+      box-shadow: var(--shadow-glow-green);
+    }
+
+    .hitl-loop-node .node-icon {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .node-user .node-icon { color: var(--amber); }
+    .node-ai .node-icon { color: var(--cyan); }
+    .node-validate .node-icon { color: var(--green); }
+
+    .hitl-loop-node .node-label {
+      font-size: 0.8125rem;
+      color: var(--text-secondary);
+    }
+
+    .hitl-loop-arrow {
+      font-family: var(--font-mono);
+      font-size: 1.25rem;
+      color: var(--text-tertiary);
+      font-weight: bold;
+    }
+
+    .hitl-loop-connector {
+      width: 30px;
+      height: 2px;
+      background: linear-gradient(to right, var(--text-tertiary), var(--cyan));
+    }
+
+    .hitl-loop-connector.arrow-to-ai {
+      background: linear-gradient(to right, var(--amber), var(--cyan));
+    }
+
+    .hitl-loop-connector.arrow-to-validate {
+      background: linear-gradient(to right, var(--cyan), var(--green));
+    }
+
+    .hitl-loop-connector.arrow-to-software {
+      background: linear-gradient(to right, var(--green), var(--cyan));
+    }
+
+    .hitl-loop-connector.arrow-to-feedback {
+      background: linear-gradient(to right, var(--cyan), var(--amber));
+    }
+
+    /* HITL mobile */
+    @media (max-width: 767px) {
+      .hitl-statement {
+        font-size: clamp(1.5rem, 5vw, 2rem);
+        padding: 0 var(--space-sm);
+      }
+
+      .hitl-subtitle {
+        font-size: 1rem;
+        padding: 0 var(--space-sm);
+        margin-bottom: var(--space-xl);
+      }
+
+      .hitl-loop {
+        flex-direction: column;
+        gap: var(--space-xs);
+        padding: var(--space-md) 0;
+      }
+
+      .hitl-loop-arrow {
+        transform: rotate(90deg);
+        font-size: 1rem;
+      }
+
+      .hitl-loop-connector {
+        width: 2px;
+        height: 20px;
+        background: linear-gradient(to bottom, var(--text-tertiary), var(--cyan));
+      }
+
+      .hitl-loop-node {
+        min-width: 200px;
+        width: 100%;
+        max-width: 260px;
+        padding: var(--space-sm) var(--space-md);
+      }
+    }
+
+    /* ============================================================
+       SECTION 6 — MOTHER TONGUE
+       ============================================================ */
+    #mother-tongue {
+      background-color: var(--bg-secondary);
+    }
+
+    #mother-tongue h2 {
+      text-align: center;
+      margin-bottom: var(--space-sm);
+    }
+
+    #mother-tongue .section-intro {
+      text-align: center;
+      color: var(--text-secondary);
+      font-size: 1.125rem;
+      margin-bottom: var(--space-2xl);
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .language-selector {
+      display: flex;
+      gap: var(--space-sm);
+      justify-content: center;
+      margin-bottom: var(--space-2xl);
+      flex-wrap: wrap;
+    }
+
+    .lang-tab {
+      padding: var(--space-sm) var(--space-lg);
+      font-family: var(--font-body);
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      background-color: var(--bg-primary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .lang-tab:hover {
+      border-color: var(--border-active);
+      color: var(--text-primary);
+    }
+
+    .lang-tab.active {
+      background-color: var(--cyan);
+      color: var(--bg-primary);
+      border-color: var(--cyan);
+    }
+
+    .language-examples {
+      position: relative;
+      min-height: 300px;
+    }
+
+    .lang-example {
+      display: none;
+      animation: fade-in 0.5s ease;
+    }
+
+    .lang-example.active {
+      display: block;
+    }
+
+    .example-input {
+      background-color: var(--bg-primary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: var(--space-xl);
+      margin-bottom: var(--space-xl);
+    }
+
+    .input-label {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--cyan);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: var(--space-md);
+    }
+
+    .input-text {
+      font-size: 1.25rem;
+      line-height: 1.6;
+      color: var(--text-primary);
+      margin: 0;
+    }
+
+    .lang-example[dir="rtl"] .input-text {
+      text-align: right;
+    }
+
+    .transformation-flow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-md);
+      flex-wrap: wrap;
+      padding: var(--space-xl);
+      background-color: var(--bg-primary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+    }
+
+    .transform-step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--space-xs);
+      padding: var(--space-md);
+      background-color: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      min-width: 120px;
+      animation: slide-up 0.6s ease;
+      animation-delay: calc(var(--step-index, 0) * 0.1s);
+      animation-fill-mode: both;
+      will-change: transform, opacity;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .transform-step:hover {
+      border-color: var(--border-active);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .lang-example.active .transform-step:nth-child(1) { --step-index: 0; }
+    .lang-example.active .transform-step:nth-child(3) { --step-index: 1; }
+    .lang-example.active .transform-step:nth-child(5) { --step-index: 2; }
+    .lang-example.active .transform-step:nth-child(7) { --step-index: 3; }
+
+    .transform-icon {
+      font-family: var(--font-mono);
+      font-size: 1.25rem;
+      font-weight: 600;
+    }
+
+    .transform-label {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .transform-arrow {
+      font-family: var(--font-mono);
+      font-size: 1.25rem;
+      color: var(--cyan);
+      font-weight: bold;
+    }
+
+    .lang-example[dir="rtl"] .transform-arrow {
+      transform: scaleX(-1);
+    }
+
+    .mother-tongue-caption {
+      text-align: center;
+      font-size: 1.25rem;
+      font-style: italic;
+      color: var(--text-secondary);
+      margin-top: var(--space-2xl);
+    }
+
+    /* Mother tongue mobile */
+    @media (max-width: 767px) {
+      .language-selector {
+        gap: var(--space-xs);
+        flex-wrap: wrap;
+        padding: 0 var(--space-sm);
+      }
+
+      .lang-tab {
+        padding: var(--space-sm) var(--space-md);
+        font-size: 0.8125rem;
+      }
+
+      #mother-tongue .section-intro {
+        font-size: 1rem;
+        padding: 0 var(--space-sm);
+      }
+
+      .input-text {
+        font-size: 1rem;
+        line-height: 1.5;
+      }
+
+      .example-input {
+        padding: var(--space-md);
+      }
+
+      .input-label {
+        font-size: 0.6875rem;
+      }
+
+      .transformation-flow {
+        flex-direction: column;
+        gap: var(--space-xs);
+        padding: var(--space-md);
+      }
+
+      .transform-arrow {
+        transform: rotate(90deg);
+        font-size: 1.25rem;
+      }
+
+      .lang-example[dir="rtl"] .transform-arrow {
+        transform: rotate(90deg) scaleX(-1);
+      }
+
+      .transform-step {
+        min-width: 100px;
+        width: 100%;
+        max-width: 200px;
+        padding: var(--space-sm);
+      }
+
+      .transform-icon {
+        font-size: 1rem;
+      }
+
+      .transform-label {
+        font-size: 0.6875rem;
+      }
+
+      .mother-tongue-caption {
+        font-size: 0.9375rem;
+        padding: 0 var(--space-sm);
+      }
+    }
+
+    /* ============================================================
+       SECTION 7 — FINAL CTA
+       ============================================================ */
+    #cta {
+      background-color: var(--bg-primary);
+      position: relative;
+      overflow: hidden;
+    }
+
+    #cta::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 50px 50px;
+      opacity: 0.05;
+      pointer-events: none;
+    }
+
+    .cta-content {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: var(--space-3xl) 0;
+    }
+
+    .cta-statement {
+      font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+      font-weight: 700;
+      line-height: 1.3;
+      margin-bottom: var(--space-2xl);
+      background: linear-gradient(135deg, var(--text-primary) 0%, var(--cyan) 50%, var(--green) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .cta-buttons {
+      display: flex;
+      gap: var(--space-md);
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn-large {
+      padding: var(--space-md) var(--space-xl);
+      font-size: 1.125rem;
+    }
+
+    /* CTA mobile */
+    @media (max-width: 767px) {
+      .cta-content {
+        padding: var(--space-xl) 0;
+      }
+
+      .cta-statement {
+        font-size: clamp(1.375rem, 4vw, 1.75rem);
+        padding: 0 var(--space-sm);
+        line-height: 1.4;
+      }
+
+      .cta-buttons {
+        flex-direction: column;
+        gap: var(--space-sm);
+        padding: 0 var(--space-md);
+      }
+
+      .btn-large {
+        width: 100%;
+        padding: 0.875rem var(--space-lg);
+        font-size: 1rem;
+      }
+    }
+
+    /* --- Footer --- */
+    footer {
+      padding: var(--space-xl) 0;
+      text-align: center;
+      color: var(--text-tertiary);
+      font-size: 0.875rem;
+      border-top: 1px solid var(--border);
+      background-color: var(--bg-secondary);
+    }
+
+    .footer-brand {
+      font-family: var(--font-mono);
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      margin-bottom: var(--space-xs);
+      letter-spacing: 0.05em;
+    }
+
+    .footer-tagline {
+      color: var(--text-tertiary);
+      margin-bottom: var(--space-md);
+    }
+
+    .footer-copy {
+      font-size: 0.75rem;
+      color: var(--text-tertiary);
+    }
+  </style>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <!-- ============================================================
+       SECTION 1 — HERO
+       ============================================================ -->
+  <header id="hero">
+    <div class="hero-content container">
+      <h1>From Human Workflow to Working Software.</h1>
+      <p class="hero-subheadline">
+        Describe what you need in your own language. FlowForge turns it into a working application.
+      </p>
+      <div class="hero-cta">
+        <a href="#pipeline" class="btn btn-primary">See How It Works</a>
+      </div>
+    </div>
+
+    <div class="hero-flow" role="img" aria-label="Natural language request transforming into a deployed application">
+      <div class="hero-flow-request">
+        <span id="typed-text"></span><span class="cursor" id="typed-cursor"></span>
+      </div>
+      <div class="hero-flow-connector req-to-spec" aria-hidden="true"></div>
+      <div class="hero-flow-stage">
+        <span class="hero-flow-label stage-spec">
+          <svg class="label-icon" viewBox="0 0 14 14" aria-hidden="true"><rect x="1" y="1" width="12" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="1.5"/><line x1="4" y1="4" x2="10" y2="4" stroke="currentColor" stroke-width="1.5"/><line x1="4" y1="7" x2="8" y2="7" stroke="currentColor" stroke-width="1.5"/><line x1="4" y1="10" x2="9" y2="10" stroke="currentColor" stroke-width="1.5"/></svg>
+          Requirements
+        </span>
+      </div>
+      <div class="hero-flow-connector spec-to-code" aria-hidden="true"></div>
+      <div class="hero-flow-stage">
+        <span class="hero-flow-label stage-code">
+          <svg class="label-icon" viewBox="0 0 14 14" aria-hidden="true"><polyline points="5,3 2,7 5,11" fill="none" stroke="currentColor" stroke-width="1.5"/><polyline points="9,3 12,7 9,11" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+          Code
+        </span>
+      </div>
+      <div class="hero-flow-connector code-to-app" aria-hidden="true"></div>
+      <div class="hero-flow-stage">
+        <span class="hero-flow-label stage-app">
+          <svg class="label-icon" viewBox="0 0 14 14" aria-hidden="true"><circle cx="7" cy="7" r="5" fill="none" stroke="currentColor" stroke-width="1.5"/><polyline points="5,7 7,9 10,5" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+          Deployed
+        </span>
+      </div>
+    </div>
+  </header>
+
+  <main id="main-content">
+    <!-- ============================================================
+         SECTION 2 — THE PROBLEM (The Gap)
+         ============================================================ -->
+    <section id="problem" aria-label="The problem: the gap between workflow and software">
+      <div class="container">
+        <h2>The Gap</h2>
+        <p class="problem-lead">Many businesses have workflows that are worth turning into software, but not enough technical resources to build them.</p>
+
+        <div class="comparison-grid">
+          <!-- Traditional -->
+          <div class="comparison-column comparison-traditional">
+            <h3 class="comparison-title">Traditional Path</h3>
+            <div class="comparison-flow">
+              <div class="comparison-step">
+                <span class="step-icon-mono">IDEA</span>
+                <span class="comparison-step-label">Workflow identified</span>
+              </div>
+              <div class="comparison-connector" aria-hidden="true"></div>
+              <div class="comparison-step">
+                <span class="step-icon-mono">DEV</span>
+                <span class="comparison-step-label">Find developers</span>
+              </div>
+              <div class="comparison-connector" aria-hidden="true"></div>
+              <div class="comparison-step">
+                <span class="step-icon-mono">PLAN</span>
+                <span class="comparison-step-label">Spec, scope, budget</span>
+              </div>
+              <div class="comparison-connector" aria-hidden="true"></div>
+              <div class="comparison-step">
+                <span class="step-icon-mono">BUILD</span>
+                <span class="comparison-step-label">Months of development</span>
+              </div>
+              <div class="comparison-connector" aria-hidden="true"></div>
+              <div class="comparison-step">
+                <span class="step-icon-mono">COST</span>
+                <span class="comparison-step-label">Team + time + cost</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="comparison-divider" aria-hidden="true"></div>
+
+          <!-- FlowForge -->
+          <div class="comparison-column comparison-flowforge">
+            <h3 class="comparison-title">FlowForge</h3>
+            <div class="comparison-flow">
+              <div class="comparison-step">
+                <span class="step-icon-mono">IDEA</span>
+                <span class="comparison-step-label">Workflow identified</span>
+              </div>
+              <div class="comparison-connector" aria-hidden="true"></div>
+              <div class="comparison-step">
+                <span class="step-icon-mono">DESC</span>
+                <span class="comparison-step-label">Describe in natural language</span>
+              </div>
+              <div class="comparison-connector" aria-hidden="true"></div>
+              <div class="comparison-step">
+                <span class="step-icon-mono">SHIP</span>
+                <span class="comparison-step-label">Working software</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <p class="problem-caption">FlowForge does not make developers obsolete. It reduces the technical barrier between a business need and the software that solves it.</p>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         SECTION 3 — PRODUCT IN ACTION
+         ============================================================ -->
+    <section id="product-in-action" aria-label="The product in action: a concrete example">
+      <div class="container">
+        <h2>One Concrete Example</h2>
+        <div class="demo-scenario">
+          <p class="scenario-label">Scenario</p>
+          <p>A small workshop wants software to manage customers, orders, payments, and monthly revenue.</p>
+        </div>
+
+        <div class="demo-container">
+          <!-- Terminal: typed request -->
+          <div class="demo-terminal">
+            <div class="demo-terminal-header">
+              <span class="terminal-dot red" aria-hidden="true"></span>
+              <span class="terminal-dot yellow" aria-hidden="true"></span>
+              <span class="terminal-dot green" aria-hidden="true"></span>
+              <span class="terminal-title">flowforge — new project</span>
+            </div>
+            <div class="demo-terminal-body">
+              <span id="demo-typed-text"></span><span class="typed-cursor" id="demo-typed-cursor"></span>
+            </div>
+          </div>
+
+          <!-- Data model panels -->
+          <div class="demo-data-model" id="demo-data-model">
+            <div class="panel-label">Data Model</div>
+            <div class="demo-model-grid">
+              <div class="demo-model-entity" id="entity-customers">
+                <div class="entity-name">Customers</div>
+                <div class="entity-fields">name, contact, address</div>
+              </div>
+              <div class="demo-model-entity" id="entity-orders">
+                <div class="entity-name">Orders</div>
+                <div class="entity-fields">date, items, total, status</div>
+              </div>
+              <div class="demo-model-entity" id="entity-payments">
+                <div class="entity-name">Payments</div>
+                <div class="entity-fields">amount, method, date</div>
+              </div>
+              <div class="demo-model-entity" id="entity-revenue">
+                <div class="entity-name">Monthly Revenue</div>
+                <div class="entity-fields">period, total, trend</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- UI panels -->
+          <div class="demo-ui-panels">
+            <div class="demo-ui-panel" id="ui-customers">
+              <div class="panel-header">
+                <span class="panel-dot" aria-hidden="true"></span>
+                <span class="panel-name">Customers</span>
+              </div>
+              <div class="panel-preview">
+                <div class="preview-row">
+                  <div class="preview-cell" style="width:40%"></div>
+                  <div class="preview-cell" style="width:30%"></div>
+                  <div class="preview-cell" style="width:30%"></div>
+                </div>
+                <div class="preview-row">
+                  <div class="preview-cell" style="width:40%"></div>
+                  <div class="preview-cell" style="width:30%"></div>
+                  <div class="preview-cell" style="width:30%"></div>
+                </div>
+                <div class="preview-row">
+                  <div class="preview-cell" style="width:40%"></div>
+                  <div class="preview-cell" style="width:30%"></div>
+                  <div class="preview-cell" style="width:30%"></div>
+                </div>
+              </div>
+            </div>
+            <div class="demo-ui-panel" id="ui-orders">
+              <div class="panel-header">
+                <span class="panel-dot" aria-hidden="true"></span>
+                <span class="panel-name">Orders</span>
+              </div>
+              <div class="panel-preview">
+                <div class="preview-row">
+                  <div class="preview-cell" style="width:25%"></div>
+                  <div class="preview-cell" style="width:25%"></div>
+                  <div class="preview-cell" style="width:25%"></div>
+                  <div class="preview-cell" style="width:25%"></div>
+                </div>
+                <div class="preview-row">
+                  <div class="preview-cell" style="width:25%"></div>
+                  <div class="preview-cell" style="width:25%"></div>
+                  <div class="preview-cell" style="width:25%"></div>
+                  <div class="preview-cell" style="width:25%"></div>
+                </div>
+              </div>
+            </div>
+            <div class="demo-ui-panel" id="ui-payments">
+              <div class="panel-header">
+                <span class="panel-dot" aria-hidden="true"></span>
+                <span class="panel-name">Payments</span>
+              </div>
+              <div class="panel-preview">
+                <div class="preview-row">
+                  <div class="preview-cell" style="width:35%"></div>
+                  <div class="preview-cell" style="width:35%"></div>
+                  <div class="preview-cell" style="width:30%"></div>
+                </div>
+                <div class="preview-row">
+                  <div class="preview-cell" style="width:35%"></div>
+                  <div class="preview-cell" style="width:35%"></div>
+                  <div class="preview-cell" style="width:30%"></div>
+                </div>
+              </div>
+            </div>
+            <div class="demo-ui-panel" id="ui-revenue">
+              <div class="panel-header">
+                <span class="panel-dot" aria-hidden="true"></span>
+                <span class="panel-name">Monthly Revenue</span>
+              </div>
+              <div class="panel-preview">
+                <div class="preview-row">
+                  <div class="preview-cell" style="width:20%"></div>
+                  <div class="preview-cell" style="width:80%"></div>
+                </div>
+                <div class="preview-row">
+                  <div class="preview-cell" style="width:20%"></div>
+                  <div class="preview-cell" style="width:60%"></div>
+                </div>
+                <div class="preview-row">
+                  <div class="preview-cell" style="width:20%"></div>
+                  <div class="preview-cell" style="width:70%"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Deployed state -->
+          <div class="demo-deployed" id="demo-deployed">
+            <span class="deploy-badge">
+              <svg class="check-icon" viewBox="0 0 12 12" aria-hidden="true"><polyline points="2,6 5,9 10,3" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+              Deployed
+            </span>
+            <span class="deploy-repo">workshop-app · ci passed · v1.0.0</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         SECTION 4 — 9-STEP PIPELINE
+         ============================================================ -->
+    <section id="pipeline" aria-label="The 9-step software factory">
+      <div class="container">
+        <h2>The 9-Step Software Factory</h2>
+        <p class="section-intro">From human intent to live software in nine automated steps.</p>
+
+        <div class="pipeline-wrapper" role="region" aria-label="Pipeline steps" tabindex="0">
+          <div class="pipeline-track">
+            <!-- Step 01 -->
+            <div class="pipeline-step" data-step="1">
+              <div class="step-number">01</div>
+              <div class="step-icon" aria-hidden="true">
+                <svg viewBox="0 0 32 32"><rect x="4" y="6" width="24" height="20" rx="2" fill="none" stroke="var(--cyan)" stroke-width="2"/><line x1="9" y1="12" x2="23" y2="12" stroke="var(--cyan)" stroke-width="1.5"/><line x1="9" y1="17" x2="19" y2="17" stroke="var(--cyan)" stroke-width="1.5"/><line x1="9" y1="22" x2="15" y2="22" stroke="var(--cyan)" stroke-width="1.5"/></svg>
+              </div>
+              <h3 class="step-title">Describe</h3>
+              <p class="step-description">User explains the need in natural language.</p>
+              <div class="step-status" aria-label="Step active"></div>
+            </div>
+
+            <div class="pipeline-connector" data-conn="1" aria-hidden="true"></div>
+
+            <!-- Step 02 -->
+            <div class="pipeline-step" data-step="2">
+              <div class="step-number">02</div>
+              <div class="step-icon" aria-hidden="true">
+                <svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="8" fill="none" stroke="var(--cyan)" stroke-width="2"/><circle cx="16" cy="16" r="3" fill="var(--cyan)" opacity="0.6"/><line x1="16" y1="4" x2="16" y2="8" stroke="var(--cyan)" stroke-width="1.5"/><line x1="16" y1="24" x2="16" y2="28" stroke="var(--cyan)" stroke-width="1.5"/><line x1="4" y1="16" x2="8" y2="16" stroke="var(--cyan)" stroke-width="1.5"/><line x1="24" y1="16" x2="28" y2="16" stroke="var(--cyan)" stroke-width="1.5"/></svg>
+              </div>
+              <h3 class="step-title">Detect</h3>
+              <p class="step-description">AI determines the appropriate application type: Web or Android.</p>
+              <div class="step-status" aria-label="Step active"></div>
+            </div>
+
+            <div class="pipeline-connector" data-conn="2" aria-hidden="true"></div>
+
+            <!-- Step 03 -->
+            <div class="pipeline-step" data-step="3">
+              <div class="step-number">03</div>
+              <div class="step-icon" aria-hidden="true">
+                <svg viewBox="0 0 32 32"><path d="M8 16 L16 8 L24 16 L16 24 Z" fill="none" stroke="var(--cyan)" stroke-width="2"/><circle cx="16" cy="16" r="3" fill="var(--cyan)" opacity="0.4"/></svg>
+              </div>
+              <h3 class="step-title">Provision</h3>
+              <p class="step-description">Create a GitHub repository and configure the CI/CD workflow.</p>
+              <div class="step-status" aria-label="Step active"></div>
+            </div>
+
+            <div class="pipeline-connector" data-conn="3" aria-hidden="true"></div>
+
+            <!-- Step 04 -->
+            <div class="pipeline-step" data-step="4">
+              <div class="step-number">04</div>
+              <div class="step-icon" aria-hidden="true">
+                <svg viewBox="0 0 32 32"><polyline points="10,8 6,16 10,24" fill="none" stroke="var(--green)" stroke-width="2"/><polyline points="22,8 26,16 22,24" fill="none" stroke="var(--green)" stroke-width="2"/><line x1="18" y1="6" x2="14" y2="26" stroke="var(--green)" stroke-width="2"/></svg>
+              </div>
+              <h3 class="step-title">Engineer</h3>
+              <p class="step-description">OpenCode + oh-my-opencode implement the application according to the requirements and software engineering principles.</p>
+              <div class="step-status" aria-label="Step active"></div>
+            </div>
+
+            <div class="pipeline-connector" data-conn="4" aria-hidden="true"></div>
+
+            <!-- Step 05 -->
+            <div class="pipeline-step" data-step="5">
+              <div class="step-number">05</div>
+              <div class="step-icon" aria-hidden="true">
+                <svg viewBox="0 0 32 32"><path d="M16 4 L26 10 L26 22 L16 28 L6 22 L6 10 Z" fill="none" stroke="var(--cyan)" stroke-width="2"/><polyline points="11,16 15,20 21,12" fill="none" stroke="var(--green)" stroke-width="2.5"/></svg>
+              </div>
+              <h3 class="step-title">Validate</h3>
+              <p class="step-description">Build, lint, test and security validation happen before release.</p>
+              <div class="step-status" aria-label="Step active"></div>
+            </div>
+
+            <div class="pipeline-connector" data-conn="5" aria-hidden="true"></div>
+
+            <!-- Step 06 -->
+            <div class="pipeline-step" data-step="6">
+              <div class="step-number">06</div>
+              <div class="step-icon" aria-hidden="true">
+                <svg viewBox="0 0 32 32"><path d="M8 20 L8 12 L16 6 L24 12 L24 20 Z" fill="none" stroke="var(--cyan)" stroke-width="2"/><path d="M13 20 L13 26 L19 26 L19 20" fill="none" stroke="var(--cyan)" stroke-width="2"/></svg>
+              </div>
+              <h3 class="step-title">Release</h3>
+              <p class="step-description">The validated application is tagged, released and deployed.</p>
+              <div class="step-status" aria-label="Step active"></div>
+            </div>
+
+            <div class="pipeline-connector" data-conn="6" aria-hidden="true"></div>
+
+            <!-- Step 07 -->
+            <div class="pipeline-step" data-step="7">
+              <div class="step-number">07</div>
+              <div class="step-icon" aria-hidden="true">
+                <svg viewBox="0 0 32 32"><rect x="4" y="4" width="24" height="24" rx="2" fill="none" stroke="var(--cyan)" stroke-width="2"/><line x1="4" y1="12" x2="28" y2="12" stroke="var(--cyan)" stroke-width="1.5"/><line x1="4" y1="20" x2="28" y2="20" stroke="var(--cyan)" stroke-width="1.5"/><line x1="12" y1="4" x2="12" y2="28" stroke="var(--cyan)" stroke-width="1.5"/><line x1="20" y1="4" x2="20" y2="28" stroke="var(--cyan)" stroke-width="1.5"/></svg>
+              </div>
+              <h3 class="step-title">Store</h3>
+              <p class="step-description">When lightweight persistence is appropriate, Google Sheets can be used as the data store.</p>
+              <div class="step-status" aria-label="Step active"></div>
+            </div>
+
+            <div class="pipeline-connector" data-conn="7" aria-hidden="true"></div>
+
+            <!-- Step 08 -->
+            <div class="pipeline-step" data-step="8">
+              <div class="step-number">08</div>
+              <div class="step-icon" aria-hidden="true">
+                <svg viewBox="0 0 32 32"><path d="M6 16 A10 10 0 1 1 16 26" fill="none" stroke="var(--cyan)" stroke-width="2"/><polygon points="6,20 6,26 12,23" fill="var(--cyan)"/></svg>
+              </div>
+              <h3 class="step-title">Iterate</h3>
+              <p class="step-description">The user requests changes in natural language and the software evolves.</p>
+              <div class="step-status" aria-label="Step active"></div>
+            </div>
+
+            <div class="pipeline-connector" data-conn="8" aria-hidden="true"></div>
+
+            <!-- Step 09 -->
+            <div class="pipeline-step" data-step="9">
+              <div class="step-number">09</div>
+              <div class="step-icon" aria-hidden="true">
+                <svg viewBox="0 0 32 32"><rect x="4" y="8" width="24" height="16" rx="2" fill="none" stroke="var(--cyan)" stroke-width="2"/><line x1="4" y1="14" x2="28" y2="14" stroke="var(--cyan)" stroke-width="1.5"/><circle cx="10" cy="11" r="1.5" fill="var(--amber)"/><circle cx="16" cy="11" r="1.5" fill="var(--amber)"/><circle cx="22" cy="11" r="1.5" fill="var(--amber)"/></svg>
+              </div>
+              <h3 class="step-title">Meter</h3>
+              <p class="step-description">AI usage is metered through tokens; when the included usage is exhausted, the user can purchase additional usage.</p>
+              <div class="step-status" aria-label="Step active"></div>
+            </div>
+
+            <!-- Loop back indicator -->
+            <div class="pipeline-loop">
+              <svg viewBox="0 0 100 50" class="loop-arrow" aria-hidden="true">
+                <path d="M 0 25 Q 50 0, 100 25"/>
+                <polygon points="95,20 100,25 95,30"/>
+              </svg>
+              <span class="loop-label">iterate</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         SECTION 5 — HUMAN IN THE LOOP
+         ============================================================ -->
+    <section id="human-in-loop" aria-label="Human in the loop">
+      <div class="container">
+        <h2>Human in the Loop</h2>
+        <p class="hitl-statement">AI builds. You decide.</p>
+        <p class="hitl-subtitle">You remain responsible for deciding what the software should do. AI handles the implementation.</p>
+
+        <div class="hitl-loop" aria-label="Human-in-the-loop cycle">
+          <div class="hitl-loop-node node-user">
+            <span class="node-icon">USER</span>
+            <span class="node-label">Request</span>
+          </div>
+          <div class="hitl-loop-connector arrow-to-ai" aria-hidden="true"></div>
+          <span class="hitl-loop-arrow" aria-hidden="true">→</span>
+          <div class="hitl-loop-connector arrow-to-ai" aria-hidden="true"></div>
+
+          <div class="hitl-loop-node node-ai">
+            <span class="node-icon">AI AGENTS</span>
+            <span class="node-label">Implement</span>
+          </div>
+          <div class="hitl-loop-connector arrow-to-validate" aria-hidden="true"></div>
+          <span class="hitl-loop-arrow" aria-hidden="true">→</span>
+          <div class="hitl-loop-connector arrow-to-validate" aria-hidden="true"></div>
+
+          <div class="hitl-loop-node node-validate">
+            <span class="node-icon">VALIDATE</span>
+            <span class="node-label">Checks pass</span>
+          </div>
+          <div class="hitl-loop-connector arrow-to-software" aria-hidden="true"></div>
+          <span class="hitl-loop-arrow" aria-hidden="true">→</span>
+          <div class="hitl-loop-connector arrow-to-software" aria-hidden="true"></div>
+
+          <div class="hitl-loop-node node-ai">
+            <span class="node-icon">LIVE</span>
+            <span class="node-label">Software</span>
+          </div>
+          <div class="hitl-loop-connector arrow-to-feedback" aria-hidden="true"></div>
+          <span class="hitl-loop-arrow" aria-hidden="true">→</span>
+          <div class="hitl-loop-connector arrow-to-feedback" aria-hidden="true"></div>
+
+          <div class="hitl-loop-node node-user">
+            <span class="node-icon">USER</span>
+            <span class="node-label">Feedback</span>
+          </div>
+
+          <!-- Loop back -->
+          <div class="hitl-loop-connector arrow-to-feedback" aria-hidden="true"></div>
+          <span class="hitl-loop-arrow" aria-hidden="true" style="color: var(--amber);">↺</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         SECTION 6 — MOTHER TONGUE
+         ============================================================ -->
+    <section id="mother-tongue" aria-label="Mother-tongue input">
+      <div class="container">
+        <h2>Mother-Tongue Input</h2>
+        <p class="section-intro">Technical English is not required.</p>
+
+        <div class="language-selector" role="tablist" aria-label="Language selection">
+          <button class="lang-tab active" role="tab" aria-selected="true" aria-controls="panel-persian" id="tab-persian" data-lang="persian">فارسی</button>
+          <button class="lang-tab" role="tab" aria-selected="false" aria-controls="panel-spanish" id="tab-spanish" data-lang="spanish">Español</button>
+          <button class="lang-tab" role="tab" aria-selected="false" aria-controls="panel-japanese" id="tab-japanese" data-lang="japanese">日本語</button>
+        </div>
+
+        <div class="language-examples">
+          <!-- Persian -->
+          <div class="lang-example active" id="panel-persian" role="tabpanel" aria-labelledby="tab-persian" data-lang="persian" dir="rtl" lang="fa" tabindex="0">
+            <div class="example-input">
+              <div class="input-label">USER INPUT</div>
+              <p class="input-text">می‌خواهم برای کارگاه من یک برنامه بسازی که مشتری‌ها، سفارش‌ها و پرداخت‌ها را مدیریت کند.</p>
+            </div>
+            <div class="transformation-flow">
+              <div class="transform-step">
+                <span class="transform-icon">&#9998;</span>
+                <span class="transform-label">Intent</span>
+              </div>
+              <span class="transform-arrow" aria-hidden="true">→</span>
+              <div class="transform-step">
+                <span class="transform-icon">&#9881;</span>
+                <span class="transform-label">Model</span>
+              </div>
+              <span class="transform-arrow" aria-hidden="true">→</span>
+              <div class="transform-step">
+                <span class="transform-icon">&#10003;</span>
+                <span class="transform-label">Requirements</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Spanish -->
+          <div class="lang-example" id="panel-spanish" role="tabpanel" aria-labelledby="tab-spanish" data-lang="spanish" dir="ltr" lang="es" tabindex="-1">
+            <div class="example-input">
+              <div class="input-label">USER INPUT</div>
+              <p class="input-text">Necesito una aplicación para mi taller que gestione clientes, pedidos y pagos.</p>
+            </div>
+            <div class="transformation-flow">
+              <div class="transform-step">
+                <span class="transform-icon">&#9998;</span>
+                <span class="transform-label">Intent</span>
+              </div>
+              <span class="transform-arrow" aria-hidden="true">→</span>
+              <div class="transform-step">
+                <span class="transform-icon">&#9881;</span>
+                <span class="transform-label">Model</span>
+              </div>
+              <span class="transform-arrow" aria-hidden="true">→</span>
+              <div class="transform-step">
+                <span class="transform-icon">&#10003;</span>
+                <span class="transform-label">Requirements</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Japanese -->
+          <div class="lang-example" id="panel-japanese" role="tabpanel" aria-labelledby="tab-japanese" data-lang="japanese" dir="ltr" lang="ja" tabindex="-1">
+            <div class="example-input">
+              <div class="input-label">USER INPUT</div>
+              <p class="input-text">ワークショップの顧客、注文、支払いを管理するアプリケーションが必要です。</p>
+            </div>
+            <div class="transformation-flow">
+              <div class="transform-step">
+                <span class="transform-icon">&#9998;</span>
+                <span class="transform-label">Intent</span>
+              </div>
+              <span class="transform-arrow" aria-hidden="true">→</span>
+              <div class="transform-step">
+                <span class="transform-icon">&#9881;</span>
+                <span class="transform-label">Model</span>
+              </div>
+              <span class="transform-arrow" aria-hidden="true">→</span>
+              <div class="transform-step">
+                <span class="transform-icon">&#10003;</span>
+                <span class="transform-label">Requirements</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <p class="mother-tongue-caption">Speak naturally. Build technically.</p>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         SECTION 7 — FINAL CTA
+         ============================================================ -->
+    <section id="cta" aria-label="Call to action">
+      <div class="container">
+        <div class="cta-content">
+          <h2 class="cta-statement">Your workflow is already software. We just haven't built it yet.</h2>
+          <div class="cta-buttons">
+            <a href="#hero" class="btn btn-primary btn-large">Turn My Workflow Into Software</a>
+            <a href="#pipeline" class="btn btn-secondary btn-large">Explore the Process</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-brand">FlowForge</div>
+      <p class="footer-tagline">From human workflow to working software.</p>
+      <p class="footer-copy">&copy; 2026 FlowForge</p>
+    </div>
+  </footer>
+
+  <script>
+    /* ============================================================
+       Language Tab Switching (click + keyboard)
+       ============================================================ */
+    document.addEventListener('DOMContentLoaded', function() {
+      const langTabs = document.querySelectorAll('.lang-tab');
+      const langExamples = document.querySelectorAll('.lang-example');
+
+      function activateTab(index, setFocus) {
+        langTabs.forEach((tab, i) => {
+          const isActive = i === index;
+          tab.classList.toggle('active', isActive);
+          tab.setAttribute('aria-selected', String(isActive));
+          tab.setAttribute('tabindex', isActive ? '0' : '-1');
+        });
+
+        langExamples.forEach((panel, i) => {
+          const isActive = i === index;
+          panel.classList.toggle('active', isActive);
+          panel.setAttribute('tabindex', isActive ? '0' : '-1');
+          if (isActive && setFocus) {
+            panel.focus();
+          }
+        });
+      }
+
+      langTabs.forEach((tab, index) => {
+        tab.addEventListener('click', function() {
+          activateTab(index, false);
+        });
+
+        tab.addEventListener('keydown', function(e) {
+          let newIndex = index;
+
+          switch (e.key) {
+            case 'ArrowRight':
+              e.preventDefault();
+              newIndex = (index + 1) % langTabs.length;
+              break;
+            case 'ArrowLeft':
+              e.preventDefault();
+              newIndex = (index - 1 + langTabs.length) % langTabs.length;
+              break;
+            case 'Home':
+              e.preventDefault();
+              newIndex = 0;
+              break;
+            case 'End':
+              e.preventDefault();
+              newIndex = langTabs.length - 1;
+              break;
+            default:
+              return;
+          }
+
+          activateTab(newIndex, true);
+        });
+      });
+    });
+
+    /* ============================================================
+       Hero Typing Animation
+       ============================================================ */
+    document.addEventListener('DOMContentLoaded', function() {
+      var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reducedMotion) return;
+
+      var heroText = "I need an app to manage customers, orders and payments for my workshop.";
+      var heroEl = document.getElementById('typed-text');
+      var heroCursor = document.getElementById('typed-cursor');
+      if (!heroEl) return;
+
+      var charIndex = 0;
+
+      function typeHeroChar() {
+        if (charIndex < heroText.length) {
+          heroEl.textContent += heroText.charAt(charIndex);
+          charIndex++;
+          setTimeout(typeHeroChar, 35 + Math.random() * 30);
+        } else {
+          // Keep cursor blinking for a moment, then stop
+          setTimeout(function() {
+            if (heroCursor) heroCursor.style.animation = 'none';
+            setTimeout(function() {
+              if (heroCursor) heroCursor.style.display = 'none';
+            }, 2000);
+          }, 3000);
+        }
+      }
+
+      // Start after a small delay
+      setTimeout(typeHeroChar, 800);
+    });
+
+    /* ============================================================
+       Product-in-Action: Sequential reveal
+       ============================================================ */
+    document.addEventListener('DOMContentLoaded', function() {
+      var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      var demoText = "I need an app to manage customers, orders, payments and monthly revenue for my workshop.";
+      var demoEl = document.getElementById('demo-typed-text');
+      var demoCursor = document.getElementById('demo-typed-cursor');
+      if (!demoEl || !demoCursor) return;
+
+      var charIdx = 0;
+      var typingDone = false;
+
+      function typeDemoChar() {
+        if (charIdx < demoText.length) {
+          demoEl.textContent += demoText.charAt(charIdx);
+          charIdx++;
+          setTimeout(typeDemoChar, 30 + Math.random() * 25);
+        } else {
+          typingDone = true;
+          // Hide cursor, start revealing
+          setTimeout(function() {
+            demoCursor.style.display = 'none';
+            revealDemo();
+          }, 600);
+        }
+      }
+
+      function revealDemo() {
+        // Data model appears
+        var dataModel = document.getElementById('demo-data-model');
+        if (dataModel) dataModel.classList.add('visible');
+
+        // Entities appear one by one
+        var entities = ['entity-customers', 'entity-orders', 'entity-payments', 'entity-revenue'];
+        entities.forEach(function(id, i) {
+          setTimeout(function() {
+            var el = document.getElementById(id);
+            if (el) el.classList.add('visible');
+          }, 400 + i * 300);
+        });
+
+        // UI panels appear one by one
+        var panels = ['ui-customers', 'ui-orders', 'ui-payments', 'ui-revenue'];
+        panels.forEach(function(id, i) {
+          setTimeout(function() {
+            var el = document.getElementById(id);
+            if (el) el.classList.add('visible');
+          }, 1800 + i * 350);
+        });
+
+        // Deployed badge appears last
+        setTimeout(function() {
+          var deployed = document.getElementById('demo-deployed');
+          if (deployed) deployed.classList.add('visible');
+        }, 3400);
+      }
+
+      // Start after scroll into view or delay
+      if (reducedMotion) {
+        // Show everything immediately
+        var dataModel = document.getElementById('demo-data-model');
+        if (dataModel) dataModel.classList.add('visible');
+        ['entity-customers', 'entity-orders', 'entity-payments', 'entity-revenue',
+         'ui-customers', 'ui-orders', 'ui-payments', 'ui-revenue', 'demo-deployed'].forEach(function(id) {
+          var el = document.getElementById(id);
+          if (el) el.classList.add('visible');
+        });
+        demoEl.textContent = demoText;
+        demoCursor.style.display = 'none';
+      } else {
+        // Use IntersectionObserver for the demo section
+        var demoSection = document.getElementById('product-in-action');
+        if (demoSection && 'IntersectionObserver' in window) {
+          var observer = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+              if (entry.isIntersecting) {
+                setTimeout(typeDemoChar, 500);
+                observer.unobserve(entry.target);
+              }
+            });
+          }, { threshold: 0.2 });
+          observer.observe(demoSection);
+        } else {
+          setTimeout(typeDemoChar, 1500);
+        }
+      }
+    });
+  </script>
+</body>
+</html>
