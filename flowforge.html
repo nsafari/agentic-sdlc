@@ -348,6 +348,25 @@
       justify-content: center;
       flex-wrap: wrap;
     }
+    .hero-open-source {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      margin-top: var(--space-lg);
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+    }
+    .hero-open-source::before {
+      content: '';
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background-color: var(--green);
+      box-shadow: 0 0 8px var(--green);
+    }
 
     .hero-flow {
       position: relative;
@@ -1584,7 +1603,80 @@
       letter-spacing: 0.05em;
     }
     .footer-tagline { color: var(--text-tertiary); margin-bottom: var(--space-md); }
+    .footer-open-source { font-size: 0.75rem; color: var(--text-secondary); margin-bottom: var(--space-xs); }
     .footer-copy { font-size: 0.75rem; color: var(--text-tertiary); }
+
+    /* --- Waitlist dialog --- */
+    .waitlist-dialog {
+      width: min(92vw, 420px);
+      padding: 0;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xl);
+      background-color: var(--bg-secondary);
+      color: var(--text-primary);
+      box-shadow: var(--shadow-lg);
+    }
+    .waitlist-dialog::backdrop {
+      background: rgba(3, 7, 18, 0.72);
+      backdrop-filter: blur(4px);
+    }
+    .waitlist-dialog[open] {
+      animation: waitlist-in 0.22s ease;
+    }
+    @keyframes waitlist-in {
+      from { opacity: 0; transform: translateY(12px) scale(0.98); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    .waitlist-card {
+      position: relative;
+      padding: var(--space-2xl) var(--space-xl);
+    }
+    .waitlist-close {
+      position: absolute;
+      top: var(--space-sm);
+      right: var(--space-sm);
+      width: 36px;
+      height: 36px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: transparent;
+      border: none;
+      border-radius: var(--radius-sm);
+      color: var(--text-secondary);
+      cursor: pointer;
+    }
+    .waitlist-close:hover { color: var(--text-primary); background: var(--bg-tertiary); }
+    .waitlist-title { font-size: 1.5rem; margin-bottom: var(--space-sm); }
+    .waitlist-subtitle { color: var(--text-secondary); font-size: 0.9375rem; margin-bottom: var(--space-lg); }
+    .waitlist-form { display: flex; flex-direction: column; gap: var(--space-md); }
+    .waitlist-field { display: flex; flex-direction: column; gap: var(--space-xs); }
+    .waitlist-label {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+    }
+    .waitlist-input {
+      width: 100%;
+      padding: var(--space-sm) var(--space-md);
+      background: var(--bg-primary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      color: var(--text-primary);
+      font-family: var(--font-body);
+      font-size: 1rem;
+    }
+    .waitlist-input::placeholder { color: var(--text-tertiary); }
+    .waitlist-input[aria-invalid="true"] { border-color: #ef4444; }
+    .waitlist-error { color: #ef4444; font-size: 0.8125rem; }
+    .waitlist-form .btn { width: 100%; }
+    .waitlist-note { font-size: 0.75rem; color: var(--text-tertiary); text-align: center; }
+    #waitlist-success { text-align: center; padding: var(--space-md) 0; }
+    .waitlist-success-icon { margin-bottom: var(--space-sm); }
+    .waitlist-success-title { font-size: 1.25rem; margin-bottom: var(--space-xs); }
+    .waitlist-success-sub { color: var(--text-secondary); font-size: 0.9375rem; margin-bottom: var(--space-lg); }
   </style>
 </head>
 <body>
@@ -1602,6 +1694,7 @@
       <div class="hero-cta">
         <a href="#pipeline" class="btn btn-primary">See How It Works</a>
       </div>
+      <p class="hero-open-source">Open source</p>
     </div>
 
     <div class="hero-flow" role="img" aria-label="Natural language request transforming into a deployed application">
@@ -2330,7 +2423,7 @@ router.<span class="fn">get</span>(<span class="str">'/low-stock'</span>, <span 
         <div class="cta-content">
           <h2 class="cta-statement">Your workflow is already software. We just haven't built it yet.</h2>
           <div class="cta-buttons">
-            <a href="#hero" class="btn btn-primary btn-large">Turn My Workflow Into Software</a>
+            <a href="#hero" id="waitlist-trigger" aria-haspopup="dialog" class="btn btn-primary btn-large">Turn My Workflow Into Software</a>
             <a href="#pipeline" class="btn btn-secondary btn-large">Explore the Process</a>
           </div>
         </div>
@@ -2342,9 +2435,39 @@ router.<span class="fn">get</span>(<span class="str">'/low-stock'</span>, <span 
     <div class="container">
       <div class="footer-brand">FlowForge</div>
       <p class="footer-tagline">From human workflow to working software.</p>
+      <p class="footer-open-source">Open source</p>
       <p class="footer-copy">&copy; 2026 FlowForge</p>
     </div>
   </footer>
+
+  <dialog id="waitlist-dialog" class="waitlist-dialog" aria-labelledby="waitlist-title">
+    <div class="waitlist-card">
+      <button type="button" class="waitlist-close" id="waitlist-close" aria-label="Close">
+        <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="M3 3l10 10M13 3L3 13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+
+      <div id="waitlist-form-wrap">
+        <h2 id="waitlist-title" class="waitlist-title">Be the first to know</h2>
+        <p class="waitlist-subtitle">FlowForge isn't open yet. Leave your email and you'll be first in line.</p>
+        <form id="waitlist-form" class="waitlist-form" novalidate>
+          <div class="waitlist-field">
+            <label class="waitlist-label" for="waitlist-email">Email address</label>
+            <input class="waitlist-input" type="email" id="waitlist-email" name="email" inputmode="email" autocomplete="email" spellcheck="false" placeholder="you@example.com" required aria-describedby="waitlist-error">
+            <p class="waitlist-error" id="waitlist-error" role="alert" hidden></p>
+          </div>
+          <button type="submit" class="btn btn-primary" id="waitlist-submit">Get early access</button>
+          <p class="waitlist-note">No spam. One email when it's ready.</p>
+        </form>
+      </div>
+
+      <div id="waitlist-success" hidden>
+        <svg class="waitlist-success-icon" viewBox="0 0 24 24" width="40" height="40" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="none" stroke="var(--green)" stroke-width="2"/><polyline points="7,12 10.5,15.5 17,8.5" fill="none" stroke="var(--green)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <h2 class="waitlist-success-title">You're on the list.</h2>
+        <p class="waitlist-success-sub">We'll email you the moment FlowForge is ready.</p>
+        <button type="button" class="btn btn-secondary" id="waitlist-success-close">Done</button>
+      </div>
+    </div>
+  </dialog>
 
   <script>
     /* ============================================================
@@ -2864,6 +2987,191 @@ router.<span class="fn">get</span>(<span class="str">'/low-stock'</span>, <span 
         }, 100);
       });
     });
+  </script>
+
+  <script>
+    /* FlowForge analytics: tracks pageview, click, scroll depth, section view,
+       and view time; POSTs batched events to a Google Apps Script Web App that
+       appends rows to a Google Sheet (see analytics-gas.js). Disabled until
+       ENDPOINT is set. */
+    (function () {
+      var ENDPOINT = 'https://script.google.com/macros/s/AKfycbyZPzkW7W_EqOUfuLdF-bRzkrCBFIXawno21YeLSFL7b9qsPkFmbPmnxiWbYBUOLTF5sw/exec';
+
+      if (!ENDPOINT) return;
+
+      var sessionId = 's' + Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+      var startTime = Date.now();
+      var queue = [];
+      var flushTimer = null;
+      var viewTimeReported = false;
+
+      function send(batch) {
+        if (!batch.length) return;
+        var body = JSON.stringify(batch);
+        try {
+          if (navigator.sendBeacon) {
+            navigator.sendBeacon(ENDPOINT, body);
+          } else {
+            fetch(ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=UTF-8' }, body: body, keepalive: true }).catch(function () {});
+          }
+        } catch (e) {}
+      }
+
+      function flush() {
+        clearTimeout(flushTimer);
+        flushTimer = null;
+        if (!queue.length) return;
+        send(queue.splice(0, queue.length));
+      }
+
+      function scheduleFlush() {
+        if (flushTimer) return;
+        flushTimer = setTimeout(flush, 5000);
+      }
+
+      function track(type, data) {
+        var event = { sessionId: sessionId, type: type, ts: new Date().toISOString(), path: location.pathname };
+        for (var k in (data || {})) event[k] = data[k];
+        queue.push(event);
+        if (queue.length >= 25) flush();
+        scheduleFlush();
+      }
+
+      track('pageview', { label: document.title, referrer: document.referrer, lang: navigator.language });
+
+      document.addEventListener('click', function (e) {
+        var el = e.target && e.target.closest ? e.target.closest('a, button, [role="tab"]') : null;
+        if (!el) return;
+        var label = (el.textContent || '').trim().slice(0, 100) || el.id || el.getAttribute('aria-label') || el.tagName;
+        track('click', { label: label, tag: el.tagName.toLowerCase(), href: el.getAttribute('href') || '' });
+      }, true);
+
+      var depths = { 25: false, 50: false, 75: false, 100: false };
+      var scrollTick = false;
+      window.addEventListener('scroll', function () {
+        if (scrollTick) return;
+        scrollTick = true;
+        requestAnimationFrame(function () {
+          scrollTick = false;
+          var doc = document.documentElement;
+          var pct = (doc.scrollTop + window.innerHeight) / doc.scrollHeight * 100;
+          for (var d in depths) {
+            if (!depths[d] && pct >= Number(d)) {
+              depths[d] = true;
+              track('scroll', { label: d + '%' });
+            }
+          }
+        });
+      }, { passive: true });
+
+      var seenSections = {};
+      if ('IntersectionObserver' in window) {
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting && entry.target.id && !seenSections[entry.target.id]) {
+              seenSections[entry.target.id] = true;
+              track('section', { label: entry.target.id });
+            }
+          });
+        }, { threshold: 0.5 });
+        document.querySelectorAll('main section[id], header#hero').forEach(function (sec) { io.observe(sec); });
+      }
+
+      function reportViewTime() {
+        if (viewTimeReported) return;
+        viewTimeReported = true;
+        track('viewtime', { label: 'seconds', value: Math.round((Date.now() - startTime) / 1000) });
+        flush();
+      }
+      document.addEventListener('visibilitychange', function () { if (document.hidden) reportViewTime(); });
+      window.addEventListener('pagehide', reportViewTime);
+    })();
+  </script>
+
+  <script>
+    /* Waitlist signup: opens from the primary CTA and posts the email to
+       WAITLIST_ENDPOINT (Google Apps Script, "waitlist" sheet). */
+    (function () {
+      var dialog = document.getElementById('waitlist-dialog');
+      var trigger = document.getElementById('waitlist-trigger');
+      if (!dialog || !trigger) return;
+
+      var WAITLIST_ENDPOINT = '';
+
+      var form = document.getElementById('waitlist-form');
+      var formWrap = document.getElementById('waitlist-form-wrap');
+      var successEl = document.getElementById('waitlist-success');
+      var emailInput = document.getElementById('waitlist-email');
+      var errorEl = document.getElementById('waitlist-error');
+      var submitBtn = document.getElementById('waitlist-submit');
+
+      var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+      function setError(msg) {
+        errorEl.textContent = msg || '';
+        errorEl.hidden = !msg;
+        emailInput.setAttribute('aria-invalid', msg ? 'true' : 'false');
+      }
+
+      function open() {
+        formWrap.hidden = false;
+        successEl.hidden = true;
+        emailInput.value = '';
+        setError('');
+        if (typeof dialog.showModal === 'function') dialog.showModal();
+        else dialog.setAttribute('open', '');
+        emailInput.focus();
+      }
+
+      function close() {
+        if (typeof dialog.close === 'function') dialog.close();
+        else dialog.removeAttribute('open');
+      }
+
+      trigger.addEventListener('click', function (e) { e.preventDefault(); open(); });
+      document.getElementById('waitlist-close').addEventListener('click', close);
+      document.getElementById('waitlist-success-close').addEventListener('click', close);
+
+      dialog.addEventListener('click', function (e) { if (e.target === dialog) close(); });
+      dialog.addEventListener('close', function () { trigger.focus(); });
+      emailInput.addEventListener('input', function () { setError(''); });
+
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var email = emailInput.value.trim();
+
+        if (!email) { setError('Enter your email address.'); emailInput.focus(); return; }
+        if (!EMAIL_RE.test(email)) { setError("That email doesn't look right — check it and try again."); emailInput.focus(); return; }
+
+        setError('');
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Submitting…';
+
+        function showSuccess() {
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Get early access';
+          formWrap.hidden = true;
+          successEl.hidden = false;
+        }
+
+        if (!WAITLIST_ENDPOINT) {
+          console.warn('FlowForge: WAITLIST_ENDPOINT is empty — email not stored.');
+          showSuccess();
+          return;
+        }
+
+        fetch(WAITLIST_ENDPOINT, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=UTF-8' },
+          body: JSON.stringify({ type: 'waitlist', email: email, ts: new Date().toISOString(), path: location.pathname }),
+          keepalive: true
+        }).then(showSuccess).catch(function () {
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Get early access';
+          setError('Something went wrong. Please try again.');
+        });
+      });
+    })();
   </script>
 </body>
 </html>
