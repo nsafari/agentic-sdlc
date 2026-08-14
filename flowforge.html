@@ -1608,7 +1608,13 @@
 
     /* --- Waitlist dialog --- */
     .waitlist-dialog {
+      position: fixed;
+      inset: 0;
+      margin: auto;
       width: min(92vw, 420px);
+      height: fit-content;
+      max-height: calc(100vh - 3rem);
+      overflow: auto;
       padding: 0;
       border: 1px solid var(--border);
       border-radius: var(--radius-xl);
@@ -2995,7 +3001,7 @@ router.<span class="fn">get</span>(<span class="str">'/low-stock'</span>, <span 
        appends rows to a Google Sheet (see analytics-gas.js). Disabled until
        ENDPOINT is set. */
     (function () {
-      var ENDPOINT = 'https://script.google.com/macros/s/AKfycbyZPzkW7W_EqOUfuLdF-bRzkrCBFIXawno21YeLSFL7b9qsPkFmbPmnxiWbYBUOLTF5sw/exec';
+      var ENDPOINT = 'https://script.google.com/macros/s/AKfycbxvmv_do01oxSSPG-UYQkw05Q_ngV8JkG32wSIIFIZW_s54xM--mP5_JRJIjd6pnHdwrA/exec';
 
       if (!ENDPOINT) return;
 
@@ -3096,7 +3102,7 @@ router.<span class="fn">get</span>(<span class="str">'/low-stock'</span>, <span 
       var trigger = document.getElementById('waitlist-trigger');
       if (!dialog || !trigger) return;
 
-      var WAITLIST_ENDPOINT = '';
+      var WAITLIST_ENDPOINT = 'https://script.google.com/macros/s/AKfycbxvmv_do01oxSSPG-UYQkw05Q_ngV8JkG32wSIIFIZW_s54xM--mP5_JRJIjd6pnHdwrA/exec';
 
       var form = document.getElementById('waitlist-form');
       var formWrap = document.getElementById('waitlist-form-wrap');
