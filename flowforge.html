@@ -564,7 +564,7 @@
     }
 
     /* ============================================================
-       SECTION 3 — PRODUCT IN ACTION (3 scenarios with mockups)
+       SECTION 3 — PRODUCT IN ACTION (chat walkthrough)
        ============================================================ */
     #product-in-action { background-color: var(--bg-primary); position: relative; }
     #product-in-action h2 { text-align: center; margin-bottom: var(--space-sm); }
@@ -595,118 +595,160 @@
       border-color: var(--cyan);
     }
 
-    /* Scenario panels */
-    .scenario-panel { display: none; animation: fade-in 0.4s ease; }
-    .scenario-panel.active { display: block; }
-
+    /* Demo request line */
     .demo-request-line {
       text-align: center;
       margin-bottom: var(--space-lg);
-    }
-    .demo-request-line p {
       font-family: var(--font-mono);
       font-size: 0.9375rem;
       color: var(--amber);
       max-width: 640px;
-      margin: 0 auto;
+      margin-left: auto;
+      margin-right: auto;
       line-height: 1.6;
     }
 
-    /* Build progress bar */
-    .build-progress {
+    /* Step rail */
+    .step-rail {
       display: flex;
       justify-content: center;
-      gap: var(--space-sm);
-      margin-bottom: var(--space-xl);
+      gap: 4px;
+      margin-bottom: var(--space-lg);
       flex-wrap: wrap;
     }
-    .build-dot {
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    .step-rail-chip {
+      padding: var(--space-xs) var(--space-sm);
       font-family: var(--font-mono);
-      font-size: 0.625rem;
-      font-weight: 600;
+      font-size: 0.6875rem;
+      font-weight: 500;
+      color: var(--text-tertiary);
       background-color: var(--bg-tertiary);
       border: 1px solid var(--border);
-      color: var(--text-tertiary);
-      transition: all 0.3s ease;
-      position: relative;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+      min-height: 28px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
     }
-    .build-dot.active {
+    .step-rail-chip:hover { border-color: var(--cyan); color: var(--text-primary); }
+    .step-rail-chip[aria-current="step"] {
       background-color: var(--cyan-dim);
       border-color: var(--cyan);
       color: var(--cyan);
-      box-shadow: 0 0 8px var(--cyan-dim);
     }
-    .build-dot.done {
+    .step-rail-chip.done {
       background-color: var(--green-dim);
       border-color: var(--green);
       color: var(--green);
     }
-    .build-connector {
-      width: 16px;
-      height: 2px;
-      background-color: var(--border);
-      align-self: center;
-      transition: background-color 0.3s ease;
-    }
-    .build-connector.active { background: linear-gradient(to right, var(--green), var(--cyan)); }
 
-    /* Build stages container */
-    .build-stage { display: none; }
-    .build-stage.active { display: block; animation: fade-in 0.4s ease; }
-
-    /* Terminal */
-    .build-terminal {
+    /* Step frame */
+    .step-frame {
       background-color: var(--bg-secondary);
       border: 1px solid var(--border);
       border-radius: var(--radius-lg);
-      overflow: hidden;
-      max-width: 600px;
-      margin: 0 auto;
+      padding: var(--space-lg);
+      max-width: 800px;
+      margin: 0 auto var(--space-lg);
+      animation: fade-in 0.35s ease;
+      min-height: 340px;
     }
-    .build-terminal-header {
+
+    .step-header {
       display: flex;
       align-items: center;
       gap: var(--space-sm);
-      padding: var(--space-sm) var(--space-md);
-      background-color: var(--bg-tertiary);
-      border-bottom: 1px solid var(--border);
+      margin-bottom: var(--space-xs);
     }
-    .term-dot { width: 10px; height: 10px; border-radius: 50%; }
-    .term-dot.red { background-color: #ef4444; }
-    .term-dot.yellow { background-color: #f59e0b; }
-    .term-dot.green { background-color: #22c55e; }
-    .term-title { font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-tertiary); margin-left: var(--space-sm); }
-    .build-terminal-body {
-      padding: var(--space-lg);
+    .step-number {
       font-family: var(--font-mono);
-      font-size: 0.875rem;
-      line-height: 1.7;
-      color: var(--text-primary);
-      min-height: 80px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--cyan);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
     }
-    .build-terminal-body .t-cursor {
-      display: inline-block;
-      width: 8px;
-      height: 1.1em;
-      background-color: var(--cyan);
-      vertical-align: text-bottom;
-      animation: cursor-blink 0.8s step-end infinite;
+    .step-title {
+      font-family: var(--font-mono);
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .step-caption {
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+      margin-bottom: var(--space-lg);
+      margin-top: 0;
     }
 
-    /* Repo created */
-    .build-repo {
+    /* Chat area */
+    .chat-area {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-md);
+      margin-bottom: var(--space-lg);
+    }
+    .chat-bubble {
+      max-width: 85%;
+      padding: var(--space-sm) var(--space-md);
+      border-radius: var(--radius-md);
+      font-size: 0.9375rem;
+      line-height: 1.5;
+      position: relative;
+    }
+    .chat-bubble-user {
+      align-self: flex-start;
+      background-color: var(--bg-tertiary);
+      border: 1px solid var(--amber-dim);
+      color: var(--text-primary);
+    }
+    .chat-bubble-user::before {
+      content: attr(aria-label);
+      display: block;
+      font-family: var(--font-mono);
+      font-size: 0.6875rem;
+      font-weight: 600;
+      color: var(--amber);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 4px;
+    }
+    .chat-bubble-flowforge {
+      align-self: flex-end;
+      background-color: var(--bg-primary);
+      border: 1px solid var(--cyan-dim);
+      color: var(--text-primary);
+    }
+    .chat-bubble-flowforge::before {
+      content: attr(aria-label);
+      display: block;
+      font-family: var(--font-mono);
+      font-size: 0.6875rem;
+      font-weight: 600;
+      color: var(--cyan);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 4px;
+      text-align: right;
+    }
+
+    /* Step artifact */
+    .step-artifact {
+      animation: fade-in 0.35s ease;
+    }
+
+    /* Artifact: repo badges */
+    .artifact-repo {
       display: flex;
       align-items: center;
       justify-content: center;
       gap: var(--space-md);
-      max-width: 600px;
-      margin: 0 auto var(--space-lg);
+      flex-wrap: wrap;
     }
     .repo-badge {
       display: inline-flex;
@@ -721,33 +763,66 @@
       border-radius: var(--radius-sm);
     }
 
-    /* Code lines */
-    .build-code {
-      background-color: var(--bg-secondary);
+    /* Artifact: code snippet */
+    .artifact-code {
+      background-color: var(--bg-primary);
       border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      padding: var(--space-lg);
-      max-width: 600px;
-      margin: 0 auto var(--space-lg);
+      border-radius: var(--radius-md);
+      padding: var(--space-md) var(--space-lg);
       font-family: var(--font-mono);
       font-size: 0.8125rem;
       line-height: 1.8;
       color: var(--text-secondary);
       overflow-x: auto;
     }
-    .build-code .kw { color: var(--cyan); }
-    .build-code .str { color: var(--green); }
-    .build-code .cmt { color: var(--text-tertiary); }
-    .build-code .fn { color: var(--amber); }
+    .artifact-code .kw { color: var(--cyan); }
+    .artifact-code .str { color: var(--green); }
+    .artifact-code .cmt { color: var(--text-tertiary); }
+    .artifact-code .fn { color: var(--amber); }
+    .artifact-code .type-cursor {
+      display: inline-block;
+      width: 8px;
+      height: 1.1em;
+      background-color: var(--cyan);
+      vertical-align: text-bottom;
+      animation: cursor-blink 0.8s step-end infinite;
+    }
+    .chat-bubble .type-cursor {
+      display: inline-block;
+      width: 7px;
+      height: 1em;
+      margin-left: 1px;
+      background-color: currentColor;
+      vertical-align: text-bottom;
+      animation: cursor-blink 0.8s step-end infinite;
+    }
+    .typing-indicator {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 2px 0;
+    }
+    .typing-indicator span {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background-color: var(--cyan);
+      animation: typing-dot 1.2s ease-in-out infinite;
+    }
+    .typing-indicator span:nth-child(2) { animation-delay: 0.15s; }
+    .typing-indicator span:nth-child(3) { animation-delay: 0.3s; }
+    @keyframes typing-dot {
+      0%, 60%, 100% { opacity: 0.25; transform: translateY(0); }
+      30% { opacity: 1; transform: translateY(-3px); }
+    }
 
-    /* Validation */
-    .build-validate {
+    /* Artifact: validation badges */
+    .artifact-validate {
       display: flex;
       align-items: center;
       justify-content: center;
       gap: var(--space-md);
-      max-width: 600px;
-      margin: 0 auto var(--space-lg);
+      flex-wrap: wrap;
     }
     .validate-badge {
       display: inline-flex;
@@ -762,19 +837,19 @@
       border-radius: var(--radius-sm);
     }
 
-    /* Browser window mockup */
-    .browser-mockup {
+    /* Artifact: browser window */
+    .artifact-browser {
       background-color: var(--bg-secondary);
       border: 1px solid var(--border);
       border-radius: var(--radius-lg);
       overflow: hidden;
-      max-width: 800px;
+      max-width: 720px;
       margin: 0 auto;
       opacity: 0;
-      transform: scale(0.95) translateY(10px);
+      transform: scale(0.96) translateY(8px);
       transition: opacity 0.5s ease, transform 0.5s ease;
     }
-    .browser-mockup.visible {
+    .artifact-browser.visible {
       opacity: 1;
       transform: scale(1) translateY(0);
     }
@@ -799,7 +874,86 @@
     }
     .browser-body {
       padding: var(--space-md);
-      min-height: 300px;
+      min-height: 280px;
+    }
+    .term-dot { width: 10px; height: 10px; border-radius: 50%; }
+    .term-dot.red { background-color: #ef4444; }
+    .term-dot.yellow { background-color: #f59e0b; }
+    .term-dot.green { background-color: #22c55e; }
+
+    /* Artifact: version badge */
+    .version-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+      padding: var(--space-xs) var(--space-sm);
+      background-color: var(--green-dim);
+      color: var(--green);
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 600;
+      border-radius: var(--radius-sm);
+    }
+    .version-badge .version-arrow {
+      color: var(--text-tertiary);
+      margin: 0 2px;
+    }
+
+    /* Artifact: summary card (Meter step) */
+    .artifact-summary {
+      background-color: var(--bg-primary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: var(--space-md) var(--space-lg);
+      max-width: 400px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-sm);
+    }
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.875rem;
+    }
+    .summary-label { color: var(--text-secondary); }
+    .summary-value { font-family: var(--font-mono); font-weight: 600; color: var(--text-primary); }
+
+    /* Step navigation */
+    .step-nav {
+      display: flex;
+      justify-content: center;
+      gap: var(--space-md);
+      margin-top: var(--space-lg);
+    }
+    .step-nav-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-sm);
+      padding: var(--space-sm) var(--space-lg);
+      font-family: var(--font-mono);
+      font-size: 0.8125rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      background-color: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      min-height: 44px;
+    }
+    .step-nav-btn:hover:not(:disabled) {
+      border-color: var(--cyan);
+      color: var(--cyan);
+    }
+    .step-nav-btn:disabled {
+      opacity: 0.35;
+      cursor: default;
+    }
+    .step-nav-btn:focus-visible {
+      outline: 2px solid var(--cyan);
+      outline-offset: 2px;
+      box-shadow: 0 0 0 4px var(--cyan-dim);
     }
 
     /* --- MOCKUP: Workshop --- */
@@ -1061,9 +1215,55 @@
     .mock-stock-fill.low { background-color: #ef4444; }
     .mock-inv-low { color: #ef4444; font-weight: 600; }
 
+    /* Salon: weekly schedule view (v1.1.0) */
+    .mock-schedule-view {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-sm);
+    }
+    .mock-schedule-row {
+      display: grid;
+      grid-template-columns: 80px 1fr 1fr 1fr;
+      gap: var(--space-sm);
+      padding: var(--space-xs) 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.75rem;
+    }
+    .mock-schedule-row:last-child { border-bottom: none; }
+    .mock-schedule-day { font-family: var(--font-mono); color: var(--cyan); font-weight: 500; }
+    .mock-schedule-slot {
+      padding: 2px 6px;
+      border-radius: var(--radius-sm);
+      text-align: center;
+    }
+    .mock-schedule-slot.booked { background-color: var(--cyan-dim); color: var(--cyan); }
+    .mock-schedule-slot.available { background-color: var(--green-dim); color: var(--green); }
+    .mock-schedule-slot.off { background-color: var(--bg-tertiary); color: var(--text-tertiary); }
+
+    /* Retail: reorder button (v1.1.0) */
+    .mock-reorder-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 2px 8px;
+      font-family: var(--font-mono);
+      font-size: 0.625rem;
+      font-weight: 600;
+      color: var(--green);
+      background-color: var(--green-dim);
+      border: 1px solid var(--green-dim);
+      border-radius: var(--radius-sm);
+      cursor: default;
+    }
+
+    /* --- Responsive --- */
     @media (max-width: 767px) {
       .scenario-tabs { gap: var(--space-xs); flex-wrap: wrap; }
       .scenario-tab { padding: var(--space-sm) var(--space-md); font-size: 0.8125rem; }
+      .step-frame { padding: var(--space-md); min-height: auto; }
+      .chat-bubble { max-width: 95%; }
+      .step-rail { gap: 3px; }
+      .step-rail-chip { font-size: 0.625rem; padding: 2px 6px; }
       .mock-workshop { grid-template-columns: 1fr; }
       .mock-sidebar { flex-direction: row; flex-wrap: wrap; gap: var(--space-xs); }
       .mock-sidebar-logo { width: 100%; }
@@ -1074,10 +1274,9 @@
       .mock-table-header > :last-child, .mock-table-row > :last-child { display: none; }
       .mock-inv-header, .mock-inv-row { grid-template-columns: 1.5fr 0.75fr 1.5fr; }
       .mock-inv-header > :last-child, .mock-inv-row > :last-child { display: none; }
-      .build-progress { gap: var(--space-xs); }
-      .build-dot { width: 24px; height: 24px; font-size: 0.5625rem; }
-      .build-connector { width: 8px; }
       .browser-body { padding: var(--space-sm); }
+      .artifact-code { font-size: 0.6875rem; padding: var(--space-sm) var(--space-md); }
+      .step-nav-btn { font-size: 0.75rem; padding: var(--space-sm) var(--space-md); }
     }
 
     /* ============================================================
@@ -1773,540 +1972,48 @@
     </section>
 
     <!-- ============================================================
-         SECTION 3 — PRODUCT IN ACTION (3 scenarios)
+         SECTION 3 — PRODUCT IN ACTION (interactive chat walkthrough)
          ============================================================ -->
     <section id="product-in-action" aria-label="The product in action: three build scenarios">
       <div class="container">
         <h2>One Concrete Example</h2>
 
-        <div class="scenario-tabs" role="tablist" aria-label="Build scenario">
-          <button class="scenario-tab active" role="tab" aria-selected="true" aria-controls="panel-workshop" data-scenario="workshop">Workshop</button>
-          <button class="scenario-tab" role="tab" aria-selected="false" aria-controls="panel-salon" data-scenario="salon">Salon</button>
-          <button class="scenario-tab" role="tab" aria-selected="false" aria-controls="panel-retail" data-scenario="retail">Retail</button>
+        <div class="scenario-tabs" role="tablist" aria-label="Build scenario" id="walkthrough-tabs">
+          <button class="scenario-tab active" role="tab" aria-selected="true" id="tab-workshop" data-scenario="workshop" tabindex="0">Workshop</button>
+          <button class="scenario-tab" role="tab" aria-selected="false" id="tab-salon" data-scenario="salon" tabindex="-1">Salon</button>
+          <button class="scenario-tab" role="tab" aria-selected="false" id="tab-retail" data-scenario="retail" tabindex="-1">Retail</button>
         </div>
 
-        <!-- WORKSHOP scenario -->
-        <div class="scenario-panel active" id="panel-workshop" role="tabpanel" aria-labelledby="tab-workshop">
-          <div class="demo-request-line">
-            <p>"I need software to manage my workshop customers, orders, payments and revenue."</p>
-          </div>
-          <div class="build-progress" aria-label="Build progress">
-            <div class="build-dot" data-step="0">01</div><div class="build-connector"></div>
-            <div class="build-dot" data-step="1">02</div><div class="build-connector"></div>
-            <div class="build-dot" data-step="2">03</div><div class="build-connector"></div>
-            <div class="build-dot" data-step="3">04</div><div class="build-connector"></div>
-            <div class="build-dot" data-step="4">05</div><div class="build-connector"></div>
-            <div class="build-dot" data-step="5">06</div><div class="build-connector"></div>
-            <div class="build-dot" data-step="6">07</div><div class="build-connector"></div>
-            <div class="build-dot" data-step="7">08</div><div class="build-connector"></div>
-            <div class="build-dot" data-step="8">09</div>
-          </div>
-          <div class="build-stage" data-stage="0">
-            <div class="build-terminal">
-              <div class="build-terminal-header">
-                <span class="term-dot red"></span><span class="term-dot yellow"></span><span class="term-dot green"></span>
-                <span class="term-title">flowforge — new project</span>
-              </div>
-              <div class="build-terminal-body">
-                <span class="t-text"></span><span class="t-cursor"></span>
-              </div>
-            </div>
-          </div>
-          <div class="build-stage" data-stage="1">
-            <div class="build-terminal">
-              <div class="build-terminal-header">
-                <span class="term-dot red"></span><span class="term-dot yellow"></span><span class="term-dot green"></span>
-                <span class="term-title">flowforge — analyzing</span>
-              </div>
-              <div class="build-terminal-body" style="color: var(--cyan);">
-                Detected: Web Application<br>
-                Entities: customers, orders, payments, revenue<br>
-                Generating requirements...
-              </div>
-            </div>
-          </div>
-          <div class="build-stage" data-stage="2">
-            <div class="build-repo">
-              <span class="repo-badge">repo created</span>
-              <span class="repo-badge" style="background:var(--green-dim);color:var(--green);">ci configured</span>
-              <span style="font-family:var(--font-mono);font-size:0.75rem;color:var(--text-tertiary);">workshop-app</span>
-            </div>
-          </div>
-          <div class="build-stage" data-stage="3">
-            <div class="build-code">
-<span class="cmt">// routes/orders.js</span>
-<span class="kw">const</span> express = <span class="fn">require</span>(<span class="str">'express'</span>);
-<span class="kw">const</span> router = express.<span class="fn">Router</span>();
+        <!-- Shared walkthrough container — rendered by JS -->
+        <div id="walkthrough" aria-live="polite" aria-atomic="false">
+          <p class="demo-request-line" id="walkthrough-request"></p>
 
-router.<span class="fn">get</span>(<span class="str">'/'</span>, <span class="kw">async</span> (req, res) => {
-  <span class="kw">const</span> orders = <span class="kw">await</span> Order.<span class="fn">findAll</span>({
-    include: [<span class="str">'customer'</span>, <span class="str">'payments'</span>]
-  });
-  res.<span class="fn">json</span>(orders);
-});
+          <!-- Progress rail -->
+          <div class="step-rail" role="navigation" aria-label="Walkthrough steps" id="step-rail"></div>
 
-<span class="kw">module</span>.exports = router;
+          <!-- Step frame -->
+          <div class="step-frame" id="step-frame">
+            <div class="step-header">
+              <span class="step-number" id="step-number"></span>
+              <span class="step-title" id="step-title"></span>
             </div>
-          </div>
-          <div class="build-stage" data-stage="4">
-            <div class="build-validate">
-              <span class="validate-badge">
-                <svg width="12" height="12" viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3" fill="none" stroke="currentColor" stroke-width="2"/></svg>
-                build passed
-              </span>
-              <span class="validate-badge">
-                <svg width="12" height="12" viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3" fill="none" stroke="currentColor" stroke-width="2"/></svg>
-                24 tests passed
-              </span>
-              <span class="validate-badge">
-                <svg width="12" height="12" viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3" fill="none" stroke="currentColor" stroke-width="2"/></svg>
-                security: clean
-              </span>
-            </div>
-          </div>
-          <div class="build-stage" data-stage="5">
-            <div class="build-repo">
-              <span class="repo-badge">deployed</span>
-              <span style="font-family:var(--font-mono);font-size:0.75rem;color:var(--text-tertiary);">v1.0.0</span>
-            </div>
-          </div>
-          <div class="build-stage" data-stage="6">
-            <div class="browser-mockup visible">
-              <div class="browser-bar">
-                <span class="term-dot red"></span><span class="term-dot yellow"></span><span class="term-dot green"></span>
-                <span class="browser-url">workshop-app.flowforge.app</span>
-              </div>
-              <div class="browser-body">
-                <div class="mock-workshop">
-                  <div class="mock-sidebar">
-                    <div class="mock-sidebar-logo">WorkshopApp</div>
-                    <div class="mock-nav-item mock-active">Dashboard</div>
-                    <div class="mock-nav-item">Customers</div>
-                    <div class="mock-nav-item">Orders</div>
-                    <div class="mock-nav-item">Payments</div>
-                    <div class="mock-nav-item">Reports</div>
-                  </div>
-                  <div class="mock-dashboard">
-                    <div class="mock-stats">
-                      <div class="mock-stat-card"><div class="mock-stat-label">Customers</div><div class="mock-stat-value cyan">142</div></div>
-                      <div class="mock-stat-card"><div class="mock-stat-label">Active Orders</div><div class="mock-stat-value amber">23</div></div>
-                      <div class="mock-stat-card"><div class="mock-stat-label">Revenue (MTD)</div><div class="mock-stat-value green">€12,480</div></div>
-                    </div>
-                    <div class="mock-chart">
-                      <div class="mock-chart-title">Monthly Revenue</div>
-                      <div class="mock-chart-bars">
-                        <div class="mock-bar" style="height:40%"></div>
-                        <div class="mock-bar" style="height:55%"></div>
-                        <div class="mock-bar" style="height:45%"></div>
-                        <div class="mock-bar" style="height:70%"></div>
-                        <div class="mock-bar" style="height:60%"></div>
-                        <div class="mock-bar" style="height:80%"></div>
-                        <div class="mock-bar" style="height:65%"></div>
-                        <div class="mock-bar" style="height:90%"></div>
-                        <div class="mock-bar" style="height:75%"></div>
-                        <div class="mock-bar" style="height:85%"></div>
-                        <div class="mock-bar" style="height:95%"></div>
-                        <div class="mock-bar" style="height:100%"></div>
-                      </div>
-                    </div>
-                    <div class="mock-table">
-                      <div class="mock-table-header"><span>Order</span><span>Customer</span><span>Amount</span><span>Status</span></div>
-                      <div class="mock-table-row"><span>#1042</span><span>M. Jansen</span><span>€320</span><span class="mock-chip mock-chip-paid">Paid</span></div>
-                      <div class="mock-table-row"><span>#1041</span><span>A. de Vries</span><span>€185</span><span class="mock-chip mock-chip-pending">Pending</span></div>
-                      <div class="mock-table-row"><span>#1040</span><span>S. Bakker</span><span>€540</span><span class="mock-chip mock-chip-paid">Paid</span></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="build-stage" data-stage="7">
-            <div class="browser-mockup visible">
-              <div class="browser-bar">
-                <span class="term-dot red"></span><span class="term-dot yellow"></span><span class="term-dot green"></span>
-                <span class="browser-url">workshop-app.flowforge.app</span>
-              </div>
-              <div class="browser-body">
-                <div class="mock-workshop">
-                  <div class="mock-sidebar">
-                    <div class="mock-sidebar-logo">WorkshopApp</div>
-                    <div class="mock-nav-item">Dashboard</div>
-                    <div class="mock-nav-item mock-active">Customers</div>
-                    <div class="mock-nav-item">Orders</div>
-                    <div class="mock-nav-item">Payments</div>
-                    <div class="mock-nav-item">Reports</div>
-                  </div>
-                  <div class="mock-dashboard">
-                    <div class="mock-table">
-                      <div class="mock-table-header"><span>Name</span><span>Phone</span><span>Orders</span><span>Last Visit</span></div>
-                      <div class="mock-table-row"><span>M. Jansen</span><span>+31 6 1234</span><span>7</span><span>2026-08-10</span></div>
-                      <div class="mock-table-row"><span>A. de Vries</span><span>+31 6 5678</span><span>3</span><span>2026-08-08</span></div>
-                      <div class="mock-table-row"><span>S. Bakker</span><span>+31 6 9012</span><span>12</span><span>2026-08-12</span></div>
-                      <div class="mock-table-row"><span>L. Visser</span><span>+31 6 3456</span><span>1</span><span>2026-08-13</span></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="build-stage" data-stage="8">
-            <div class="browser-mockup visible">
-              <div class="browser-bar">
-                <span class="term-dot red"></span><span class="term-dot yellow"></span><span class="term-dot green"></span>
-                <span class="browser-url">workshop-app.flowforge.app</span>
-              </div>
-              <div class="browser-body">
-                <div class="mock-workshop">
-                  <div class="mock-sidebar">
-                    <div class="mock-sidebar-logo">WorkshopApp</div>
-                    <div class="mock-nav-item">Dashboard</div>
-                    <div class="mock-nav-item">Customers</div>
-                    <div class="mock-nav-item mock-active">Orders</div>
-                    <div class="mock-nav-item">Payments</div>
-                    <div class="mock-nav-item">Reports</div>
-                  </div>
-                  <div class="mock-dashboard">
-                    <div class="mock-stats">
-                      <div class="mock-stat-card"><div class="mock-stat-label">Total Orders</div><div class="mock-stat-value cyan">287</div></div>
-                      <div class="mock-stat-card"><div class="mock-stat-label">This Week</div><div class="mock-stat-value amber">18</div></div>
-                      <div class="mock-stat-card"><div class="mock-stat-label">Avg Value</div><div class="mock-stat-value green">€215</div></div>
-                    </div>
-                    <div class="mock-table">
-                      <div class="mock-table-header"><span>Order</span><span>Customer</span><span>Amount</span><span>Status</span></div>
-                      <div class="mock-table-row"><span>#1042</span><span>M. Jansen</span><span>€320</span><span class="mock-chip mock-chip-paid">Paid</span></div>
-                      <div class="mock-table-row"><span>#1041</span><span>A. de Vries</span><span>€185</span><span class="mock-chip mock-chip-pending">Pending</span></div>
-                      <div class="mock-table-row"><span>#1040</span><span>S. Bakker</span><span>€540</span><span class="mock-chip mock-chip-paid">Paid</span></div>
-                      <div class="mock-table-row"><span>#1039</span><span>P. Smit</span><span>€95</span><span class="mock-chip mock-chip-overdue">Overdue</span></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+            <p class="step-caption" id="step-caption"></p>
 
-        <!-- SALON scenario -->
-        <div class="scenario-panel" id="panel-salon" role="tabpanel">
-          <div class="demo-request-line">
-            <p>"I need an app for my salon to manage appointments, customers, staff availability and daily revenue."</p>
-          </div>
-          <div class="build-progress" aria-label="Build progress">
-            <div class="build-dot" data-step="0">01</div><div class="build-connector"></div>
-            <div class="build-dot" data-step="1">02</div><div class="build-connector"></div>
-            <div class="build-dot" data-step="2">03</div><div class="build-connector"></div>
-            <div class="build-dot" data-step="3">04</div><div class="build-connector"></div>
-            <div class="build-dot" data-step="4">05</div><div class="build-connector"></div>
-            <div class="build-dot" data-step="5">06</div><div class="build-connector"></div>
-            <div class="build-dot" data-step="6">07</div><div class="build-connector"></div>
-            <div class="build-dot" data-step="7">08</div><div class="build-connector"></div>
-            <div class="build-dot" data-step="8">09</div>
-          </div>
-          <div class="build-stage" data-stage="0">
-            <div class="build-terminal">
-              <div class="build-terminal-header">
-                <span class="term-dot red"></span><span class="term-dot yellow"></span><span class="term-dot green"></span>
-                <span class="term-title">flowforge — new project</span>
-              </div>
-              <div class="build-terminal-body"><span class="t-text"></span><span class="t-cursor"></span></div>
-            </div>
-          </div>
-          <div class="build-stage" data-stage="1">
-            <div class="build-terminal">
-              <div class="build-terminal-header">
-                <span class="term-dot red"></span><span class="term-dot yellow"></span><span class="term-dot green"></span>
-                <span class="term-title">flowforge — analyzing</span>
-              </div>
-              <div class="build-terminal-body" style="color: var(--cyan);">
-                Detected: Web Application<br>
-                Entities: appointments, customers, staff, revenue<br>
-                Generating requirements...
-              </div>
-            </div>
-          </div>
-          <div class="build-stage" data-stage="2">
-            <div class="build-repo">
-              <span class="repo-badge">repo created</span>
-              <span class="repo-badge" style="background:var(--green-dim);color:var(--green);">ci configured</span>
-              <span style="font-family:var(--font-mono);font-size:0.75rem;color:var(--text-tertiary);">salon-app</span>
-            </div>
-          </div>
-          <div class="build-stage" data-stage="3">
-            <div class="build-code">
-<span class="cmt">// routes/appointments.js</span>
-<span class="kw">const</span> express = <span class="fn">require</span>(<span class="str">'express'</span>);
-<span class="kw">const</span> router = express.<span class="fn">Router</span>();
+            <div class="chat-area" id="chat-area"></div>
 
-router.<span class="fn">get</span>(<span class="str">'/today'</span>, <span class="kw">async</span> (req, res) => {
-  <span class="kw">const</span> appts = <span class="kw">await</span> Appointment.<span class="fn">findToday</span>({
-    include: [<span class="str">'customer'</span>, <span class="str">'staff'</span>]
-  });
-  res.<span class="fn">json</span>(appts);
-});
+            <div class="step-artifact" id="step-artifact"></div>
+          </div>
 
-<span class="kw">module</span>.exports = router;
-            </div>
-          </div>
-          <div class="build-stage" data-stage="4">
-            <div class="build-validate">
-              <span class="validate-badge"><svg width="12" height="12" viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3" fill="none" stroke="currentColor" stroke-width="2"/></svg>build passed</span>
-              <span class="validate-badge"><svg width="12" height="12" viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3" fill="none" stroke="currentColor" stroke-width="2"/></svg>21 tests passed</span>
-              <span class="validate-badge"><svg width="12" height="12" viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3" fill="none" stroke="currentColor" stroke-width="2"/></svg>security: clean</span>
-            </div>
-          </div>
-          <div class="build-stage" data-stage="5">
-            <div class="build-repo">
-              <span class="repo-badge">deployed</span>
-              <span style="font-family:var(--font-mono);font-size:0.75rem;color:var(--text-tertiary);">v1.0.0</span>
-            </div>
-          </div>
-          <div class="build-stage" data-stage="6">
-            <div class="browser-mockup visible">
-              <div class="browser-bar">
-                <span class="term-dot red"></span><span class="term-dot yellow"></span><span class="term-dot green"></span>
-                <span class="browser-url">salon-app.flowforge.app</span>
-              </div>
-              <div class="browser-body">
-                <div class="mock-salon">
-                  <div class="mock-salon-header">
-                    <div class="mock-salon-title">Salon Dashboard — Today</div>
-                    <div class="mock-revenue-figure">€845</div>
-                  </div>
-                  <div class="mock-salon-grid">
-                    <div class="mock-appointments">
-                      <div class="mock-appt-title">Today's Appointments</div>
-                      <div class="mock-appt-item"><span class="mock-appt-time">09:00</span><span class="mock-appt-name">E. de Jong — Cut &amp; Style</span><span class="mock-appt-status done">Done</span></div>
-                      <div class="mock-appt-item"><span class="mock-appt-time">10:30</span><span class="mock-appt-name">M. Peters — Color</span><span class="mock-appt-status confirmed">Confirmed</span></div>
-                      <div class="mock-appt-item"><span class="mock-appt-time">11:45</span><span class="mock-appt-name">K. Willems — Trim</span><span class="mock-appt-status waiting">Waiting</span></div>
-                      <div class="mock-appt-item"><span class="mock-appt-time">14:00</span><span class="mock-appt-name">R. Bos — Highlights</span><span class="mock-appt-status confirmed">Confirmed</span></div>
-                      <div class="mock-appt-item"><span class="mock-appt-time">15:30</span><span class="mock-appt-name">T. Dijkstra — Cut</span><span class="mock-appt-status confirmed">Confirmed</span></div>
-                    </div>
-                    <div class="mock-staff">
-                      <div class="mock-staff-title">Staff on Duty</div>
-                      <div class="mock-staff-item"><div class="mock-staff-avatar">LvA</div><div><div class="mock-staff-name">L. van Amstel</div><div class="mock-staff-role">Senior Stylist</div></div></div>
-                      <div class="mock-staff-item"><div class="mock-staff-avatar">SB</div><div><div class="mock-staff-name">S. Brouwer</div><div class="mock-staff-role">Colorist</div></div></div>
-                      <div class="mock-staff-item"><div class="mock-staff-avatar">JH</div><div><div class="mock-staff-name">J. Hendriks</div><div class="mock-staff-role">Junior Stylist</div></div></div>
-                    </div>
-                  </div>
-                  <div class="mock-customers">
-                    <div class="mock-customers-title">Recent Customers</div>
-                    <div class="mock-customer-item"><span>E. de Jong</span><span>+31 6 1122</span><span>12 visits</span></div>
-                    <div class="mock-customer-item"><span>M. Peters</span><span>+31 6 3344</span><span>8 visits</span></div>
-                    <div class="mock-customer-item"><span>K. Willems</span><span>+31 6 5566</span><span>3 visits</span></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="build-stage" data-stage="7">
-            <div class="browser-mockup visible">
-              <div class="browser-bar">
-                <span class="term-dot red"></span><span class="term-dot yellow"></span><span class="term-dot green"></span>
-                <span class="browser-url">salon-app.flowforge.app/schedule</span>
-              </div>
-              <div class="browser-body">
-                <div class="mock-salon">
-                  <div class="mock-salon-header">
-                    <div class="mock-salon-title">Staff Schedule</div>
-                    <div class="mock-revenue-figure">€845</div>
-                  </div>
-                  <div class="mock-salon-grid">
-                    <div class="mock-staff">
-                      <div class="mock-staff-title">Monday — Friday</div>
-                      <div class="mock-staff-item"><div class="mock-staff-avatar">LvA</div><div><div class="mock-staff-name">L. van Amstel</div><div class="mock-staff-role">Mon–Fri, 09:00–17:00</div></div></div>
-                      <div class="mock-staff-item"><div class="mock-staff-avatar">SB</div><div><div class="mock-staff-name">S. Brouwer</div><div class="mock-staff-role">Mon–Thu, 10:00–18:00</div></div></div>
-                      <div class="mock-staff-item"><div class="mock-staff-avatar">JH</div><div><div class="mock-staff-name">J. Hendriks</div><div class="mock-staff-role">Tue–Sat, 09:00–16:00</div></div></div>
-                    </div>
-                    <div class="mock-appointments">
-                      <div class="mock-appt-title">Availability Today</div>
-                      <div class="mock-appt-item"><span class="mock-appt-time">09:00</span><span class="mock-appt-name">LvA, SB</span><span class="mock-appt-status done">Booked</span></div>
-                      <div class="mock-appt-item"><span class="mock-appt-time">11:00</span><span class="mock-appt-name">LvA, JH</span><span class="mock-appt-status confirmed">Available</span></div>
-                      <div class="mock-appt-item"><span class="mock-appt-time">13:00</span><span class="mock-appt-name">SB, JH</span><span class="mock-appt-status waiting">1 slot open</span></div>
-                      <div class="mock-appt-item"><span class="mock-appt-time">15:00</span><span class="mock-appt-name">LvA, SB, JH</span><span class="mock-appt-status confirmed">Available</span></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="build-stage" data-stage="8">
-            <div class="browser-mockup visible">
-              <div class="browser-bar">
-                <span class="term-dot red"></span><span class="term-dot yellow"></span><span class="term-dot green"></span>
-                <span class="browser-url">salon-app.flowforge.app</span>
-              </div>
-              <div class="browser-body">
-                <div class="mock-salon">
-                  <div class="mock-salon-header">
-                    <div class="mock-salon-title">Full Dashboard</div>
-                    <div class="mock-revenue-figure">€2,340 <span style="font-size:0.75rem;color:var(--text-tertiary);font-weight:400;">this week</span></div>
-                  </div>
-                  <div class="mock-salon-grid">
-                    <div class="mock-appointments">
-                      <div class="mock-appt-title">Today (5 appts)</div>
-                      <div class="mock-appt-item"><span class="mock-appt-time">09:00</span><span class="mock-appt-name">E. de Jong</span><span class="mock-appt-status done">Done</span></div>
-                      <div class="mock-appt-item"><span class="mock-appt-time">10:30</span><span class="mock-appt-name">M. Peters</span><span class="mock-appt-status confirmed">In chair</span></div>
-                      <div class="mock-appt-item"><span class="mock-appt-time">11:45</span><span class="mock-appt-name">K. Willems</span><span class="mock-appt-status waiting">Waiting</span></div>
-                    </div>
-                    <div class="mock-staff">
-                      <div class="mock-staff-title">On Duty</div>
-                      <div class="mock-staff-item"><div class="mock-staff-avatar">LvA</div><div><div class="mock-staff-name">L. van Amstel</div><div class="mock-staff-role">3 clients today</div></div></div>
-                      <div class="mock-staff-item"><div class="mock-staff-avatar">SB</div><div><div class="mock-staff-name">S. Brouwer</div><div class="mock-staff-role">2 clients today</div></div></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- RETAIL scenario -->
-        <div class="scenario-panel" id="panel-retail" role="tabpanel">
-          <div class="demo-request-line">
-            <p>"I need an app to track products, inventory, sales and low-stock items."</p>
-          </div>
-          <div class="build-progress" aria-label="Build progress">
-            <div class="build-dot" data-step="0">01</div><div class="build-connector"></div>
-            <div class="build-dot" data-step="1">02</div><div class="build-connector"></div>
-            <div class="build-dot" data-step="2">03</div><div class="build-connector"></div>
-            <div class="build-dot" data-step="3">04</div><div class="build-connector"></div>
-            <div class="build-dot" data-step="4">05</div><div class="build-connector"></div>
-            <div class="build-dot" data-step="5">06</div><div class="build-connector"></div>
-            <div class="build-dot" data-step="6">07</div><div class="build-connector"></div>
-            <div class="build-dot" data-step="7">08</div><div class="build-connector"></div>
-            <div class="build-dot" data-step="8">09</div>
-          </div>
-          <div class="build-stage" data-stage="0">
-            <div class="build-terminal">
-              <div class="build-terminal-header">
-                <span class="term-dot red"></span><span class="term-dot yellow"></span><span class="term-dot green"></span>
-                <span class="term-title">flowforge — new project</span>
-              </div>
-              <div class="build-terminal-body"><span class="t-text"></span><span class="t-cursor"></span></div>
-            </div>
-          </div>
-          <div class="build-stage" data-stage="1">
-            <div class="build-terminal">
-              <div class="build-terminal-header">
-                <span class="term-dot red"></span><span class="term-dot yellow"></span><span class="term-dot green"></span>
-                <span class="term-title">flowforge — analyzing</span>
-              </div>
-              <div class="build-terminal-body" style="color: var(--cyan);">
-                Detected: Web Application<br>
-                Entities: products, inventory, sales, alerts<br>
-                Generating requirements...
-              </div>
-            </div>
-          </div>
-          <div class="build-stage" data-stage="2">
-            <div class="build-repo">
-              <span class="repo-badge">repo created</span>
-              <span class="repo-badge" style="background:var(--green-dim);color:var(--green);">ci configured</span>
-              <span style="font-family:var(--font-mono);font-size:0.75rem;color:var(--text-tertiary);">retail-app</span>
-            </div>
-          </div>
-          <div class="build-stage" data-stage="3">
-            <div class="build-code">
-<span class="cmt">// routes/inventory.js</span>
-<span class="kw">const</span> express = <span class="fn">require</span>(<span class="str">'express'</span>);
-<span class="kw">const</span> router = express.<span class="fn">Router</span>();
-
-router.<span class="fn">get</span>(<span class="str">'/low-stock'</span>, <span class="kw">async</span> (req, res) => {
-  <span class="kw">const</span> items = <span class="kw">await</span> Product.<span class="fn">findLowStock</span>({
-    threshold: <span class="str">10</span>
-  });
-  res.<span class="fn">json</span>(items);
-});
-
-<span class="kw">module</span>.exports = router;
-            </div>
-          </div>
-          <div class="build-stage" data-stage="4">
-            <div class="build-validate">
-              <span class="validate-badge"><svg width="12" height="12" viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3" fill="none" stroke="currentColor" stroke-width="2"/></svg>build passed</span>
-              <span class="validate-badge"><svg width="12" height="12" viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3" fill="none" stroke="currentColor" stroke-width="2"/></svg>19 tests passed</span>
-              <span class="validate-badge"><svg width="12" height="12" viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3" fill="none" stroke="currentColor" stroke-width="2"/></svg>security: clean</span>
-            </div>
-          </div>
-          <div class="build-stage" data-stage="5">
-            <div class="build-repo">
-              <span class="repo-badge">deployed</span>
-              <span style="font-family:var(--font-mono);font-size:0.75rem;color:var(--text-tertiary);">v1.0.0</span>
-            </div>
-          </div>
-          <div class="build-stage" data-stage="6">
-            <div class="browser-mockup visible">
-              <div class="browser-bar">
-                <span class="term-dot red"></span><span class="term-dot yellow"></span><span class="term-dot green"></span>
-                <span class="browser-url">retail-app.flowforge.app</span>
-              </div>
-              <div class="browser-body">
-                <div class="mock-retail">
-                  <div class="mock-retail-header">
-                    <div class="mock-retail-title">Inventory Overview</div>
-                    <div class="mock-alert-badge">3 low-stock alerts</div>
-                  </div>
-                  <div class="mock-retail-stats">
-                    <div class="mock-retail-stat"><div class="mock-retail-stat-label">Products</div><div class="mock-retail-stat-value">234</div></div>
-                    <div class="mock-retail-stat"><div class="mock-retail-stat-label">Today's Sales</div><div class="mock-retail-stat-value" style="color:var(--green);">€1,890</div></div>
-                    <div class="mock-retail-stat"><div class="mock-retail-stat-label">Low Stock</div><div class="mock-retail-stat-value" style="color:#ef4444;">3</div></div>
-                  </div>
-                  <div class="mock-inventory">
-                    <div class="mock-inv-header"><span>Product</span><span>Stock</span><span>Level</span><span>Status</span></div>
-                    <div class="mock-inv-row"><span>Wireless Mouse</span><span>142</span><div class="mock-stock-bar"><div class="mock-stock-fill high" style="width:85%"></div></div><span style="color:var(--green);">In Stock</span></div>
-                    <div class="mock-inv-row"><span>USB-C Cable</span><span>8</span><div class="mock-stock-bar"><div class="mock-stock-fill low" style="width:15%"></div></div><span class="mock-inv-low">Low</span></div>
-                    <div class="mock-inv-row"><span>Laptop Stand</span><span>37</span><div class="mock-stock-bar"><div class="mock-stock-fill mid" style="width:45%"></div></div><span style="color:var(--amber);">Medium</span></div>
-                    <div class="mock-inv-row"><span>Monitor Arm</span><span>5</span><div class="mock-stock-bar"><div class="mock-stock-fill low" style="width:10%"></div></div><span class="mock-inv-low">Low</span></div>
-                    <div class="mock-inv-row"><span>Keyboard</span><span>9</span><div class="mock-stock-bar"><div class="mock-stock-fill low" style="width:18%"></div></div><span class="mock-inv-low">Low</span></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="build-stage" data-stage="7">
-            <div class="browser-mockup visible">
-              <div class="browser-bar">
-                <span class="term-dot red"></span><span class="term-dot yellow"></span><span class="term-dot green"></span>
-                <span class="browser-url">retail-app.flowforge.app/sales</span>
-              </div>
-              <div class="browser-body">
-                <div class="mock-retail">
-                  <div class="mock-retail-header">
-                    <div class="mock-retail-title">Sales Summary</div>
-                    <div class="mock-revenue-figure" style="font-family:var(--font-mono);font-size:1.25rem;font-weight:700;color:var(--green);">€12,480 <span style="font-size:0.75rem;color:var(--text-tertiary);font-weight:400;">this month</span></div>
-                  </div>
-                  <div class="mock-retail-stats">
-                    <div class="mock-retail-stat"><div class="mock-retail-stat-label">Transactions</div><div class="mock-retail-stat-value">187</div></div>
-                    <div class="mock-retail-stat"><div class="mock-retail-stat-label">Avg Order</div><div class="mock-retail-stat-value">€66.70</div></div>
-                    <div class="mock-retail-stat"><div class="mock-retail-stat-label">Top Item</div><div class="mock-retail-stat-value" style="font-size:0.875rem;">Wireless Mouse</div></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="build-stage" data-stage="8">
-            <div class="browser-mockup visible">
-              <div class="browser-bar">
-                <span class="term-dot red"></span><span class="term-dot yellow"></span><span class="term-dot green"></span>
-                <span class="browser-url">retail-app.flowforge.app</span>
-              </div>
-              <div class="browser-body">
-                <div class="mock-retail">
-                  <div class="mock-retail-header">
-                    <div class="mock-retail-title">Full Inventory + Sales</div>
-                    <div class="mock-alert-badge">3 low-stock alerts</div>
-                  </div>
-                  <div class="mock-inventory">
-                    <div class="mock-inv-header"><span>Product</span><span>Stock</span><span>Level</span><span>Status</span></div>
-                    <div class="mock-inv-row"><span>Wireless Mouse</span><span>142</span><div class="mock-stock-bar"><div class="mock-stock-fill high" style="width:85%"></div></div><span style="color:var(--green);">In Stock</span></div>
-                    <div class="mock-inv-row"><span>USB-C Cable</span><span>8</span><div class="mock-stock-bar"><div class="mock-stock-fill low" style="width:15%"></div></div><span class="mock-inv-low">Low</span></div>
-                    <div class="mock-inv-row"><span>Laptop Stand</span><span>37</span><div class="mock-stock-bar"><div class="mock-stock-fill mid" style="width:45%"></div></div><span style="color:var(--amber);">Medium</span></div>
-                    <div class="mock-inv-row"><span>Monitor Arm</span><span>5</span><div class="mock-stock-bar"><div class="mock-stock-fill low" style="width:10%"></div></div><span class="mock-inv-low">Low</span></div>
-                    <div class="mock-inv-row"><span>Keyboard</span><span>9</span><div class="mock-stock-bar"><div class="mock-stock-fill low" style="width:18%"></div></div><span class="mock-inv-low">Low</span></div>
-                    <div class="mock-inv-row"><span>Webcam HD</span><span>64</span><div class="mock-stock-bar"><div class="mock-stock-fill high" style="width:70%"></div></div><span style="color:var(--green);">In Stock</span></div>
-                  </div>
-                </div>
-              </div>
-            </div>
+          <!-- Navigation -->
+          <div class="step-nav">
+            <button class="step-nav-btn" id="step-prev" aria-label="Previous step">
+              <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><polyline points="10,2 4,8 10,14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Previous
+            </button>
+            <button class="step-nav-btn" id="step-next" aria-label="Next step">
+              Next
+              <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><polyline points="6,2 12,8 6,14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
           </div>
         </div>
       </div>
@@ -2541,134 +2248,667 @@ router.<span class="fn">get</span>(<span class="str">'/low-stock'</span>, <span 
     });
 
     /* ============================================================
-       Product-in-Action: Scenario switching + build animation
+       Product-in-Action: Interactive Chat Walkthrough
        ============================================================ */
     document.addEventListener('DOMContentLoaded', function() {
       var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      var scenarioTabs = document.querySelectorAll('.scenario-tab');
-      var scenarioPanels = document.querySelectorAll('.scenario-panel');
 
-      var scenarioTexts = {
-        workshop: "I need software to manage my workshop customers, orders, payments and revenue.",
-        salon: "I need an app for my salon to manage appointments, customers, staff availability and daily revenue.",
-        retail: "I need an app to track products, inventory, sales and low-stock items."
+      // --- Scenario data ---
+      var SCENARIOS = {
+        workshop: {
+          request: '"I need software to manage my workshop customers, orders, payments and revenue."',
+          entities: ['Customers', 'Orders', 'Payments', 'Monthly Revenue'],
+          repoName: 'workshop-app',
+          url: 'workshop-app.flowforge.app',
+          testCount: 24,
+          tokenCount: '12,400',
+          codeSnippet: '<span class="cmt">// routes/orders.js</span>\n<span class="kw">const</span> express = <span class="fn">require</span>(<span class="str">\'express\'</span>);\n<span class="kw">const</span> router = express.<span class="fn">Router</span>();\n\nrouter.<span class="fn">get</span>(<span class="str">\'/\'</span>, <span class="kw">async</span> (req, res) => {\n  <span class="kw">const</span> orders = <span class="kw">await</span> Order.<span class="fn">findAll</span>({\n    include: [<span class="str">\'customer\'</span>, <span class="str">\'payments\'</span>]\n  });\n  res.<span class="fn">json</span>(orders);\n});',
+          mockupV1: function() { return buildWorkshopV1(); },
+          mockupV11: function() { return buildWorkshopV11(); },
+          steps: [
+            {
+              caption: 'You explain the need in your own words.',
+              user: 'I need software to manage my workshop customers, orders, payments and revenue.',
+              flowforge: 'Got it. Let me work out what you need.',
+              artifact: null
+            },
+            {
+              caption: 'FlowForge determines the app type and confirms the plan with you.',
+              user: null,
+              flowforge: 'I\'ll build a web app with four parts: Customers, Orders, Payments and Monthly Revenue. Does that cover it?',
+              artifact: null
+            },
+            {
+              caption: 'A repository and CI/CD pipeline are created.',
+              user: 'Yes \u2014 that\'s exactly what I meant.',
+              flowforge: 'Repository created. CI/CD configured, and Google Sheets is the data store.',
+              artifact: 'repo'
+            },
+            {
+              caption: 'The agent writes the code.',
+              user: null,
+              flowforge: 'Code generated — wiring up routes, models and views.',
+              artifact: 'code'
+            },
+            {
+              caption: 'Build, tests and security checks run — failures loop back to be fixed.',
+              user: null,
+              flowforge: 'All green.',
+              artifact: 'validate'
+            },
+            {
+              caption: 'The validated version is tagged and deployed.',
+              user: null,
+              flowforge: 'v1.0.0 tagged and deployed.',
+              artifact: 'browser-v1'
+            },
+            {
+              caption: 'Your changes feed back in and the software evolves.',
+              user: 'Can you also show monthly revenue as a chart?',
+              flowforge: 'Done — chart added. v1.1.0 deployed.',
+              artifact: 'browser-v11'
+            },
+            {
+              caption: 'AI usage is metered in tokens.',
+              user: null,
+              flowforge: null,
+              artifact: 'summary'
+            }
+          ]
+        },
+        salon: {
+          request: '"I need an app for my salon to manage appointments, customers, staff availability and daily revenue."',
+          entities: ['Appointments', 'Customers', 'Staff', 'Daily Revenue'],
+          repoName: 'salon-app',
+          url: 'salon-app.flowforge.app',
+          testCount: 21,
+          tokenCount: '10,800',
+          codeSnippet: '<span class="cmt">// routes/appointments.js</span>\n<span class="kw">const</span> express = <span class="fn">require</span>(<span class="str">\'express\'</span>);\n<span class="kw">const</span> router = express.<span class="fn">Router</span>();\n\nrouter.<span class="fn">get</span>(<span class="str">\'/today\'</span>, <span class="kw">async</span> (req, res) => {\n  <span class="kw">const</span> appts = <span class="kw">await</span> Appointment.<span class="fn">findToday</span>({\n    include: [<span class="str">\'customer\'</span>, <span class="str">\'staff\'</span>]\n  });\n  res.<span class="fn">json</span>(appts);\n});',
+          mockupV1: function() { return buildSalonV1(); },
+          mockupV11: function() { return buildSalonV11(); },
+          steps: [
+            {
+              caption: 'You explain the need in your own words.',
+              user: 'I need an app for my salon to manage appointments, customers, staff availability and daily revenue.',
+              flowforge: 'Got it. Let me work out what you need.',
+              artifact: null
+            },
+            {
+              caption: 'FlowForge determines the app type and confirms the plan with you.',
+              user: null,
+              flowforge: 'I\'ll build a web app with four parts: Appointments, Customers, Staff and Daily Revenue. Does that cover it?',
+              artifact: null
+            },
+            {
+              caption: 'A repository and CI/CD pipeline are created.',
+              user: 'Yes \u2014 that\'s exactly what I meant.',
+              flowforge: 'Repository created. CI/CD configured, and Google Sheets is the data store.',
+              artifact: 'repo'
+            },
+            {
+              caption: 'The agent writes the code.',
+              user: null,
+              flowforge: 'Code generated — wiring up routes, models and views.',
+              artifact: 'code'
+            },
+            {
+              caption: 'Build, tests and security checks run — failures loop back to be fixed.',
+              user: null,
+              flowforge: 'All green.',
+              artifact: 'validate'
+            },
+            {
+              caption: 'The validated version is tagged and deployed.',
+              user: null,
+              flowforge: 'v1.0.0 tagged and deployed.',
+              artifact: 'browser-v1'
+            },
+            {
+              caption: 'Your changes feed back in and the software evolves.',
+              user: 'Can you add a weekly schedule view?',
+              flowforge: 'Done — weekly schedule view added. v1.1.0 deployed.',
+              artifact: 'browser-v11'
+            },
+            {
+              caption: 'AI usage is metered in tokens.',
+              user: null,
+              flowforge: null,
+              artifact: 'summary'
+            }
+          ]
+        },
+        retail: {
+          request: '"I need an app to track products, inventory, sales and low-stock items."',
+          entities: ['Products', 'Inventory', 'Sales', 'Low-stock'],
+          repoName: 'retail-app',
+          url: 'retail-app.flowforge.app',
+          testCount: 19,
+          tokenCount: '9,600',
+          codeSnippet: '<span class="cmt">// routes/inventory.js</span>\n<span class="kw">const</span> express = <span class="fn">require</span>(<span class="str">\'express\'</span>);\n<span class="kw">const</span> router = express.<span class="fn">Router</span>();\n\nrouter.<span class="fn">get</span>(<span class="str">\'/low-stock\'</span>, <span class="kw">async</span> (req, res) => {\n  <span class="kw">const</span> items = <span class="kw">await</span> Product.<span class="fn">findLowStock</span>({\n    threshold: <span class="str">10</span>\n  });\n  res.<span class="fn">json</span>(items);\n});',
+          mockupV1: function() { return buildRetailV1(); },
+          mockupV11: function() { return buildRetailV11(); },
+          steps: [
+            {
+              caption: 'You explain the need in your own words.',
+              user: 'I need an app to track products, inventory, sales and low-stock items.',
+              flowforge: 'Got it. Let me work out what you need.',
+              artifact: null
+            },
+            {
+              caption: 'FlowForge determines the app type and confirms the plan with you.',
+              user: null,
+              flowforge: 'I\'ll build a web app with four parts: Products, Inventory, Sales and Low-stock alerts. Does that cover it?',
+              artifact: null
+            },
+            {
+              caption: 'A repository and CI/CD pipeline are created.',
+              user: 'Yes \u2014 that\'s exactly what I meant.',
+              flowforge: 'Repository created. CI/CD configured, and Google Sheets is the data store.',
+              artifact: 'repo'
+            },
+            {
+              caption: 'The agent writes the code.',
+              user: null,
+              flowforge: 'Code generated — wiring up routes, models and views.',
+              artifact: 'code'
+            },
+            {
+              caption: 'Build, tests and security checks run — failures loop back to be fixed.',
+              user: null,
+              flowforge: 'All green.',
+              artifact: 'validate'
+            },
+            {
+              caption: 'The validated version is tagged and deployed.',
+              user: null,
+              flowforge: 'v1.0.0 tagged and deployed.',
+              artifact: 'browser-v1'
+            },
+            {
+              caption: 'Your changes feed back in and the software evolves.',
+              user: 'Can you add a reorder button for low-stock items?',
+              flowforge: 'Done — reorder button added. v1.1.0 deployed.',
+              artifact: 'browser-v11'
+            },
+            {
+              caption: 'AI usage is metered in tokens.',
+              user: null,
+              flowforge: null,
+              artifact: 'summary'
+            }
+          ]
+        }
       };
 
-      var buildTimers = {};
+      var STEP_NAMES = ['Describe', 'Detect', 'Provision', 'Engineer', 'Validate', 'Release', 'User Feedback', 'Meter'];
+      var STEP_NUMS = ['01', '02', '03', '04', '05', '06', '07', '08'];
 
+      // --- State ---
+      var currentScenario = 'workshop';
+      var currentStep = 0;
+      var renderToken = 0;
+      var stepComplete = false;
+      var autoPlayEnabled = false;
+      var autoplayTimeout = null;
+      var manualPauseUntil = 0;
+      var walkthroughEl = document.getElementById('walkthrough');
+      var requestEl = document.getElementById('walkthrough-request');
+      var railEl = document.getElementById('step-rail');
+      var stepFrameEl = document.getElementById('step-frame');
+      var stepNumberEl = document.getElementById('step-number');
+      var stepTitleEl = document.getElementById('step-title');
+      var stepCaptionEl = document.getElementById('step-caption');
+      var chatAreaEl = document.getElementById('chat-area');
+      var artifactEl = document.getElementById('step-artifact');
+      var prevBtn = document.getElementById('step-prev');
+      var nextBtn = document.getElementById('step-next');
+      var tabs = document.querySelectorAll('#walkthrough-tabs .scenario-tab');
+
+      // --- Mockup builders ---
+      function buildWorkshopV1() {
+        return '<div class="browser-bar">' +
+          '<span class="term-dot red"></span><span class="term-dot yellow"></span><span class="term-dot green"></span>' +
+          '<span class="browser-url">' + SCENARIOS.workshop.url + '</span>' +
+          '</div><div class="browser-body"><div class="mock-workshop">' +
+          '<div class="mock-sidebar">' +
+          '<div class="mock-sidebar-logo">WorkshopApp</div>' +
+          '<div class="mock-nav-item mock-active">Dashboard</div>' +
+          '<div class="mock-nav-item">Customers</div>' +
+          '<div class="mock-nav-item">Orders</div>' +
+          '<div class="mock-nav-item">Payments</div>' +
+          '<div class="mock-nav-item">Reports</div>' +
+          '</div><div class="mock-dashboard">' +
+          '<div class="mock-stats">' +
+          '<div class="mock-stat-card"><div class="mock-stat-label">Customers</div><div class="mock-stat-value cyan">142</div></div>' +
+          '<div class="mock-stat-card"><div class="mock-stat-label">Active Orders</div><div class="mock-stat-value amber">23</div></div>' +
+          '<div class="mock-stat-card"><div class="mock-stat-label">Revenue (MTD)</div><div class="mock-stat-value green">\u20ac12,480</div></div>' +
+          '</div>' +
+          '<div class="mock-table">' +
+          '<div class="mock-table-header"><span>Order</span><span>Customer</span><span>Amount</span><span>Status</span></div>' +
+          '<div class="mock-table-row"><span>#1042</span><span>M. Jansen</span><span>\u20ac320</span><span class="mock-chip mock-chip-paid">Paid</span></div>' +
+          '<div class="mock-table-row"><span>#1041</span><span>A. de Vries</span><span>\u20ac185</span><span class="mock-chip mock-chip-pending">Pending</span></div>' +
+          '<div class="mock-table-row"><span>#1040</span><span>S. Bakker</span><span>\u20ac540</span><span class="mock-chip mock-chip-paid">Paid</span></div>' +
+          '</div></div></div></div>';
+      }
+
+      function buildWorkshopV11() {
+        return '<div class="browser-bar">' +
+          '<span class="term-dot red"></span><span class="term-dot yellow"></span><span class="term-dot green"></span>' +
+          '<span class="browser-url">' + SCENARIOS.workshop.url + '/reports</span>' +
+          '</div><div class="browser-body"><div class="mock-workshop">' +
+          '<div class="mock-sidebar">' +
+          '<div class="mock-sidebar-logo">WorkshopApp</div>' +
+          '<div class="mock-nav-item">Dashboard</div>' +
+          '<div class="mock-nav-item">Customers</div>' +
+          '<div class="mock-nav-item">Orders</div>' +
+          '<div class="mock-nav-item">Payments</div>' +
+          '<div class="mock-nav-item mock-active">Reports</div>' +
+          '</div><div class="mock-dashboard">' +
+          '<div class="mock-chart">' +
+          '<div class="mock-chart-title">Monthly Revenue</div>' +
+          '<div class="mock-chart-bars">' +
+          '<div class="mock-bar" style="height:40%"></div><div class="mock-bar" style="height:55%"></div>' +
+          '<div class="mock-bar" style="height:45%"></div><div class="mock-bar" style="height:70%"></div>' +
+          '<div class="mock-bar" style="height:60%"></div><div class="mock-bar" style="height:80%"></div>' +
+          '<div class="mock-bar" style="height:65%"></div><div class="mock-bar" style="height:90%"></div>' +
+          '<div class="mock-bar" style="height:75%"></div><div class="mock-bar" style="height:85%"></div>' +
+          '<div class="mock-bar" style="height:95%"></div><div class="mock-bar" style="height:100%"></div>' +
+          '</div></div></div></div></div>';
+      }
+
+      function buildSalonV1() {
+        return '<div class="browser-bar">' +
+          '<span class="term-dot red"></span><span class="term-dot yellow"></span><span class="term-dot green"></span>' +
+          '<span class="browser-url">' + SCENARIOS.salon.url + '</span>' +
+          '</div><div class="browser-body"><div class="mock-salon">' +
+          '<div class="mock-salon-header">' +
+          '<div class="mock-salon-title">Salon Dashboard \u2014 Today</div>' +
+          '<div class="mock-revenue-figure">\u20ac845</div>' +
+          '</div><div class="mock-salon-grid">' +
+          '<div class="mock-appointments">' +
+          '<div class="mock-appt-title">Today\'s Appointments</div>' +
+          '<div class="mock-appt-item"><span class="mock-appt-time">09:00</span><span class="mock-appt-name">E. de Jong \u2014 Cut &amp; Style</span><span class="mock-appt-status done">Done</span></div>' +
+          '<div class="mock-appt-item"><span class="mock-appt-time">10:30</span><span class="mock-appt-name">M. Peters \u2014 Color</span><span class="mock-appt-status confirmed">Confirmed</span></div>' +
+          '<div class="mock-appt-item"><span class="mock-appt-time">11:45</span><span class="mock-appt-name">K. Willems \u2014 Trim</span><span class="mock-appt-status waiting">Waiting</span></div>' +
+          '<div class="mock-appt-item"><span class="mock-appt-time">14:00</span><span class="mock-appt-name">R. Bos \u2014 Highlights</span><span class="mock-appt-status confirmed">Confirmed</span></div>' +
+          '</div>' +
+          '<div class="mock-staff">' +
+          '<div class="mock-staff-title">Staff on Duty</div>' +
+          '<div class="mock-staff-item"><div class="mock-staff-avatar">LvA</div><div><div class="mock-staff-name">L. van Amstel</div><div class="mock-staff-role">Senior Stylist</div></div></div>' +
+          '<div class="mock-staff-item"><div class="mock-staff-avatar">SB</div><div><div class="mock-staff-name">S. Brouwer</div><div class="mock-staff-role">Colorist</div></div></div>' +
+          '<div class="mock-staff-item"><div class="mock-staff-avatar">JH</div><div><div class="mock-staff-name">J. Hendriks</div><div class="mock-staff-role">Junior Stylist</div></div></div>' +
+          '</div></div>' +
+          '<div class="mock-customers">' +
+          '<div class="mock-customers-title">Recent Customers</div>' +
+          '<div class="mock-customer-item"><span>E. de Jong</span><span>+31 6 1122</span><span>12 visits</span></div>' +
+          '<div class="mock-customer-item"><span>M. Peters</span><span>+31 6 3344</span><span>8 visits</span></div>' +
+          '<div class="mock-customer-item"><span>K. Willems</span><span>+31 6 5566</span><span>3 visits</span></div>' +
+          '</div></div></div></div>';
+      }
+
+      function buildSalonV11() {
+        return '<div class="browser-bar">' +
+          '<span class="term-dot red"></span><span class="term-dot yellow"></span><span class="term-dot green"></span>' +
+          '<span class="browser-url">' + SCENARIOS.salon.url + '/schedule</span>' +
+          '</div><div class="browser-body"><div class="mock-salon">' +
+          '<div class="mock-salon-header">' +
+          '<div class="mock-salon-title">Weekly Schedule</div>' +
+          '<div class="mock-revenue-figure">\u20ac845</div>' +
+          '</div><div class="mock-schedule-view">' +
+          '<div class="mock-schedule-row"><span class="mock-schedule-day">Mon</span><span class="mock-schedule-slot booked">LvA, SB</span><span class="mock-schedule-slot booked">LvA, JH</span><span class="mock-schedule-slot available">SB, JH</span></div>' +
+          '<div class="mock-schedule-row"><span class="mock-schedule-day">Tue</span><span class="mock-schedule-slot booked">LvA, SB</span><span class="mock-schedule-slot available">LvA, JH</span><span class="mock-schedule-slot booked">SB, JH</span></div>' +
+          '<div class="mock-schedule-row"><span class="mock-schedule-day">Wed</span><span class="mock-schedule-slot available">LvA, SB</span><span class="mock-schedule-slot booked">LvA, JH</span><span class="mock-schedule-slot available">SB, JH</span></div>' +
+          '<div class="mock-schedule-row"><span class="mock-schedule-day">Thu</span><span class="mock-schedule-slot booked">LvA, SB</span><span class="mock-schedule-slot available">LvA, JH</span><span class="mock-schedule-slot booked">SB, JH</span></div>' +
+          '<div class="mock-schedule-row"><span class="mock-schedule-day">Fri</span><span class="mock-schedule-slot booked">LvA</span><span class="mock-schedule-slot off">JH off</span><span class="mock-schedule-slot booked">SB</span></div>' +
+          '</div></div></div></div>';
+      }
+
+      function buildRetailV1() {
+        return '<div class="browser-bar">' +
+          '<span class="term-dot red"></span><span class="term-dot yellow"></span><span class="term-dot green"></span>' +
+          '<span class="browser-url">' + SCENARIOS.retail.url + '</span>' +
+          '</div><div class="browser-body"><div class="mock-retail">' +
+          '<div class="mock-retail-header">' +
+          '<div class="mock-retail-title">Inventory Overview</div>' +
+          '<div class="mock-alert-badge">3 low-stock alerts</div>' +
+          '</div>' +
+          '<div class="mock-retail-stats">' +
+          '<div class="mock-retail-stat"><div class="mock-retail-stat-label">Products</div><div class="mock-retail-stat-value">234</div></div>' +
+          '<div class="mock-retail-stat"><div class="mock-retail-stat-label">Today\'s Sales</div><div class="mock-retail-stat-value" style="color:var(--green);">\u20ac1,890</div></div>' +
+          '<div class="mock-retail-stat"><div class="mock-retail-stat-label">Low Stock</div><div class="mock-retail-stat-value" style="color:#ef4444;">3</div></div>' +
+          '</div>' +
+          '<div class="mock-inventory">' +
+          '<div class="mock-inv-header"><span>Product</span><span>Stock</span><span>Level</span><span>Status</span></div>' +
+          '<div class="mock-inv-row"><span>Wireless Mouse</span><span>142</span><div class="mock-stock-bar"><div class="mock-stock-fill high" style="width:85%"></div></div><span style="color:var(--green);">In Stock</span></div>' +
+          '<div class="mock-inv-row"><span>USB-C Cable</span><span>8</span><div class="mock-stock-bar"><div class="mock-stock-fill low" style="width:15%"></div></div><span class="mock-inv-low">Low</span></div>' +
+          '<div class="mock-inv-row"><span>Laptop Stand</span><span>37</span><div class="mock-stock-bar"><div class="mock-stock-fill mid" style="width:45%"></div></div><span style="color:var(--amber);">Medium</span></div>' +
+          '<div class="mock-inv-row"><span>Monitor Arm</span><span>5</span><div class="mock-stock-bar"><div class="mock-stock-fill low" style="width:10%"></div></div><span class="mock-inv-low">Low</span></div>' +
+          '<div class="mock-inv-row"><span>Keyboard</span><span>9</span><div class="mock-stock-bar"><div class="mock-stock-fill low" style="width:18%"></div></div><span class="mock-inv-low">Low</span></div>' +
+          '</div></div></div></div>';
+      }
+
+      function buildRetailV11() {
+        return '<div class="browser-bar">' +
+          '<span class="term-dot red"></span><span class="term-dot yellow"></span><span class="term-dot green"></span>' +
+          '<span class="browser-url">' + SCENARIOS.retail.url + '</span>' +
+          '</div><div class="browser-body"><div class="mock-retail">' +
+          '<div class="mock-retail-header">' +
+          '<div class="mock-retail-title">Inventory Overview</div>' +
+          '<div class="mock-alert-badge">3 low-stock alerts</div>' +
+          '</div>' +
+          '<div class="mock-inventory">' +
+          '<div class="mock-inv-header"><span>Product</span><span>Stock</span><span>Level</span><span>Action</span></div>' +
+          '<div class="mock-inv-row"><span>Wireless Mouse</span><span>142</span><div class="mock-stock-bar"><div class="mock-stock-fill high" style="width:85%"></div></div><span style="color:var(--green);">In Stock</span></div>' +
+          '<div class="mock-inv-row"><span>USB-C Cable</span><span>8</span><div class="mock-stock-bar"><div class="mock-stock-fill low" style="width:15%"></div></div><span class="mock-reorder-btn">Reorder</span></div>' +
+          '<div class="mock-inv-row"><span>Laptop Stand</span><span>37</span><div class="mock-stock-bar"><div class="mock-stock-fill mid" style="width:45%"></div></div><span style="color:var(--amber);">Medium</span></div>' +
+          '<div class="mock-inv-row"><span>Monitor Arm</span><span>5</span><div class="mock-stock-bar"><div class="mock-stock-fill low" style="width:10%"></div></div><span class="mock-reorder-btn">Reorder</span></div>' +
+          '<div class="mock-inv-row"><span>Keyboard</span><span>9</span><div class="mock-stock-bar"><div class="mock-stock-fill low" style="width:18%"></div></div><span class="mock-reorder-btn">Reorder</span></div>' +
+          '</div></div></div></div>';
+      }
+
+      // --- Render ---
+      function renderRail() {
+        var sc = SCENARIOS[currentScenario];
+        var html = '';
+        for (var i = 0; i < STEP_NAMES.length; i++) {
+          var cls = 'step-rail-chip';
+          var currentAttr = '';
+          if (i === currentStep) {
+            cls += ' active';
+            currentAttr = ' aria-current="step"';
+          } else if (i < currentStep) {
+            cls += ' done';
+          }
+          html += '<button class="' + cls + '"' + currentAttr + ' data-step="' + i + '" aria-label="Step ' + STEP_NUMS[i] + ' ' + STEP_NAMES[i] + '">' + STEP_NUMS[i] + ' ' + STEP_NAMES[i] + '</button>';
+        }
+        railEl.innerHTML = html;
+
+        // Bind clicks
+        railEl.querySelectorAll('.step-rail-chip').forEach(function(chip) {
+          chip.addEventListener('click', function() {
+            goToStep(parseInt(chip.dataset.step));
+          });
+        });
+      }
+
+      // --- Timing ---
+      var USER_CPS = 40;
+      var FF_CPS = 26;
+      var THINK_PAUSE = 700;
+      var STEP_HOLD = 2000;
+      var LOOP_HOLD = 2800;
+      var MANUAL_PAUSE = 6000;
+
+      function typewriter(el, text, cps, token, done) {
+        if (reducedMotion) { el.textContent = text; if (done) done(); return; }
+        var i = 0;
+        var cursor = document.createElement('span');
+        cursor.className = 'type-cursor';
+        cursor.setAttribute('aria-hidden', 'true');
+        el.appendChild(cursor);
+        (function tick() {
+          if (token !== renderToken) return;
+          if (i < text.length) {
+            el.insertBefore(document.createTextNode(text.charAt(i)), cursor);
+            i++;
+            setTimeout(tick, 1000 / cps);
+          } else {
+            cursor.remove();
+            if (done) done();
+          }
+        })();
+      }
+
+      function replay(el) {
+        el.style.animation = 'none';
+        void el.offsetWidth;
+        el.style.animation = '';
+      }
+
+      function renderArtifact(step, sc) {
+        var artHTML = '';
+        switch (step.artifact) {
+          case 'repo':
+            artHTML = '<div class="artifact-repo">' +
+              '<span class="repo-badge">repo created</span>' +
+              '<span class="repo-badge" style="background:var(--green-dim);color:var(--green);">ci configured</span>' +
+              '<span style="font-family:var(--font-mono);font-size:0.75rem;color:var(--text-tertiary);">' + sc.repoName + '</span>' +
+              '</div>';
+            break;
+          case 'code':
+            artHTML = '<div class="artifact-code">' + sc.codeSnippet + '</div>';
+            break;
+          case 'validate':
+            artHTML = '<div class="artifact-validate">' +
+              '<span class="validate-badge"><svg width="12" height="12" viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3" fill="none" stroke="currentColor" stroke-width="2"/></svg>build passed</span>' +
+              '<span class="validate-badge"><svg width="12" height="12" viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3" fill="none" stroke="currentColor" stroke-width="2"/></svg>' + sc.testCount + ' tests passed</span>' +
+              '<span class="validate-badge"><svg width="12" height="12" viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3" fill="none" stroke="currentColor" stroke-width="2"/></svg>security: clean</span>' +
+              '</div>';
+            break;
+          case 'browser-v1':
+            artHTML = '<div class="artifact-browser" id="artifact-browser">' + sc.mockupV1() + '</div>' +
+              '<div style="text-align:center;margin-top:var(--space-sm);"><span class="version-badge">v1.0.0 released</span></div>';
+            break;
+          case 'browser-v11':
+            artHTML = '<div class="artifact-browser" id="artifact-browser">' + sc.mockupV11() + '</div>' +
+              '<div style="text-align:center;margin-top:var(--space-sm);"><span class="version-badge">v1.0.0<span class="version-arrow">\u2192</span>v1.1.0 deployed</span></div>';
+            break;
+          case 'summary':
+            artHTML = '<div class="artifact-summary">' +
+              '<div class="summary-row"><span class="summary-label">Tokens used</span><span class="summary-value">' + sc.tokenCount + '</span></div>' +
+              '<div class="summary-row"><span class="summary-label">Versions shipped</span><span class="summary-value">2 (v1.0.0, v1.1.0)</span></div>' +
+              '<div class="summary-row"><span class="summary-label">Data store</span><span class="summary-value">Google Sheets</span></div>' +
+              '</div>';
+            break;
+        }
+        artifactEl.innerHTML = artHTML;
+        replay(artifactEl);
+
+        if (step.artifact === 'browser-v1' || step.artifact === 'browser-v11') {
+          var browserEl = document.getElementById('artifact-browser');
+          if (browserEl) {
+            if (reducedMotion) browserEl.classList.add('visible');
+            else setTimeout(function() { browserEl.classList.add('visible'); }, 100);
+          }
+        }
+      }
+
+      function renderStep() {
+        var token = ++renderToken;
+        stepComplete = false;
+        clearTimeout(autoplayTimeout);
+        autoplayTimeout = null;
+
+        var sc = SCENARIOS[currentScenario];
+        var step = sc.steps[currentStep];
+
+        stepNumberEl.textContent = STEP_NUMS[currentStep] + ' \u00b7 ';
+        stepTitleEl.textContent = STEP_NAMES[currentStep].toUpperCase();
+        stepCaptionEl.textContent = step.caption;
+
+        // Chat bubbles (empty, streamed in)
+        chatAreaEl.innerHTML = '';
+        var userBubble = null, ffBubble = null;
+        if (step.user) {
+          userBubble = document.createElement('div');
+          userBubble.className = 'chat-bubble chat-bubble-user';
+          userBubble.setAttribute('aria-label', 'You');
+          chatAreaEl.appendChild(userBubble);
+        }
+        if (step.flowforge) {
+          ffBubble = document.createElement('div');
+          ffBubble.className = 'chat-bubble chat-bubble-flowforge';
+          ffBubble.setAttribute('aria-label', 'FlowForge');
+          chatAreaEl.appendChild(ffBubble);
+        }
+
+        // Hide the artifact until the chat finishes
+        artifactEl.innerHTML = '';
+
+        function finish() {
+          if (token !== renderToken) return;
+          stepComplete = true;
+          renderArtifact(step, sc);
+          onStepComplete();
+        }
+
+        function startFlowforge() {
+          if (token !== renderToken) return;
+          if (!ffBubble) { finish(); return; }
+          var dots = document.createElement('span');
+          dots.className = 'typing-indicator';
+          dots.setAttribute('aria-hidden', 'true');
+          dots.innerHTML = '<span></span><span></span><span></span>';
+          ffBubble.appendChild(dots);
+          setTimeout(function() {
+            if (token !== renderToken) return;
+            dots.remove();
+            typewriter(ffBubble, step.flowforge, FF_CPS, token, finish);
+          }, THINK_PAUSE);
+        }
+
+        if (userBubble) {
+          typewriter(userBubble, step.user, USER_CPS, token, function() {
+            if (token !== renderToken) return;
+            if (ffBubble) startFlowforge();
+            else finish();
+          });
+        } else {
+          startFlowforge();
+        }
+
+        prevBtn.disabled = currentStep === 0;
+        nextBtn.disabled = currentStep === STEP_NAMES.length - 1;
+        renderRail();
+        replay(stepFrameEl);
+      }
+
+      // --- Navigation ---
+      function goToStep(n) {
+        if (n < 0 || n >= STEP_NAMES.length) return;
+        currentStep = n;
+        pauseAutoplay();
+        renderStep();
+      }
+
+      function nextStep() {
+        if (currentStep < STEP_NAMES.length - 1) {
+          currentStep++;
+          renderStep();
+        }
+      }
+
+      function prevStep() {
+        if (currentStep > 0) {
+          currentStep--;
+          renderStep();
+        }
+      }
+
+      prevBtn.addEventListener('click', function() { pauseAutoplay(); prevStep(); });
+      nextBtn.addEventListener('click', function() { pauseAutoplay(); nextStep(); });
+
+      // Keyboard navigation on walkthrough
+      walkthroughEl.addEventListener('keydown', function(e) {
+        if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+          e.preventDefault();
+          pauseAutoplay();
+          nextStep();
+        } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+          e.preventDefault();
+          pauseAutoplay();
+          prevStep();
+        }
+      });
+      walkthroughEl.setAttribute('tabindex', '0');
+
+      // --- Autoplay (completion-driven) ---
+      function onStepComplete() {
+        if (!autoPlayEnabled || reducedMotion) return;
+        clearTimeout(autoplayTimeout);
+        var hold = currentStep >= STEP_NAMES.length - 1 ? LOOP_HOLD : STEP_HOLD;
+        autoplayTimeout = setTimeout(function() {
+          if (Date.now() < manualPauseUntil) { onStepComplete(); return; }
+          if (currentStep >= STEP_NAMES.length - 1) currentStep = 0;
+          else currentStep++;
+          renderStep();
+        }, hold);
+      }
+
+      function startAutoplay() {
+        if (reducedMotion) return;
+        autoPlayEnabled = true;
+        if (stepComplete) onStepComplete();
+      }
+
+      function stopAutoplay() {
+        autoPlayEnabled = false;
+        clearTimeout(autoplayTimeout);
+        autoplayTimeout = null;
+      }
+
+      function pauseAutoplay() {
+        manualPauseUntil = Date.now() + MANUAL_PAUSE;
+      }
+
+      // --- Scenario tabs ---
       function switchScenario(name) {
-        // Cancel any running build
-        if (buildTimers[name]) { clearTimeout(buildTimers[name]); }
-        Object.keys(buildTimers).forEach(function(k) { if (k !== name) clearTimeout(buildTimers[k]); });
-        buildTimers = {};
-
-        scenarioTabs.forEach(function(tab) {
+        currentScenario = name;
+        currentStep = 0;
+        tabs.forEach(function(tab) {
           var isActive = tab.dataset.scenario === name;
           tab.classList.toggle('active', isActive);
           tab.setAttribute('aria-selected', String(isActive));
+          tab.setAttribute('tabindex', isActive ? '0' : '-1');
         });
-        scenarioPanels.forEach(function(panel) {
-          var isActive = panel.id === 'panel-' + name;
-          panel.classList.toggle('active', isActive);
-        });
-
-        if (!reducedMotion) {
-          startBuildAnimation(name);
-        } else {
-          showFinalState(name);
-        }
+        requestEl.textContent = SCENARIOS[name].request;
+        renderStep();
+        startAutoplay();
       }
 
-      scenarioTabs.forEach(function(tab) {
-        tab.addEventListener('click', function() { switchScenario(tab.dataset.scenario); });
+      tabs.forEach(function(tab) {
+        tab.addEventListener('click', function() {
+          switchScenario(tab.dataset.scenario);
+        });
       });
 
-      function startBuildAnimation(name) {
-        var panel = document.getElementById('panel-' + name);
-        if (!panel) return;
-        var dots = panel.querySelectorAll('.build-dot');
-        var connectors = panel.querySelectorAll('.build-connector');
-        var stages = panel.querySelectorAll('.build-stage');
-        var typedEl = panel.querySelector('.t-text');
+      // Tab keyboard navigation
+      var tabList = document.getElementById('walkthrough-tabs');
+      tabList.addEventListener('keydown', function(e) {
+        var tabArr = Array.from(tabs);
+        var idx = tabArr.indexOf(document.activeElement);
+        if (idx === -1) return;
+        var newIdx = idx;
+        if (e.key === 'ArrowRight') { e.preventDefault(); newIdx = (idx + 1) % tabArr.length; }
+        else if (e.key === 'ArrowLeft') { e.preventDefault(); newIdx = (idx - 1 + tabArr.length) % tabArr.length; }
+        else if (e.key === 'Home') { e.preventDefault(); newIdx = 0; }
+        else if (e.key === 'End') { e.preventDefault(); newIdx = tabArr.length - 1; }
+        else return;
+        tabArr[newIdx].focus();
+        switchScenario(tabArr[newIdx].dataset.scenario);
+      });
 
-        // Reset all
-        dots.forEach(function(d) { d.classList.remove('active', 'done'); });
-        connectors.forEach(function(c) { c.classList.remove('active'); });
-        stages.forEach(function(s) { s.classList.remove('active'); });
-        if (typedEl) typedEl.textContent = '';
-
-        var step = 0;
-        var totalSteps = 9;
-        var stepDelay = 600;
-
-        function activateStep() {
-          if (step >= totalSteps) return;
-
-          // Mark previous as done
-          if (step > 0) {
-            dots[step - 1].classList.remove('active');
-            dots[step - 1].classList.add('done');
-            if (connectors[step - 1]) connectors[step - 1].classList.add('active');
-          }
-          dots[step].classList.add('active');
-          stages[step].classList.add('active');
-
-          // Type text on step 0
-          if (step === 0 && typedEl) {
-            var text = scenarioTexts[name] || '';
-            var ci = 0;
-            function typeChar() {
-              if (ci < text.length) {
-                typedEl.textContent += text.charAt(ci);
-                ci++;
-                buildTimers[name + '_type'] = setTimeout(typeChar, 25 + Math.random() * 20);
-              }
-            }
-            typeChar();
-          }
-
-          step++;
-          if (step < totalSteps) {
-            buildTimers[name] = setTimeout(activateStep, stepDelay);
-          }
-        }
-
-        activateStep();
-      }
-
-      function showFinalState(name) {
-        var panel = document.getElementById('panel-' + name);
-        if (!panel) return;
-        var dots = panel.querySelectorAll('.build-dot');
-        var connectors = panel.querySelectorAll('.build-connector');
-        var stages = panel.querySelectorAll('.build-stage');
-        var typedEl = panel.querySelector('.t-text');
-
-        dots.forEach(function(d) { d.classList.add('done'); d.classList.remove('active'); });
-        connectors.forEach(function(c) { c.classList.add('active'); });
-        stages.forEach(function(s) { s.classList.add('active'); });
-        if (typedEl) typedEl.textContent = scenarioTexts[name] || '';
-        // Hide typing cursors
-        var cursors = panel.querySelectorAll('.t-cursor');
-        cursors.forEach(function(c) { c.style.display = 'none'; });
-      }
-
-      // IntersectionObserver to start first visible scenario
-      var firstPanel = document.querySelector('.scenario-panel.active');
-      if (firstPanel && 'IntersectionObserver' in window) {
+      // --- IntersectionObserver ---
+      if ('IntersectionObserver' in window) {
         var observer = new IntersectionObserver(function(entries) {
           entries.forEach(function(entry) {
             if (entry.isIntersecting) {
-              var name = firstPanel.id.replace('panel-', '');
-              startBuildAnimation(name);
-              observer.unobserve(entry.target);
+              startAutoplay();
+            } else {
+              stopAutoplay();
             }
           });
-        }, { threshold: 0.15 });
-        observer.observe(firstPanel);
+        }, { threshold: 0.1 });
+        observer.observe(document.getElementById('product-in-action'));
+      }
+
+      // --- Init ---
+      requestEl.textContent = SCENARIOS.workshop.request;
+      renderStep();
+      if (!reducedMotion) {
+        startAutoplay();
       }
     });
-
     /* ============================================================
        8-Step Circular Factory
        ============================================================ */
