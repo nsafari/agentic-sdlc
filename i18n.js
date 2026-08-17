@@ -203,6 +203,7 @@
 
   /* ---- direction map --------------------------------------------------- */
   var RTL_LANGS = { fa: true, ar: true, he: true, ur: true };
+  var SUPPORTED_LANGS = { en: true, fa: true };
 
   /* ---- state ----------------------------------------------------------- */
   var STORAGE_KEY = "sdlc-lang";
@@ -211,7 +212,7 @@
   function resolveInitialLang() {
     try {
       var stored = localStorage.getItem(STORAGE_KEY);
-      if (stored && translations[stored]) return stored;
+      if (stored && SUPPORTED_LANGS[stored] && translations[stored]) return stored;
     } catch (_) {
       /* localStorage may be unavailable */
     }
@@ -230,7 +231,7 @@
      * @param {string} lang  Language code (e.g. 'en', 'fa')
      */
     setLanguage: function (lang) {
-      if (!translations[lang]) {
+      if (!SUPPORTED_LANGS[lang] || !translations[lang]) {
         console.warn("[i18n] Unknown language:", lang);
         return;
       }

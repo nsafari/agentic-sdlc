@@ -1048,6 +1048,12 @@ html[dir="rtl"] .principle-card {
   cursor: pointer;
   transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
   min-width: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  -webkit-appearance: none;
+  appearance: none;
 }
 .level-card:hover {
   border-color: var(--hairline-strong);
@@ -1140,12 +1146,14 @@ html[dir="rtl"] .principle-card {
 
 /* ------------------------------------------------------ heat-map wheel */
 .wheel .seg path.arc {
-  transition: opacity 0.4s ease, filter 0.4s ease;
+  transition: stroke 0.25s ease, opacity 0.4s ease, filter 0.4s ease;
 }
 html[data-level="l1"] .wheel .seg:not(.active) path.arc { opacity: 0.55; }
 
-html[data-level="l3"] .wheel .seg path.arc {
-  animation: segpulse-l3 3s ease-in-out infinite;
+@media (prefers-reduced-motion: no-preference) {
+  html[data-level="l3"] .wheel .seg path.arc {
+    animation: segpulse-l3 3s ease-in-out infinite;
+  }
 }
 @keyframes segpulse-l3 {
   0%, 100% { filter: brightness(1) drop-shadow(0 0 4px var(--accent)); }

@@ -1485,10 +1485,11 @@
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      width: 80%;
-      height: 80%;
+      width: 74%;
+      height: 74%;
       border-radius: 50%;
       border: 2px solid var(--border);
+      z-index: 0;
     }
 
     .hitl-node {
@@ -1538,6 +1539,8 @@
     /* Travelling signal dot */
     .hitl-signal {
       position: absolute;
+      top: 50%;
+      left: 50%;
       width: 10px;
       height: 10px;
       border-radius: 50%;
@@ -3035,6 +3038,8 @@
           });
         }, { threshold: 0.5 });
         observer.observe(document.getElementById('product-in-action'));
+      } else {
+        startWalkthrough();
       }
 
       // --- Init ---
@@ -3385,13 +3390,15 @@
       function send(batch) {
         if (!batch.length) return;
         var body = JSON.stringify(batch);
-        try {
-          if (navigator.sendBeacon) {
-            navigator.sendBeacon(ENDPOINT, body);
-          } else {
+        var sent = false;
+        if (navigator.sendBeacon) {
+          try { sent = navigator.sendBeacon(ENDPOINT, body); } catch (e) { sent = false; }
+        }
+        if (!sent) {
+          try {
             fetch(ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=UTF-8' }, body: body, keepalive: true }).catch(function () {});
-          }
-        } catch (e) {}
+          } catch (e) {}
+        }
       }
 
       function flush() {
@@ -3545,7 +3552,10 @@
           headers: { 'Content-Type': 'text/plain;charset=UTF-8' },
           body: JSON.stringify({ type: 'waitlist', email: email, ts: new Date().toISOString(), path: location.pathname }),
           keepalive: true
-        }).then(showSuccess).catch(function () {
+        }).then(function (res) {
+          if (!res.ok) throw new Error('HTTP ' + res.status);
+          showSuccess();
+        }).catch(function () {
           submitBtn.disabled = false;
           submitBtn.textContent = 'Get early access';
           setError('Something went wrong. Please try again.');

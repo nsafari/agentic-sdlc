@@ -8,6 +8,7 @@
   /* ---- level state ---- */
   const LEVELS = ["l1", "l2", "l3"];
   const LEVEL_KEY = "sdlc-level";
+  const LEVEL_DATA_SRC = { l1: "data-l1.js", l3: "data-l3.js" };
   try {
     var savedLevel = localStorage.getItem(LEVEL_KEY);
     document.documentElement.dataset.level =
@@ -21,19 +22,42 @@
     document.documentElement.dataset.transitioning = "";
     setTimeout(() => { delete document.documentElement.dataset.transitioning; }, 350);
     try { localStorage.setItem(LEVEL_KEY, level); } catch (e) {}
-    syncData();
-    window.dispatchEvent(new Event("levelchange"));
+    ensureLevelData(level, function () {
+      syncData();
+      window.dispatchEvent(new Event("levelchange"));
+    });
   }
 
   let DATA = window.SDLC_DATA;
   function syncData() {
     const lang = window.I18n ? window.I18n.getLanguage() : "en";
     const level = getLevel();
-    let key = "SDLC_DATA";
-    if (lang !== "en") key += "_" + lang.toUpperCase();
-    if (level !== "l2") key += "_" + level.toUpperCase();
-    DATA = window[key] || window.SDLC_DATA;
+    const keys = [];
+    if (lang !== "en" || level !== "l2") {
+      let key = "SDLC_DATA";
+      if (lang !== "en") key += "_" + lang.toUpperCase();
+      if (level !== "l2") key += "_" + level.toUpperCase();
+      keys.push(key);
+    }
+    if (lang !== "en") keys.push("SDLC_DATA_" + lang.toUpperCase());
+    if (level !== "l2") keys.push("SDLC_DATA_" + level.toUpperCase());
+    keys.push("SDLC_DATA");
+    DATA = window.SDLC_DATA;
+    for (const k of keys) {
+      if (window[k]) { DATA = window[k]; break; }
+    }
   }
+
+  function ensureLevelData(level, done) {
+    const src = LEVEL_DATA_SRC[level];
+    if (!src || window["SDLC_DATA_" + level.toUpperCase()]) { done(); return; }
+    const s = document.createElement("script");
+    s.src = src;
+    s.onload = done;
+    s.onerror = done;
+    document.head.appendChild(s);
+  }
+
   syncData();
 
   marked.use({
@@ -352,8 +376,8 @@
       } catch (e) {}
       setTheme(next);
     };
-    const LANGS = ["en", "fa", "de"];
-    const LANG_LABELS = { en: "فارسی", fa: "Deutsch", de: "English" };
+    const LANGS = ["en", "fa"];
+    const LANG_LABELS = { en: "فارسی", fa: "English" };
     const toggleLang = () => {
       const idx = LANGS.indexOf(lang);
       const next = LANGS[(idx + 1) % LANGS.length];
@@ -383,10 +407,10 @@
         <div class="org">${I18n.t("meta.org")}</div>
         <div class="level-cards">
           ${LEVELS.map((l) =>
-            html`<div class="level-card ${level === l ? "active" : ""}" onClick=${() => changeLevel(l)}>
+            html`<button type="button" class="level-card ${level === l ? "active" : ""}" onClick=${() => changeLevel(l)}>
               <div class="level-name">${I18n.t("levels." + l)}</div>
               <div class="level-desc">${I18n.t("levelCards." + l + "desc")}</div>
-            </div>`
+            </button>`
           )}
         </div>
         <button class="lang-btn" onClick=${toggleLang} title="Switch language">
@@ -434,7 +458,7 @@
     return html`<main class="panel">
       <div class="crumb"><a href="#/">${I18n.t("common.breadcrumb")}</a> / ${I18n.t("stage.stageNum")} 0${idx + 1}</div>
       <div class="stage-head">
-        <div class="stage-num">${I18n.t("stage.stageNum")} 0${idx + 1} / ${I18n.t("stage.of")} 06</div>
+        <div class="stage-num">${I18n.t("stage.stageNum")} ${String(idx + 1).padStart(2, "0")} / ${I18n.t("stage.of")} ${String(DATA.stages.length).padStart(2, "0")}</div>
         <h2>${stage.name}</h2>
         <p class="tagline">${stage.tagline}</p>
       </div>
@@ -561,5 +585,8 @@
     </div>`;
   }
 
-  render(html`<${App} />`, document.getElementById("app"));
+  ensureLevelData(getLevel(), function () {
+    syncData();
+    render(html`<${App} />`, document.getElementById("app"));
+  });
 })();

@@ -22,6 +22,20 @@
 var SHEET_NAME = 'analytics';
 var WAITLIST_SHEET_NAME = 'waitlist';
 
+/**
+ * Prevent Google Sheets formula injection. A cell value beginning with `=`,
+ * `+`, `-` or `@` (optionally after leading whitespace) would otherwise be
+ * interpreted as a formula and could run scripts or corrupt data. Prefixing a
+ * single quote forces the value to be treated as literal text.
+ */
+function sanitizeCell(value) {
+  if (value == null) return '';
+  if (typeof value === 'number') return value;
+  var s = String(value);
+  if (/^[\s]*[=+\-@]/.test(s)) return "'" + s;
+  return s;
+}
+
 function doPost(e) {
   try {
     var payload = JSON.parse(e.postData.contents);
@@ -41,20 +55,36 @@ function doPost(e) {
 
     var rows = events.map(function (ev) {
       return [
-        ev.sessionId || '',
-        ev.type || '',
-        ev.ts || new Date().toISOString(),
-        ev.path || '',
-        ev.label || '',
-        ev.value || ''
+        sanitizeCell(ev.sessionId),
+        sanitizeCell(ev.type),
+        sanitizeCell(ev.ts || new Date().toISOString()),
+        sanitizeCell(ev.path),
+        sanitizeCell(ev.label),
+        sanitizeCell(ev.value != null ? ev.value : '')
       ];
     });
 
-    sheet.getRange(sheet.getLastRow() + 1, 1, rows.length, rows[0].length).setValues(rows);
+    appendRows(sheet, rows);
 
     return json({ ok: true });
   } catch (err) {
     return json({ ok: false, error: String(err) });
+  }
+}
+
+/**
+ * Serialize concurrent writes. `getLastRow()` + `setValues()` is not atomic:
+ * two simultaneous requests could both compute the same start row and
+ * overwrite each other. LockService makes the read-and-append critical
+ * section atomic.
+ */
+function appendRows(sheet, rows) {
+  var lock = LockService.getScriptLock();
+  lock.waitLock(30000);
+  try {
+    sheet.getRange(sheet.getLastRow() + 1, 1, rows.length, rows[0].length).setValues(rows);
+  } finally {
+    lock.releaseLock();
   }
 }
 
@@ -65,7 +95,11 @@ function appendWaitlist(entry) {
     sheet = ss.insertSheet(WAITLIST_SHEET_NAME);
     sheet.appendRow(['email', 'timestamp', 'path']);
   }
-  sheet.appendRow([entry.email || '', entry.ts || new Date().toISOString(), entry.path || '']);
+  appendRows(sheet, [[
+    sanitizeCell(entry.email),
+    sanitizeCell(entry.ts || new Date().toISOString()),
+    sanitizeCell(entry.path)
+  ]]);
   return json({ ok: true });
 }
 

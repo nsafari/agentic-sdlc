@@ -21,7 +21,7 @@
   <!-- apply the saved language before first paint -->
   <script>
     try {
-      var supportedLangs = { en: true, fa: true, de: true };
+      var supportedLangs = { en: true, fa: true };
       var savedLang = localStorage.getItem("sdlc-lang");
       if (!savedLang || !supportedLangs[savedLang]) savedLang = "en";
       document.documentElement.lang = savedLang;
@@ -50,8 +50,6 @@
   <script src="i18n.js"></script>
   <script src="data.js"></script>
   <script src="data-fa.js"></script>
-  <script src="data-l1.js"></script>
-  <script src="data-l3.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
