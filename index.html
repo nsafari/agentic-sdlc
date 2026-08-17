@@ -32,6 +32,15 @@
       document.documentElement.dir = "ltr";
     }
   </script>
+  <script>
+    try {
+      var savedLevel = localStorage.getItem("sdlc-level");
+      document.documentElement.dataset.level =
+        (savedLevel === "l1" || savedLevel === "l3") ? savedLevel : "l2";
+    } catch (e) {
+      document.documentElement.dataset.level = "l2";
+    }
+  </script>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>

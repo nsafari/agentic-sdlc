@@ -1,0 +1,3567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FlowForge — From Human Workflow to Working Software</title>
+  <meta name="description" content="FlowForge turns natural language descriptions of business workflows into production-ready, tested, and deployed software — end to end.">
+  <meta property="og:title" content="FlowForge — From Human Workflow to Working Software">
+  <meta property="og:description" content="FlowForge turns natural language descriptions of business workflows into production-ready, tested, and deployed software — end to end.">
+  <meta property="og:type" content="website">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    /* ============================================================
+       FlowForge — CSS Design System
+       ============================================================ */
+
+    /* --- Custom Properties --- */
+    :root {
+      --bg-primary: #0a0e1a;
+      --bg-secondary: #111827;
+      --bg-tertiary: #1f2937;
+      --cyan: #00d9ff;
+      --green: #00ff88;
+      --cyan-dim: #00d9ff40;
+      --green-dim: #00ff8840;
+      --amber: #f59e0b;
+      --amber-dim: #f59e0b40;
+      --text-primary: #f9fafb;
+      --text-secondary: #9ca3af;
+      --text-tertiary: #6b7280;
+      --border: #374151;
+      --border-active: #00d9ff;
+      --space-xs: 0.25rem;
+      --space-sm: 0.5rem;
+      --space-md: 1rem;
+      --space-lg: 1.5rem;
+      --space-xl: 2rem;
+      --space-2xl: 3rem;
+      --space-3xl: 4rem;
+      --space-4xl: 6rem;
+      --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      --font-mono: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+      --radius-sm: 4px;
+      --radius-md: 8px;
+      --radius-lg: 12px;
+      --radius-xl: 16px;
+      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4);
+      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+      --shadow-glow-cyan: 0 0 20px rgba(0, 217, 255, 0.3);
+      --shadow-glow-green: 0 0 20px rgba(0, 255, 136, 0.3);
+    }
+
+    /* --- CSS Reset --- */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.6;
+      color: var(--text-primary);
+      background-color: var(--bg-primary);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      font-weight: 600;
+      line-height: 1.2;
+      margin-bottom: var(--space-md);
+    }
+
+    h1 { font-size: 3rem; }
+    h2 { font-size: 2.25rem; }
+    h3 { font-size: 1.875rem; }
+    h4 { font-size: 1.5rem; }
+    h5 { font-size: 1.25rem; }
+    h6 { font-size: 1.125rem; }
+
+    p { margin-bottom: var(--space-md); }
+    p:last-child { margin-bottom: 0; }
+
+    code, pre { font-family: var(--font-mono); }
+    code {
+      background-color: var(--bg-tertiary);
+      padding: 0.125rem 0.375rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.875em;
+    }
+    pre {
+      background-color: var(--bg-secondary);
+      padding: var(--space-md);
+      border-radius: var(--radius-md);
+      overflow-x: auto;
+      margin-bottom: var(--space-md);
+    }
+    pre code { background: none; padding: 0; }
+
+    /* --- Layout Utilities --- */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 var(--space-md);
+    }
+
+    @media (min-width: 768px) {
+      .container { padding: 0 var(--space-lg); }
+    }
+    @media (min-width: 1024px) {
+      .container { padding: 0 var(--space-xl); }
+    }
+
+    /* --- Button Styles --- */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: var(--space-sm) var(--space-lg);
+      font-family: var(--font-body);
+      font-size: 1rem;
+      font-weight: 500;
+      text-decoration: none;
+      border: 2px solid transparent;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .btn-primary {
+      background-color: var(--cyan);
+      color: var(--bg-primary);
+      border-color: var(--cyan);
+    }
+    .btn-primary:hover {
+      background-color: transparent;
+      color: var(--cyan);
+      box-shadow: var(--shadow-glow-cyan);
+    }
+    .btn-secondary {
+      background-color: transparent;
+      color: var(--cyan);
+      border-color: var(--cyan);
+    }
+    .btn-secondary:hover {
+      background-color: var(--cyan);
+      color: var(--bg-primary);
+    }
+
+    .card {
+      background-color: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: var(--space-lg);
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+    .card:hover {
+      border-color: var(--border-active);
+      box-shadow: var(--shadow-md);
+    }
+
+    .badge {
+      display: inline-block;
+      padding: var(--space-xs) var(--space-sm);
+      font-size: 0.75rem;
+      font-weight: 500;
+      border-radius: var(--radius-sm);
+      background-color: var(--bg-tertiary);
+      color: var(--text-secondary);
+    }
+    .badge-cyan { background-color: var(--cyan-dim); color: var(--cyan); }
+    .badge-green { background-color: var(--green-dim); color: var(--green); }
+
+    /* --- Animation Keyframes --- */
+    @keyframes fade-in {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes slide-up {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+    @keyframes glow {
+      0%, 100% { box-shadow: 0 0 5px var(--cyan-dim); }
+      50% { box-shadow: 0 0 20px var(--cyan), 0 0 30px var(--cyan-dim); }
+    }
+    @keyframes cursor-blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    /* --- Responsive Breakpoints --- */
+    @media (max-width: 767px) {
+      .hide-mobile { display: none !important; }
+    }
+    @media (min-width: 768px) and (max-width: 1023px) {
+      .hide-tablet { display: none !important; }
+      h1 { font-size: 2.5rem; }
+      h2 { font-size: 1.875rem; }
+      h3 { font-size: 1.5rem; }
+      .container { max-width: 90%; }
+    }
+    @media (min-width: 1024px) {
+      .hide-desktop { display: none !important; }
+    }
+    @media (min-width: 1400px) {
+      .container { max-width: 1280px; }
+      h1 { font-size: 3.5rem; }
+      h2 { font-size: 2.5rem; }
+      .hero-content { max-width: 900px; }
+    }
+
+    /* --- Global Mobile Base Rules --- */
+    @media (max-width: 767px) {
+      img, svg { max-width: 100%; height: auto; }
+      h1 { font-size: clamp(1.5rem, 5vw, 2.5rem); }
+      h2 { font-size: clamp(1.375rem, 4vw, 2rem); }
+      h3 { font-size: clamp(1.125rem, 3.5vw, 1.5rem); }
+      h4 { font-size: clamp(1rem, 3vw, 1.25rem); }
+      h5 { font-size: 1.125rem; }
+      h6 { font-size: 1rem; }
+      .btn { min-height: 44px; min-width: 44px; padding: 0.75rem 1.25rem; }
+      .lang-tab { min-height: 44px; min-width: 44px; }
+      button, a, [role="tab"] { min-height: 44px; }
+      .section-intro { font-size: 0.9375rem; }
+    }
+
+    /* --- Skip Navigation Link --- */
+    .skip-link {
+      position: absolute;
+      top: -100%;
+      left: var(--space-md);
+      z-index: 9999;
+      padding: var(--space-sm) var(--space-lg);
+      background-color: var(--cyan);
+      color: var(--bg-primary);
+      font-weight: 600;
+      text-decoration: none;
+      border-radius: var(--radius-md);
+      transition: top 0.2s ease;
+    }
+    .skip-link:focus { top: var(--space-md); }
+
+    /* --- Focus Indicators --- */
+    :focus-visible {
+      outline: 2px solid var(--cyan);
+      outline-offset: 2px;
+    }
+    button:focus-visible,
+    a:focus-visible,
+    [role="tab"]:focus-visible {
+      outline: 2px solid var(--cyan);
+      outline-offset: 2px;
+      box-shadow: 0 0 0 4px var(--cyan-dim);
+    }
+    :focus:not(:focus-visible) { outline: none; }
+    .btn-primary:focus-visible {
+      outline-color: var(--bg-primary);
+      box-shadow: 0 0 0 4px var(--text-secondary);
+    }
+    [tabindex]:focus-visible {
+      outline: 2px solid var(--cyan);
+      outline-offset: 2px;
+    }
+
+    /* --- Prefers Reduced Motion --- */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+
+    /* ============================================================
+       SECTION 1 — HERO
+       ============================================================ */
+    header#hero {
+      position: relative;
+      min-height: 100vh;
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: var(--space-4xl) 0;
+      overflow: hidden;
+    }
+    header#hero::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 50px 50px;
+      opacity: 0.05;
+      pointer-events: none;
+    }
+    header#hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 200px;
+      background: linear-gradient(to bottom, transparent, var(--bg-primary));
+      pointer-events: none;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      max-width: 800px;
+      margin-bottom: var(--space-3xl);
+    }
+    .hero-content h1 {
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 700;
+      margin-bottom: var(--space-lg);
+      background: linear-gradient(135deg, var(--text-primary) 0%, var(--cyan) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero-subheadline {
+      font-size: clamp(1rem, 2vw, 1.25rem);
+      color: var(--text-secondary);
+      margin-bottom: var(--space-xl);
+      line-height: 1.6;
+    }
+    .hero-cta {
+      display: flex;
+      gap: var(--space-md);
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .hero-flow {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--space-sm);
+    }
+    .hero-flow-request {
+      background-color: var(--bg-secondary);
+      border: 1px solid var(--amber-dim);
+      border-radius: var(--radius-lg);
+      padding: var(--space-md) var(--space-xl);
+      max-width: 560px;
+      text-align: center;
+      font-size: 1rem;
+      color: var(--text-primary);
+      line-height: 1.5;
+      min-height: 3em;
+      position: relative;
+    }
+    .hero-flow-request .cursor {
+      display: inline-block;
+      width: 2px;
+      height: 1.1em;
+      background-color: var(--amber);
+      vertical-align: text-bottom;
+      animation: cursor-blink 1s step-end infinite;
+    }
+    .hero-flow-stage {
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+      opacity: 0;
+      animation: fade-in 0.6s ease forwards;
+    }
+    .hero-flow-stage:nth-child(3) { animation-delay: 2s; }
+    .hero-flow-stage:nth-child(5) { animation-delay: 4s; }
+    .hero-flow-stage:nth-child(7) { animation-delay: 6s; }
+    .hero-flow-connector {
+      width: 2px;
+      height: 24px;
+      position: relative;
+      overflow: hidden;
+      opacity: 0;
+      animation: fade-in 0.4s ease forwards;
+    }
+    .hero-flow-connector:nth-child(2) { animation-delay: 2s; }
+    .hero-flow-connector:nth-child(4) { animation-delay: 4s; }
+    .hero-flow-connector:nth-child(6) { animation-delay: 6s; }
+    .hero-flow-connector.req-to-spec { background: linear-gradient(to bottom, var(--amber), var(--cyan)); }
+    .hero-flow-connector.spec-to-code { background: linear-gradient(to bottom, var(--cyan), var(--green)); }
+    .hero-flow-connector.code-to-app { background: linear-gradient(to bottom, var(--green), var(--cyan)); }
+    .hero-flow-connector::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 8px;
+      background: currentColor;
+      box-shadow: 0 0 8px currentColor;
+      animation: flow-vertical 1.5s ease-in-out infinite;
+      will-change: transform, opacity;
+    }
+    @keyframes flow-vertical {
+      0% { transform: translateY(-100%); opacity: 0; }
+      50% { opacity: 1; }
+      100% { transform: translateY(100%); opacity: 0; }
+    }
+    .hero-flow-label {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-sm);
+      padding: var(--space-xs) var(--space-md);
+      border-radius: var(--radius-md);
+      font-family: var(--font-mono);
+      font-size: 0.8125rem;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+    .hero-flow-label.stage-spec { background-color: var(--bg-tertiary); border: 1px solid var(--border); color: var(--cyan); }
+    .hero-flow-label.stage-code { background-color: var(--bg-secondary); border: 1px solid var(--green-dim); color: var(--green); }
+    .hero-flow-label.stage-app { background-color: var(--bg-secondary); border: 1px solid var(--cyan-dim); color: var(--cyan); }
+    .hero-flow-label .label-icon { width: 14px; height: 14px; flex-shrink: 0; }
+
+    @media (max-width: 767px) {
+      header#hero { min-height: auto; padding: var(--space-3xl) 0 var(--space-2xl); }
+      .hero-content { margin-bottom: var(--space-xl); padding: 0 var(--space-sm); }
+      .hero-cta { flex-direction: column; align-items: stretch; gap: var(--space-sm); padding: 0 var(--space-md); }
+      .hero-cta .btn { width: 100%; justify-content: center; }
+      .hero-flow-request { font-size: 0.875rem; padding: var(--space-sm) var(--space-md); max-width: 100%; }
+      .hero-flow-label { font-size: 0.75rem; padding: var(--space-xs) var(--space-sm); }
+    }
+
+    /* --- Section Spacing --- */
+    section { padding: var(--space-4xl) 0; }
+    @media (max-width: 767px) {
+      section { padding: var(--space-2xl) 0; }
+    }
+    .section-intro {
+      text-align: center;
+      color: var(--text-secondary);
+      font-size: 1.125rem;
+      margin-bottom: var(--space-3xl);
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* ============================================================
+       SECTION 2 — THE PROBLEM (The Gap)
+       ============================================================ */
+    #problem { background-color: var(--bg-secondary); }
+    #problem h2 { text-align: center; margin-bottom: var(--space-sm); }
+    .problem-lead {
+      text-align: center;
+      font-size: 1.125rem;
+      color: var(--text-secondary);
+      max-width: 700px;
+      margin: 0 auto var(--space-3xl);
+      line-height: 1.7;
+    }
+    .comparison-grid {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: var(--space-xl);
+      align-items: start;
+      margin-bottom: var(--space-xl);
+    }
+    .comparison-column {
+      background-color: var(--bg-primary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: var(--space-xl);
+    }
+    .comparison-title {
+      font-family: var(--font-mono);
+      font-size: 0.875rem;
+      font-weight: 600;
+      text-align: center;
+      margin-bottom: var(--space-lg);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+    .comparison-traditional .comparison-title { color: var(--text-tertiary); }
+    .comparison-flowforge .comparison-title { color: var(--cyan); }
+    .comparison-flow { display: flex; flex-direction: column; align-items: center; gap: var(--space-xs); }
+    .comparison-step {
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+      padding: var(--space-sm) var(--space-md);
+      border-radius: var(--radius-md);
+      width: 100%;
+    }
+    .comparison-traditional .comparison-step { background-color: var(--bg-tertiary); border: 1px dashed var(--border); }
+    .comparison-flowforge .comparison-step { background-color: var(--bg-secondary); border: 1px solid var(--cyan-dim); }
+    .comparison-step-label { font-size: 0.9375rem; color: var(--text-primary); }
+    .comparison-traditional .comparison-step-label { color: var(--text-secondary); }
+    .step-icon-mono {
+      font-family: var(--font-mono);
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--text-tertiary);
+      flex-shrink: 0;
+      width: 2.5em;
+      text-align: center;
+    }
+    .comparison-flowforge .step-icon-mono { color: var(--cyan); }
+    .comparison-connector { width: 2px; height: 16px; margin-left: 1.25em; background-color: var(--border); }
+    .comparison-flowforge .comparison-connector { background: linear-gradient(to bottom, var(--cyan), var(--green)); }
+    .comparison-divider { width: 2px; background: linear-gradient(to bottom, transparent, var(--border), transparent); align-self: stretch; margin: var(--space-xl) 0; }
+    .problem-caption {
+      text-align: center;
+      font-size: 1rem;
+      color: var(--text-secondary);
+      max-width: 600px;
+      margin: var(--space-xl) auto 0;
+      line-height: 1.6;
+    }
+
+    @media (max-width: 767px) {
+      .comparison-grid { grid-template-columns: 1fr; gap: var(--space-lg); }
+      .comparison-divider { width: 80%; height: 2px; margin: var(--space-md) auto; background: linear-gradient(to right, transparent, var(--border), transparent); }
+      .comparison-column { padding: var(--space-md); }
+      .comparison-title { font-size: 0.8125rem; margin-bottom: var(--space-md); }
+      .comparison-step { padding: var(--space-xs) var(--space-sm); gap: var(--space-sm); }
+      .comparison-step-label { font-size: 0.8125rem; }
+      .step-icon-mono { font-size: 0.75rem; width: 2em; }
+      .comparison-connector { height: 10px; }
+      .problem-caption { font-size: 0.9375rem; padding: 0 var(--space-sm); }
+      .problem-lead { font-size: 1rem; padding: 0 var(--space-sm); }
+    }
+
+    /* ============================================================
+       SECTION 3 — PRODUCT IN ACTION (chat walkthrough)
+       ============================================================ */
+    #product-in-action { background-color: var(--bg-primary); position: relative; }
+    #product-in-action h2 { text-align: center; margin-bottom: var(--space-sm); }
+
+    /* Scenario tabs */
+    .scenario-tabs {
+      display: flex;
+      justify-content: center;
+      gap: var(--space-sm);
+      margin-bottom: var(--space-xl);
+    }
+    .scenario-tab {
+      padding: var(--space-sm) var(--space-lg);
+      font-family: var(--font-mono);
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      background-color: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .scenario-tab:hover { border-color: var(--border-active); color: var(--text-primary); }
+    .scenario-tab.active {
+      background-color: var(--cyan);
+      color: var(--bg-primary);
+      border-color: var(--cyan);
+    }
+
+    /* Step rail */
+    .step-rail {
+      display: flex;
+      justify-content: center;
+      gap: 4px;
+      margin-bottom: var(--space-lg);
+      flex-wrap: wrap;
+    }
+    .step-rail-chip {
+      padding: var(--space-xs) var(--space-sm);
+      font-family: var(--font-mono);
+      font-size: 0.6875rem;
+      font-weight: 500;
+      color: var(--text-tertiary);
+      background-color: var(--bg-tertiary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+      min-height: 28px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .step-rail-chip:hover { border-color: var(--cyan); color: var(--text-primary); }
+    .step-rail-chip[aria-current="step"] {
+      background-color: var(--cyan-dim);
+      border-color: var(--cyan);
+      color: var(--cyan);
+    }
+    .step-rail-chip.done {
+      background-color: var(--green-dim);
+      border-color: var(--green);
+      color: var(--green);
+    }
+
+    /* Step frame */
+    .step-frame {
+      background-color: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: var(--space-lg);
+      max-width: 800px;
+      margin: 0 auto var(--space-lg);
+      animation: fade-in 0.35s ease;
+      min-height: 340px;
+    }
+
+    .step-header {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      margin-bottom: var(--space-xs);
+    }
+    .step-number {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--cyan);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .step-title {
+      font-family: var(--font-mono);
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .step-caption {
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+      margin-bottom: var(--space-lg);
+      margin-top: 0;
+    }
+
+    /* Chat area */
+    .chat-area {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-md);
+      margin-bottom: var(--space-lg);
+    }
+    .chat-bubble {
+      max-width: 85%;
+      padding: var(--space-sm) var(--space-md);
+      border-radius: var(--radius-md);
+      font-size: 0.9375rem;
+      line-height: 1.5;
+      position: relative;
+    }
+    .chat-bubble-user {
+      align-self: flex-start;
+      background-color: var(--bg-tertiary);
+      border: 1px solid var(--amber-dim);
+      color: var(--text-primary);
+    }
+    .chat-bubble-user::before {
+      content: attr(aria-label);
+      display: block;
+      font-family: var(--font-mono);
+      font-size: 0.6875rem;
+      font-weight: 600;
+      color: var(--amber);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 4px;
+    }
+    .chat-bubble-flowforge {
+      align-self: flex-end;
+      background-color: var(--bg-primary);
+      border: 1px solid var(--cyan-dim);
+      color: var(--text-primary);
+    }
+    .chat-bubble-flowforge::before {
+      content: attr(aria-label);
+      display: block;
+      font-family: var(--font-mono);
+      font-size: 0.6875rem;
+      font-weight: 600;
+      color: var(--cyan);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 4px;
+      text-align: right;
+    }
+
+    /* Step artifact */
+    .step-artifact {
+      animation: fade-in 0.35s ease;
+    }
+
+    /* Artifact: repo badges */
+    .artifact-repo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-md);
+      flex-wrap: wrap;
+    }
+    .repo-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+      padding: var(--space-xs) var(--space-sm);
+      background-color: var(--cyan-dim);
+      color: var(--cyan);
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 600;
+      border-radius: var(--radius-sm);
+    }
+
+    /* Artifact: code snippet */
+    .artifact-code {
+      background-color: var(--bg-primary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: var(--space-md) var(--space-lg);
+      font-family: var(--font-mono);
+      font-size: 0.8125rem;
+      line-height: 1.8;
+      color: var(--text-secondary);
+      overflow-x: auto;
+    }
+    .artifact-code .kw { color: var(--cyan); }
+    .artifact-code .str { color: var(--green); }
+    .artifact-code .cmt { color: var(--text-tertiary); }
+    .artifact-code .fn { color: var(--amber); }
+    .artifact-code .type-cursor {
+      display: inline-block;
+      width: 8px;
+      height: 1.1em;
+      background-color: var(--cyan);
+      vertical-align: text-bottom;
+      animation: cursor-blink 0.8s step-end infinite;
+    }
+    .chat-bubble .type-cursor {
+      display: inline-block;
+      width: 7px;
+      height: 1em;
+      margin-left: 1px;
+      background-color: currentColor;
+      vertical-align: text-bottom;
+      animation: cursor-blink 0.8s step-end infinite;
+    }
+    .typing-indicator {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 2px 0;
+    }
+    .typing-indicator span {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background-color: var(--cyan);
+      animation: typing-dot 1.2s ease-in-out infinite;
+    }
+    .typing-indicator span:nth-child(2) { animation-delay: 0.15s; }
+    .typing-indicator span:nth-child(3) { animation-delay: 0.3s; }
+    @keyframes typing-dot {
+      0%, 60%, 100% { opacity: 0.25; transform: translateY(0); }
+      30% { opacity: 1; transform: translateY(-3px); }
+    }
+
+    /* Artifact: validation badges */
+    .artifact-validate {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-md);
+      flex-wrap: wrap;
+    }
+    .validate-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+      padding: var(--space-xs) var(--space-sm);
+      background-color: var(--green-dim);
+      color: var(--green);
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 600;
+      border-radius: var(--radius-sm);
+    }
+
+    /* Artifact: browser window */
+    .artifact-browser {
+      background-color: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      max-width: 720px;
+      margin: 0 auto;
+      opacity: 0;
+      transform: scale(0.96) translateY(8px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .artifact-browser.visible {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+    .browser-bar {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      padding: var(--space-sm) var(--space-md);
+      background-color: var(--bg-tertiary);
+      border-bottom: 1px solid var(--border);
+    }
+    .browser-url {
+      flex: 1;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--text-tertiary);
+      background-color: var(--bg-primary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: var(--space-xs) var(--space-sm);
+      margin-left: var(--space-md);
+    }
+    .browser-body {
+      padding: var(--space-md);
+      min-height: 280px;
+    }
+    .term-dot { width: 10px; height: 10px; border-radius: 50%; }
+    .term-dot.red { background-color: #ef4444; }
+    .term-dot.yellow { background-color: #f59e0b; }
+    .term-dot.green { background-color: #22c55e; }
+
+    /* Artifact: version badge */
+    .version-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+      padding: var(--space-xs) var(--space-sm);
+      background-color: var(--green-dim);
+      color: var(--green);
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 600;
+      border-radius: var(--radius-sm);
+    }
+    .version-badge .version-arrow {
+      color: var(--text-tertiary);
+      margin: 0 2px;
+    }
+
+    /* Artifact: summary card (Meter step) */
+    .artifact-summary {
+      background-color: var(--bg-primary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: var(--space-md) var(--space-lg);
+      max-width: 400px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-sm);
+    }
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.875rem;
+    }
+    .summary-label { color: var(--text-secondary); }
+    .summary-value { font-family: var(--font-mono); font-weight: 600; color: var(--text-primary); }
+
+    /* Step navigation */
+    .step-nav {
+      display: flex;
+      justify-content: center;
+      gap: var(--space-md);
+      margin-top: var(--space-lg);
+    }
+    .step-nav-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-sm);
+      padding: var(--space-sm) var(--space-lg);
+      font-family: var(--font-mono);
+      font-size: 0.8125rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      background-color: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      min-height: 44px;
+    }
+    .step-nav-btn:hover:not(:disabled) {
+      border-color: var(--cyan);
+      color: var(--cyan);
+    }
+    .step-nav-btn:disabled {
+      opacity: 0.35;
+      cursor: default;
+    }
+    .step-nav-btn:focus-visible {
+      outline: 2px solid var(--cyan);
+      outline-offset: 2px;
+      box-shadow: 0 0 0 4px var(--cyan-dim);
+    }
+
+    /* --- MOCKUP: Workshop --- */
+    .mock-workshop { display: grid; grid-template-columns: 180px 1fr; gap: var(--space-md); min-height: 320px; }
+    .mock-sidebar {
+      background-color: var(--bg-primary);
+      border-radius: var(--radius-md);
+      padding: var(--space-md);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xs);
+    }
+    .mock-sidebar-logo {
+      font-family: var(--font-mono);
+      font-weight: 700;
+      font-size: 0.875rem;
+      color: var(--cyan);
+      padding: var(--space-xs) 0;
+      margin-bottom: var(--space-sm);
+      border-bottom: 1px solid var(--border);
+    }
+    .mock-nav-item {
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      padding: var(--space-xs) var(--space-sm);
+      border-radius: var(--radius-sm);
+      cursor: default;
+    }
+    .mock-nav-item.mock-active { background-color: var(--cyan-dim); color: var(--cyan); }
+    .mock-dashboard { display: flex; flex-direction: column; gap: var(--space-md); }
+    .mock-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-sm); }
+    .mock-stat-card {
+      background-color: var(--bg-primary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: var(--space-sm) var(--space-md);
+    }
+    .mock-stat-label { font-size: 0.6875rem; color: var(--text-tertiary); text-transform: uppercase; letter-spacing: 0.05em; }
+    .mock-stat-value { font-size: 1.5rem; font-weight: 700; color: var(--text-primary); }
+    .mock-stat-value.cyan { color: var(--cyan); }
+    .mock-stat-value.green { color: var(--green); }
+    .mock-stat-value.amber { color: var(--amber); }
+
+    .mock-chart {
+      background-color: var(--bg-primary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: var(--space-md);
+    }
+    .mock-chart-title { font-size: 0.75rem; color: var(--text-secondary); margin-bottom: var(--space-sm); }
+    .mock-chart-bars {
+      display: flex;
+      align-items: flex-end;
+      gap: 4px;
+      height: 60px;
+    }
+    .mock-bar {
+      flex: 1;
+      background: linear-gradient(to top, var(--cyan), var(--green));
+      border-radius: 2px 2px 0 0;
+      min-height: 8px;
+    }
+
+    .mock-table {
+      background-color: var(--bg-primary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+    }
+    .mock-table-header {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: var(--space-sm);
+      padding: var(--space-sm) var(--space-md);
+      background-color: var(--bg-tertiary);
+      font-size: 0.6875rem;
+      color: var(--text-tertiary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .mock-table-row {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: var(--space-sm);
+      padding: var(--space-sm) var(--space-md);
+      border-top: 1px solid var(--border);
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+    }
+    .mock-chip {
+      display: inline-block;
+      padding: 2px 6px;
+      border-radius: 999px;
+      font-size: 0.625rem;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+    .mock-chip-paid { background-color: var(--green-dim); color: var(--green); }
+    .mock-chip-pending { background-color: var(--amber-dim); color: var(--amber); }
+    .mock-chip-overdue { background-color: #ef444440; color: #ef4444; }
+
+    /* --- MOCKUP: Salon --- */
+    .mock-salon { display: flex; flex-direction: column; gap: var(--space-md); }
+    .mock-salon-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .mock-salon-title { font-size: 1rem; font-weight: 700; color: var(--text-primary); }
+    .mock-revenue-figure { font-family: var(--font-mono); font-size: 1.25rem; font-weight: 700; color: var(--green); }
+    .mock-salon-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-md); }
+    .mock-appointments {
+      background-color: var(--bg-primary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: var(--space-md);
+    }
+    .mock-appt-title { font-size: 0.75rem; color: var(--text-secondary); text-transform: uppercase; margin-bottom: var(--space-sm); }
+    .mock-appt-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: var(--space-xs) 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.75rem;
+    }
+    .mock-appt-item:last-child { border-bottom: none; }
+    .mock-appt-time { font-family: var(--font-mono); color: var(--cyan); font-weight: 500; }
+    .mock-appt-name { color: var(--text-primary); }
+    .mock-appt-status {
+      display: inline-block;
+      padding: 2px 6px;
+      border-radius: 999px;
+      font-size: 0.625rem;
+      font-weight: 600;
+    }
+    .mock-appt-status.confirmed { background-color: var(--green-dim); color: var(--green); }
+    .mock-appt-status.waiting { background-color: var(--amber-dim); color: var(--amber); }
+    .mock-appt-status.done { background-color: var(--cyan-dim); color: var(--cyan); }
+
+    .mock-staff {
+      background-color: var(--bg-primary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: var(--space-md);
+    }
+    .mock-staff-title { font-size: 0.75rem; color: var(--text-secondary); text-transform: uppercase; margin-bottom: var(--space-sm); }
+    .mock-staff-item {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      padding: var(--space-xs) 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.75rem;
+    }
+    .mock-staff-item:last-child { border-bottom: none; }
+    .mock-staff-avatar {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background-color: var(--bg-tertiary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.625rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+    }
+    .mock-staff-name { color: var(--text-primary); }
+    .mock-staff-role { color: var(--text-tertiary); font-size: 0.6875rem; }
+
+    .mock-customers {
+      background-color: var(--bg-primary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: var(--space-md);
+    }
+    .mock-customers-title { font-size: 0.75rem; color: var(--text-secondary); text-transform: uppercase; margin-bottom: var(--space-sm); }
+    .mock-customer-item {
+      display: flex;
+      justify-content: space-between;
+      padding: var(--space-xs) 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+    }
+    .mock-customer-item:last-child { border-bottom: none; }
+
+    /* --- MOCKUP: Retail --- */
+    .mock-retail { display: flex; flex-direction: column; gap: var(--space-md); }
+    .mock-retail-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .mock-retail-title { font-size: 1rem; font-weight: 700; color: var(--text-primary); }
+    .mock-alert-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+      padding: var(--space-xs) var(--space-sm);
+      background-color: #ef444440;
+      color: #ef4444;
+      font-family: var(--font-mono);
+      font-size: 0.6875rem;
+      font-weight: 600;
+      border-radius: var(--radius-sm);
+    }
+    .mock-retail-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-sm); }
+    .mock-retail-stat {
+      background-color: var(--bg-primary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: var(--space-sm) var(--space-md);
+    }
+    .mock-retail-stat-label { font-size: 0.6875rem; color: var(--text-tertiary); text-transform: uppercase; }
+    .mock-retail-stat-value { font-size: 1.25rem; font-weight: 700; color: var(--text-primary); }
+
+    .mock-inventory {
+      background-color: var(--bg-primary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+    }
+    .mock-inv-header {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1.5fr 1fr;
+      gap: var(--space-sm);
+      padding: var(--space-sm) var(--space-md);
+      background-color: var(--bg-tertiary);
+      font-size: 0.6875rem;
+      color: var(--text-tertiary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .mock-inv-row {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1.5fr 1fr;
+      gap: var(--space-sm);
+      padding: var(--space-sm) var(--space-md);
+      border-top: 1px solid var(--border);
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      align-items: center;
+    }
+    .mock-stock-bar {
+      height: 6px;
+      background-color: var(--bg-tertiary);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+    .mock-stock-fill {
+      height: 100%;
+      border-radius: 3px;
+      transition: width 0.5s ease;
+    }
+    .mock-stock-fill.high { background-color: var(--green); }
+    .mock-stock-fill.mid { background-color: var(--amber); }
+    .mock-stock-fill.low { background-color: #ef4444; }
+    .mock-inv-low { color: #ef4444; font-weight: 600; }
+
+    /* Salon: weekly schedule view (v1.1.0) */
+    .mock-schedule-view {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-sm);
+    }
+    .mock-schedule-row {
+      display: grid;
+      grid-template-columns: 80px 1fr 1fr 1fr;
+      gap: var(--space-sm);
+      padding: var(--space-xs) 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.75rem;
+    }
+    .mock-schedule-row:last-child { border-bottom: none; }
+    .mock-schedule-day { font-family: var(--font-mono); color: var(--cyan); font-weight: 500; }
+    .mock-schedule-slot {
+      padding: 2px 6px;
+      border-radius: var(--radius-sm);
+      text-align: center;
+    }
+    .mock-schedule-slot.booked { background-color: var(--cyan-dim); color: var(--cyan); }
+    .mock-schedule-slot.available { background-color: var(--green-dim); color: var(--green); }
+    .mock-schedule-slot.off { background-color: var(--bg-tertiary); color: var(--text-tertiary); }
+
+    /* Retail: reorder button (v1.1.0) */
+    .mock-reorder-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 2px 8px;
+      font-family: var(--font-mono);
+      font-size: 0.625rem;
+      font-weight: 600;
+      color: var(--green);
+      background-color: var(--green-dim);
+      border: 1px solid var(--green-dim);
+      border-radius: var(--radius-sm);
+      cursor: default;
+    }
+
+    /* --- Responsive --- */
+    @media (max-width: 767px) {
+      .scenario-tabs { gap: var(--space-xs); flex-wrap: wrap; }
+      .scenario-tab { padding: var(--space-sm) var(--space-md); font-size: 0.8125rem; }
+      .step-frame { padding: var(--space-md); min-height: auto; }
+      .chat-bubble { max-width: 95%; }
+      .step-rail { gap: 3px; }
+      .step-rail-chip { font-size: 0.625rem; padding: 2px 6px; }
+      .mock-workshop { grid-template-columns: 1fr; }
+      .mock-sidebar { flex-direction: row; flex-wrap: wrap; gap: var(--space-xs); }
+      .mock-sidebar-logo { width: 100%; }
+      .mock-stats { grid-template-columns: 1fr; }
+      .mock-salon-grid { grid-template-columns: 1fr; }
+      .mock-retail-stats { grid-template-columns: 1fr; }
+      .mock-table-header, .mock-table-row { grid-template-columns: 1.5fr 1fr 1fr; }
+      .mock-table-header > :last-child, .mock-table-row > :last-child { display: none; }
+      .mock-inv-header, .mock-inv-row { grid-template-columns: 1.5fr 0.75fr 1.5fr; }
+      .mock-inv-header > :last-child, .mock-inv-row > :last-child { display: none; }
+      .browser-body { padding: var(--space-sm); }
+      .artifact-code { font-size: 0.6875rem; padding: var(--space-sm) var(--space-md); }
+      .step-nav-btn { font-size: 0.75rem; padding: var(--space-sm) var(--space-md); }
+    }
+
+    /* ============================================================
+       SECTION 4 — 9-STEP CIRCULAR FACTORY
+       ============================================================ */
+    #pipeline {
+      background-color: var(--bg-secondary);
+      position: relative;
+      overflow: hidden;
+    }
+    #pipeline h2 { text-align: center; margin-bottom: var(--space-sm); }
+
+    .factory-container {
+      position: relative;
+      width: 100%;
+      max-width: 700px;
+      margin: 0 auto;
+      aspect-ratio: 1 / 1;
+    }
+
+    .factory-orbit {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 100%;
+      height: 100%;
+    }
+
+    .factory-orbit-ring {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 85%;
+      height: 85%;
+      border-radius: 50%;
+      border: 2px solid var(--border);
+    }
+    .factory-orbit-ring-animated {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 85%;
+      height: 85%;
+      border-radius: 50%;
+      border: 2px dashed var(--cyan-dim);
+      animation: orbit-spin 20s linear infinite;
+    }
+    @keyframes orbit-spin {
+      to { transform: translate(-50%, -50%) rotate(360deg); }
+    }
+
+    .factory-node {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 90px;
+      height: 90px;
+      margin-left: -45px;
+      margin-top: -45px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background-color: var(--bg-primary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      cursor: pointer;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease, scale 0.3s ease;
+      z-index: 2;
+    }
+    .factory-node:hover {
+      border-color: var(--border-active);
+      box-shadow: var(--shadow-glow-cyan);
+    }
+    .factory-node.active {
+      border-color: var(--cyan);
+      box-shadow: var(--shadow-glow-cyan), 0 0 30px var(--cyan-dim);
+      scale: 1.15;
+      z-index: 3;
+    }
+    .factory-node:focus-visible {
+      outline: 2px solid var(--cyan);
+      outline-offset: 3px;
+    }
+    .factory-node .node-title {
+      font-family: var(--font-mono);
+      font-size: 0.625rem;
+      font-weight: 500;
+      color: var(--text-primary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      text-align: center;
+      line-height: 1.2;
+    }
+    .factory-node.active .node-title { color: var(--text-primary); }
+
+    /* Counter-rotation wrapper keeps labels upright */
+    .factory-node-inner {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Center description */
+    .factory-center {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 55%;
+      text-align: center;
+      z-index: 4;
+      pointer-events: none;
+    }
+    .factory-center-num {
+      font-family: var(--font-mono);
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 700;
+      color: var(--cyan);
+      line-height: 1;
+      margin-bottom: var(--space-xs);
+    }
+    .factory-center-title {
+      font-family: var(--font-mono);
+      font-size: clamp(0.75rem, 2vw, 1rem);
+      font-weight: 600;
+      color: var(--text-primary);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: var(--space-sm);
+    }
+    .factory-center-desc {
+      font-size: clamp(0.75rem, 1.5vw, 0.875rem);
+      color: var(--text-secondary);
+      line-height: 1.5;
+      opacity: 0;
+      transform: translateY(5px);
+      transition: opacity 0.35s ease, transform 0.35s ease;
+    }
+    .factory-center-desc.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Particle dots on orbit */
+    .factory-particle {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background-color: var(--cyan);
+      box-shadow: 0 0 6px var(--cyan);
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    /* Connecting lines between nodes */
+    .factory-lines {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    @media (max-width: 767px) {
+      .factory-container { max-width: 360px; }
+      .factory-node { width: 70px; height: 70px; margin-left: -35px; margin-top: -35px; }
+      .factory-node .node-title { font-size: 0.5rem; }
+      .factory-center { width: 65%; }
+      .factory-center-num { font-size: 1.75rem; }
+      .factory-center-title { font-size: 0.6875rem; }
+      .factory-center-desc { font-size: 0.6875rem; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .factory-orbit-ring-animated { animation: none; border-style: solid; }
+      .factory-particle { display: none; }
+      .factory-node { opacity: 1; }
+      .factory-center-desc { opacity: 1; transform: none; }
+    }
+
+    /* ============================================================
+       SECTION 5 — HUMAN IN THE LOOP (CIRCULAR)
+       ============================================================ */
+    #control {
+      background-color: var(--bg-primary);
+      position: relative;
+      overflow: hidden;
+    }
+    #control::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-image:
+        radial-gradient(ellipse at 30% 50%, var(--cyan-dim) 0%, transparent 60%),
+        radial-gradient(ellipse at 70% 50%, var(--amber-dim) 0%, transparent 60%);
+      opacity: 0.15;
+      pointer-events: none;
+    }
+    #control h2 {
+      text-align: center;
+      margin-bottom: var(--space-sm);
+      position: relative;
+    }
+    .control-privacy {
+      margin-top: var(--space-3xl);
+    }
+    .control-subtitle {
+      text-align: center;
+      font-family: var(--font-mono);
+      font-size: 1rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-primary);
+      margin-bottom: var(--space-lg);
+    }
+
+    /* Circular HITL */
+    .hitl-circle-container {
+      position: relative;
+      width: 100%;
+      max-width: 500px;
+      margin: 0 auto;
+      aspect-ratio: 1 / 1;
+    }
+
+    .hitl-ring {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 74%;
+      height: 74%;
+      border-radius: 50%;
+      border: 2px solid var(--border);
+      z-index: 0;
+    }
+
+    .hitl-node {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 110px;
+      height: 60px;
+      margin-left: -55px;
+      margin-top: -30px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background-color: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      z-index: 2;
+      transition: all 0.3s ease;
+    }
+    .hitl-node .hitl-node-icon {
+      font-family: var(--font-mono);
+      font-size: 0.625rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .hitl-node .hitl-node-label {
+      font-size: 0.6875rem;
+      color: var(--text-secondary);
+    }
+    .hitl-node.node-human { border-color: var(--amber-dim); }
+    .hitl-node.node-human .hitl-node-icon { color: var(--amber); }
+    .hitl-node.node-machine { border-color: var(--cyan-dim); }
+    .hitl-node.node-machine .hitl-node-icon { color: var(--cyan); }
+    .hitl-node.node-validate { border-color: var(--green-dim); }
+    .hitl-node.node-validate .hitl-node-icon { color: var(--green); }
+
+    .hitl-node.active {
+      scale: 1.1;
+      box-shadow: var(--shadow-md);
+    }
+    .hitl-node.node-human.active { border-color: var(--amber); box-shadow: 0 0 15px var(--amber-dim); }
+    .hitl-node.node-machine.active { border-color: var(--cyan); box-shadow: var(--shadow-glow-cyan); }
+    .hitl-node.node-validate.active { border-color: var(--green); box-shadow: var(--shadow-glow-green); }
+
+    /* Travelling signal dot */
+    .hitl-signal {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background-color: var(--cyan);
+      box-shadow: 0 0 12px var(--cyan);
+      z-index: 3;
+      pointer-events: none;
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    }
+    .hitl-signal.at-human { background-color: var(--amber); box-shadow: 0 0 12px var(--amber); }
+    .hitl-signal.at-validate { background-color: var(--green); box-shadow: 0 0 12px var(--green); }
+
+    /* HITL center text */
+    .hitl-center {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 55%;
+      text-align: center;
+      z-index: 4;
+      pointer-events: none;
+    }
+    .hitl-center h3 {
+      font-size: clamp(1rem, 2.5vw, 1.375rem);
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: var(--space-xs);
+    }
+    .hitl-center p {
+      font-size: clamp(0.6875rem, 1.2vw, 0.8125rem);
+      color: var(--text-secondary);
+      line-height: 1.4;
+    }
+
+    @media (max-width: 767px) {
+      .hitl-circle-container { max-width: 320px; }
+      .hitl-node { width: 90px; height: 50px; margin-left: -45px; margin-top: -25px; }
+      .hitl-node .hitl-node-icon { font-size: 0.5rem; }
+      .hitl-node .hitl-node-label { font-size: 0.5625rem; }
+      .hitl-center { width: 65%; }
+      .hitl-center h3 { font-size: 0.875rem; }
+      .hitl-center p { font-size: 0.625rem; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .hitl-signal { display: none; }
+      .hitl-node { opacity: 1; }
+    }
+
+    /* ============================================================
+       SECTION 6 — MOTHER TONGUE
+       ============================================================ */
+    #mother-tongue { background-color: var(--bg-secondary); }
+    #mother-tongue h2 { text-align: center; margin-bottom: var(--space-sm); }
+    #mother-tongue .section-intro {
+      text-align: center;
+      color: var(--text-secondary);
+      font-size: 1.125rem;
+      margin-bottom: var(--space-2xl);
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .language-selector {
+      display: flex;
+      gap: var(--space-sm);
+      justify-content: center;
+      margin-bottom: var(--space-2xl);
+      flex-wrap: wrap;
+    }
+    .lang-tab {
+      padding: var(--space-sm) var(--space-lg);
+      font-family: var(--font-body);
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      background-color: var(--bg-primary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .lang-tab:hover { border-color: var(--border-active); color: var(--text-primary); }
+    .lang-tab.active {
+      background-color: var(--cyan);
+      color: var(--bg-primary);
+      border-color: var(--cyan);
+    }
+    .language-examples { position: relative; min-height: 260px; }
+    .lang-example { display: none; animation: fade-in 0.5s ease; }
+    .lang-example.active { display: block; }
+    .example-input {
+      background-color: var(--bg-primary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: var(--space-xl);
+      margin-bottom: var(--space-xl);
+    }
+    .input-label {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--cyan);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: var(--space-md);
+    }
+    .input-text {
+      font-size: 1.125rem;
+      line-height: 1.6;
+      color: var(--text-primary);
+      margin: 0;
+    }
+    .transformation-flow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-md);
+      flex-wrap: wrap;
+      padding: var(--space-xl);
+      background-color: var(--bg-primary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+    }
+    .transform-step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--space-xs);
+      padding: var(--space-md);
+      background-color: var(--bg-tertiary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      min-width: 120px;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+    .transform-step:hover { border-color: var(--border-active); box-shadow: var(--shadow-sm); }
+    .transform-icon { font-family: var(--font-mono); font-size: 1.25rem; font-weight: 600; }
+    .transform-label {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .transform-arrow { font-family: var(--font-mono); font-size: 1.25rem; color: var(--cyan); font-weight: bold; }
+    .mother-tongue-caption {
+      text-align: center;
+      font-size: 1.25rem;
+      font-style: italic;
+      color: var(--text-secondary);
+      margin-top: var(--space-2xl);
+    }
+
+    @media (max-width: 767px) {
+      .language-selector { gap: var(--space-xs); flex-wrap: wrap; padding: 0 var(--space-sm); }
+      .lang-tab { padding: var(--space-sm) var(--space-md); font-size: 0.8125rem; }
+      #mother-tongue .section-intro { font-size: 1rem; padding: 0 var(--space-sm); }
+      .input-text { font-size: 1rem; line-height: 1.5; }
+      .example-input { padding: var(--space-md); }
+      .input-label { font-size: 0.6875rem; }
+      .transformation-flow { flex-direction: column; gap: var(--space-xs); padding: var(--space-md); }
+      .transform-arrow { transform: rotate(90deg); }
+      .transform-step { min-width: 100px; width: 100%; max-width: 200px; padding: var(--space-sm); }
+      .transform-icon { font-size: 1rem; }
+      .transform-label { font-size: 0.6875rem; }
+      .mother-tongue-caption { font-size: 0.9375rem; padding: 0 var(--space-sm); }
+    }
+
+    /* ============================================================
+       SECTION 7 — FINAL CTA
+       ============================================================ */
+    #cta {
+      background-color: var(--bg-primary);
+      position: relative;
+      overflow: hidden;
+    }
+    #cta::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 50px 50px;
+      opacity: 0.05;
+      pointer-events: none;
+    }
+    .cta-content {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: var(--space-3xl) 0;
+    }
+    .cta-statement {
+      font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+      font-weight: 700;
+      line-height: 1.3;
+      margin-bottom: var(--space-2xl);
+      background: linear-gradient(135deg, var(--text-primary) 0%, var(--cyan) 50%, var(--green) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .cta-buttons {
+      display: flex;
+      gap: var(--space-md);
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .btn-large {
+      padding: var(--space-md) var(--space-xl);
+      font-size: 1.125rem;
+    }
+
+    @media (max-width: 767px) {
+      .cta-content { padding: var(--space-xl) 0; }
+      .cta-statement { font-size: clamp(1.375rem, 4vw, 1.75rem); padding: 0 var(--space-sm); line-height: 1.4; }
+      .cta-buttons { flex-direction: column; gap: var(--space-sm); padding: 0 var(--space-md); }
+      .btn-large { width: 100%; padding: 0.875rem var(--space-lg); font-size: 1rem; }
+    }
+
+    /* --- Footer --- */
+    footer {
+      padding: var(--space-xl) 0;
+      text-align: center;
+      color: var(--text-tertiary);
+      font-size: 0.875rem;
+      border-top: 1px solid var(--border);
+      background-color: var(--bg-secondary);
+    }
+    .footer-brand {
+      font-family: var(--font-mono);
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      margin-bottom: var(--space-xs);
+      letter-spacing: 0.05em;
+    }
+    .footer-tagline { color: var(--text-tertiary); margin-bottom: var(--space-md); }
+    .footer-open-source { font-size: 0.75rem; color: var(--text-secondary); margin-bottom: var(--space-xs); }
+    .cta-open-source {
+      margin-top: var(--space-lg);
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+    }
+    .footer-copy { font-size: 0.75rem; color: var(--text-tertiary); }
+
+    /* --- Privacy (inside #control) --- */
+    .privacy-options {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-lg);
+      margin: var(--space-xl) 0;
+    }
+    .privacy-card {
+      background-color: var(--bg-primary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: var(--space-xl);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-sm);
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+    .privacy-card:hover {
+      border-color: var(--border-active);
+      box-shadow: var(--shadow-md);
+    }
+    .privacy-icon {
+      color: var(--cyan);
+      margin-bottom: var(--space-xs);
+    }
+    .privacy-title {
+      font-family: var(--font-mono);
+      font-size: 1.125rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-primary);
+      margin: 0;
+    }
+    .privacy-desc {
+      color: var(--text-secondary);
+      font-size: 0.9375rem;
+      line-height: 1.6;
+      flex-grow: 1;
+      margin: 0;
+    }
+    .privacy-tag {
+      align-self: flex-start;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--green);
+      border: 1px solid var(--green-dim);
+      border-radius: var(--radius-sm);
+      padding: var(--space-xs) var(--space-sm);
+    }
+    .privacy-handles {
+      text-align: center;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    .privacy-handles-title {
+      font-family: var(--font-mono);
+      font-size: 0.875rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-secondary);
+      margin-bottom: var(--space-lg);
+    }
+    .privacy-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-sm);
+      text-align: left;
+      margin: 0 auto;
+      max-width: 440px;
+    }
+    .privacy-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-sm);
+      color: var(--text-primary);
+      font-size: 0.9375rem;
+    }
+    .privacy-list li::before {
+      content: '';
+      flex-shrink: 0;
+      width: 8px;
+      height: 8px;
+      margin-top: 6px;
+      border-radius: 50%;
+      background-color: var(--green);
+      box-shadow: 0 0 8px var(--green);
+    }
+    @media (max-width: 767px) {
+      .privacy-options {
+        grid-template-columns: 1fr;
+        gap: var(--space-md);
+      }
+    }
+
+    /* --- Waitlist dialog --- */
+    .waitlist-dialog {
+      position: fixed;
+      inset: 0;
+      margin: auto;
+      width: min(92vw, 420px);
+      height: fit-content;
+      max-height: calc(100vh - 3rem);
+      overflow: auto;
+      padding: 0;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xl);
+      background-color: var(--bg-secondary);
+      color: var(--text-primary);
+      box-shadow: var(--shadow-lg);
+    }
+    .waitlist-dialog::backdrop {
+      background: rgba(3, 7, 18, 0.72);
+      backdrop-filter: blur(4px);
+    }
+    .waitlist-dialog[open] {
+      animation: waitlist-in 0.22s ease;
+    }
+    @keyframes waitlist-in {
+      from { opacity: 0; transform: translateY(12px) scale(0.98); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    .waitlist-card {
+      position: relative;
+      padding: var(--space-2xl) var(--space-xl);
+    }
+    .waitlist-close {
+      position: absolute;
+      top: var(--space-sm);
+      right: var(--space-sm);
+      width: 36px;
+      height: 36px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: transparent;
+      border: none;
+      border-radius: var(--radius-sm);
+      color: var(--text-secondary);
+      cursor: pointer;
+    }
+    .waitlist-close:hover { color: var(--text-primary); background: var(--bg-tertiary); }
+    .waitlist-title { font-size: 1.5rem; margin-bottom: var(--space-sm); }
+    .waitlist-subtitle { color: var(--text-secondary); font-size: 0.9375rem; margin-bottom: var(--space-lg); }
+    .waitlist-form { display: flex; flex-direction: column; gap: var(--space-md); }
+    .waitlist-field { display: flex; flex-direction: column; gap: var(--space-xs); }
+    .waitlist-label {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+    }
+    .waitlist-input {
+      width: 100%;
+      padding: var(--space-sm) var(--space-md);
+      background: var(--bg-primary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      color: var(--text-primary);
+      font-family: var(--font-body);
+      font-size: 1rem;
+    }
+    .waitlist-input::placeholder { color: var(--text-tertiary); }
+    .waitlist-input[aria-invalid="true"] { border-color: #ef4444; }
+    .waitlist-error { color: #ef4444; font-size: 0.8125rem; }
+    .waitlist-form .btn { width: 100%; }
+    .waitlist-note { font-size: 0.75rem; color: var(--text-tertiary); text-align: center; }
+    #waitlist-success { text-align: center; padding: var(--space-md) 0; }
+    .waitlist-success-icon { margin-bottom: var(--space-sm); }
+    .waitlist-success-title { font-size: 1.25rem; margin-bottom: var(--space-xs); }
+    .waitlist-success-sub { color: var(--text-secondary); font-size: 0.9375rem; margin-bottom: var(--space-lg); }
+  </style>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <!-- ============================================================
+       SECTION 1 — HERO
+       ============================================================ -->
+  <header id="hero">
+    <div class="hero-content container">
+      <h1>From Human Workflow to Working Software.</h1>
+      <p class="hero-subheadline">
+        Describe what you need in your own language. FlowForge turns it into a working application.
+      </p>
+      <div class="hero-cta">
+        <a href="#pipeline" class="btn btn-primary">See How It Works</a>
+      </div>
+    </div>
+
+    <div class="hero-flow" role="img" aria-label="Natural language request transforming into a deployed application">
+      <div class="hero-flow-request">
+        <span id="typed-text"></span><span class="cursor" id="typed-cursor"></span>
+      </div>
+      <div class="hero-flow-connector req-to-spec" aria-hidden="true"></div>
+      <div class="hero-flow-stage">
+        <span class="hero-flow-label stage-spec">
+          <svg class="label-icon" viewBox="0 0 14 14" aria-hidden="true"><rect x="1" y="1" width="12" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="1.5"/><line x1="4" y1="4" x2="10" y2="4" stroke="currentColor" stroke-width="1.5"/><line x1="4" y1="7" x2="8" y2="7" stroke="currentColor" stroke-width="1.5"/><line x1="4" y1="10" x2="9" y2="10" stroke="currentColor" stroke-width="1.5"/></svg>
+          Requirements
+        </span>
+      </div>
+      <div class="hero-flow-connector spec-to-code" aria-hidden="true"></div>
+      <div class="hero-flow-stage">
+        <span class="hero-flow-label stage-code">
+          <svg class="label-icon" viewBox="0 0 14 14" aria-hidden="true"><polyline points="5,3 2,7 5,11" fill="none" stroke="currentColor" stroke-width="1.5"/><polyline points="9,3 12,7 9,11" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+          Code
+        </span>
+      </div>
+      <div class="hero-flow-connector code-to-app" aria-hidden="true"></div>
+      <div class="hero-flow-stage">
+        <span class="hero-flow-label stage-app">
+          <svg class="label-icon" viewBox="0 0 14 14" aria-hidden="true"><circle cx="7" cy="7" r="5" fill="none" stroke="currentColor" stroke-width="1.5"/><polyline points="5,7 7,9 10,5" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+          Deployed
+        </span>
+      </div>
+    </div>
+  </header>
+
+  <main id="main-content">
+    <!-- ============================================================
+         SECTION 2 — THE PROBLEM (The Gap)
+         ============================================================ -->
+    <section id="problem" aria-label="The problem: the gap between workflow and software">
+      <div class="container">
+        <h2>The Gap</h2>
+        <p class="problem-lead">Many businesses have workflows that are worth turning into software, but not enough technical resources to build them.</p>
+
+        <div class="comparison-grid">
+          <div class="comparison-column comparison-traditional">
+            <h3 class="comparison-title">Traditional Path</h3>
+            <div class="comparison-flow">
+              <div class="comparison-step"><span class="step-icon-mono">IDEA</span><span class="comparison-step-label">Workflow identified</span></div>
+              <div class="comparison-connector" aria-hidden="true"></div>
+              <div class="comparison-step"><span class="step-icon-mono">DEV</span><span class="comparison-step-label">Find developers</span></div>
+              <div class="comparison-connector" aria-hidden="true"></div>
+              <div class="comparison-step"><span class="step-icon-mono">PLAN</span><span class="comparison-step-label">Spec, scope, budget</span></div>
+              <div class="comparison-connector" aria-hidden="true"></div>
+              <div class="comparison-step"><span class="step-icon-mono">BUILD</span><span class="comparison-step-label">Months of development</span></div>
+              <div class="comparison-connector" aria-hidden="true"></div>
+              <div class="comparison-step"><span class="step-icon-mono">COST</span><span class="comparison-step-label">Team + time + cost</span></div>
+            </div>
+          </div>
+          <div class="comparison-divider" aria-hidden="true"></div>
+          <div class="comparison-column comparison-flowforge">
+            <h3 class="comparison-title">FlowForge</h3>
+            <div class="comparison-flow">
+              <div class="comparison-step"><span class="step-icon-mono">IDEA</span><span class="comparison-step-label">Workflow identified</span></div>
+              <div class="comparison-connector" aria-hidden="true"></div>
+              <div class="comparison-step"><span class="step-icon-mono">DESC</span><span class="comparison-step-label">Describe in natural language</span></div>
+              <div class="comparison-connector" aria-hidden="true"></div>
+              <div class="comparison-step"><span class="step-icon-mono">SHIP</span><span class="comparison-step-label">Working software</span></div>
+            </div>
+          </div>
+        </div>
+
+        <p class="problem-caption">FlowForge does not make developers obsolete. It reduces the technical barrier between a business need and the software that solves it.</p>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         SECTION 3 — PRODUCT IN ACTION (interactive chat walkthrough)
+         ============================================================ -->
+    <section id="product-in-action" aria-label="The product in action: three build scenarios">
+      <div class="container">
+        <h2>One Concrete Example</h2>
+
+        <div class="scenario-tabs" role="tablist" aria-label="Build scenario" id="walkthrough-tabs">
+          <button class="scenario-tab active" role="tab" aria-selected="true" id="tab-workshop" data-scenario="workshop" tabindex="0">Workshop</button>
+          <button class="scenario-tab" role="tab" aria-selected="false" id="tab-salon" data-scenario="salon" tabindex="-1">Salon</button>
+          <button class="scenario-tab" role="tab" aria-selected="false" id="tab-retail" data-scenario="retail" tabindex="-1">Retail</button>
+        </div>
+
+        <!-- Shared walkthrough container — rendered by JS -->
+        <div id="walkthrough" aria-live="polite" aria-atomic="false">
+          <!-- Progress rail -->
+          <div class="step-rail" role="navigation" aria-label="Walkthrough steps" id="step-rail"></div>
+
+          <!-- Step frame -->
+          <div class="step-frame" id="step-frame">
+            <div class="step-header">
+              <span class="step-number" id="step-number"></span>
+              <span class="step-title" id="step-title"></span>
+            </div>
+            <p class="step-caption" id="step-caption"></p>
+
+            <div class="chat-area" id="chat-area"></div>
+
+            <div class="step-artifact" id="step-artifact"></div>
+          </div>
+
+          <!-- Navigation -->
+          <div class="step-nav">
+            <button class="step-nav-btn" id="step-prev" aria-label="Previous step">
+              <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><polyline points="10,2 4,8 10,14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Previous
+            </button>
+            <button class="step-nav-btn" id="step-next" aria-label="Next step">
+              Next
+              <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><polyline points="6,2 12,8 6,14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         SECTION 4 — 9-STEP CIRCULAR FACTORY
+         ============================================================ -->
+    <section id="pipeline" aria-label="The 8-step software factory">
+      <div class="container">
+        <h2>The 8-Step Software Factory</h2>
+        <p class="section-intro">From human intent to live software in eight automated steps.</p>
+
+        <div class="factory-container" role="group" aria-label="8-step software factory cycle">
+          <!-- Orbit rings -->
+          <div class="factory-orbit-ring" aria-hidden="true"></div>
+          <div class="factory-orbit-ring-animated" aria-hidden="true"></div>
+
+          <!-- SVG connecting lines -->
+          <svg class="factory-lines" viewBox="0 0 700 700" aria-hidden="true"></svg>
+
+          <!-- Center description -->
+          <div class="factory-center" aria-live="polite">
+            <div class="factory-center-num" id="fc-num">01</div>
+            <div class="factory-center-title" id="fc-title">DESCRIBE</div>
+            <div class="factory-center-desc visible" id="fc-desc">User explains the need in natural language.</div>
+          </div>
+
+          <!-- 9 nodes injected by JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         SECTION 5 — CONTROL (software decisions + data safety)
+         ============================================================ -->
+    <section id="control" aria-label="You stay in control — software decisions and data safety">
+      <div class="container">
+        <h2>In control. By design.</h2>
+        <p class="section-intro">AI builds — you decide what it does and where your data lives.</p>
+
+        <div class="hitl-circle-container" role="group" aria-label="Human-in-the-loop cycle">
+          <div class="hitl-ring" aria-hidden="true"></div>
+          <div class="hitl-signal" aria-hidden="true"></div>
+          <div class="hitl-center">
+            <h3>AI builds. You decide.</h3>
+            <p>You remain in control of what the software should do. AI handles the implementation and validation.</p>
+          </div>
+          <!-- 4 nodes injected by JS -->
+        </div>
+
+        <div class="control-privacy">
+          <h3 class="control-subtitle">Your data stays yours</h3>
+
+          <div class="privacy-options">
+            <div class="privacy-card">
+              <div class="privacy-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="28" height="28"><rect x="3" y="6" width="18" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="8" cy="12" r="1.5" fill="currentColor"/><line x1="13" y1="12" x2="19" y2="12" stroke="currentColor" stroke-width="1.5"/></svg>
+              </div>
+              <h3 class="privacy-title">On-premise</h3>
+              <p class="privacy-desc">Run the entire pipeline on your own NVIDIA DGX Spark, in your building. Your data never leaves your premises.</p>
+              <span class="privacy-tag">NVIDIA DGX Spark</span>
+            </div>
+
+            <div class="privacy-card">
+              <div class="privacy-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="28" height="28"><path d="M6 18a4 4 0 0 1 0-8 5 5 0 0 1 9.8-1.4A4 4 0 0 1 17 18Z" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+              </div>
+              <h3 class="privacy-title">GPU farm</h3>
+              <p class="privacy-desc">Rent dedicated GPU capacity and FlowForge provisions a private, isolated environment — for you alone.</p>
+              <span class="privacy-tag">Isolated capacity</span>
+            </div>
+          </div>
+
+          <div class="privacy-handles">
+            <h3 class="privacy-handles-title">FlowForge handles the setup</h3>
+            <ul class="privacy-list">
+              <li>Sets up the environment on your GPU</li>
+              <li>Selects the best open-source LLM for your workload</li>
+              <li>Deploys it and locks it down — safe to use</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         SECTION 6 — MOTHER TONGUE
+         ============================================================ -->
+    <section id="mother-tongue" aria-label="Mother-tongue input">
+      <div class="container">
+        <h2>Mother-Tongue Input</h2>
+        <p class="section-intro">Technical English is not required.</p>
+
+        <div class="language-selector" role="tablist" aria-label="Language selection">
+          <button class="lang-tab active" role="tab" aria-selected="true" aria-controls="panel-es" id="tab-es" data-lang="es">Español</button>
+          <button class="lang-tab" role="tab" aria-selected="false" aria-controls="panel-nl" id="tab-nl" data-lang="nl">Nederlands</button>
+          <button class="lang-tab" role="tab" aria-selected="false" aria-controls="panel-de" id="tab-de" data-lang="de">Deutsch</button>
+        </div>
+
+        <div class="language-examples">
+          <div class="lang-example active" id="panel-es" role="tabpanel" aria-labelledby="tab-es" lang="es">
+            <div class="example-input">
+              <div class="input-label">USER INPUT</div>
+              <p class="input-text">Necesito una aplicación para mi taller que gestione clientes, pedidos y pagos.</p>
+            </div>
+            <div class="transformation-flow">
+              <div class="transform-step"><span class="transform-icon">&#9998;</span><span class="transform-label">Intent</span></div>
+              <span class="transform-arrow" aria-hidden="true">→</span>
+              <div class="transform-step"><span class="transform-icon">&#9881;</span><span class="transform-label">Model</span></div>
+              <span class="transform-arrow" aria-hidden="true">→</span>
+              <div class="transform-step"><span class="transform-icon">&#10003;</span><span class="transform-label">Requirements</span></div>
+            </div>
+          </div>
+
+          <div class="lang-example" id="panel-nl" role="tabpanel" aria-labelledby="tab-nl" lang="nl">
+            <div class="example-input">
+              <div class="input-label">USER INPUT</div>
+              <p class="input-text">Ik heb een app nodig voor mijn salon om afspraken, klanten, personeelsbeschikbaarheid en dagelijkse omzet te beheren.</p>
+            </div>
+            <div class="transformation-flow">
+              <div class="transform-step"><span class="transform-icon">&#9998;</span><span class="transform-label">Intent</span></div>
+              <span class="transform-arrow" aria-hidden="true">→</span>
+              <div class="transform-step"><span class="transform-icon">&#9881;</span><span class="transform-label">Model</span></div>
+              <span class="transform-arrow" aria-hidden="true">→</span>
+              <div class="transform-step"><span class="transform-icon">&#10003;</span><span class="transform-label">Requirements</span></div>
+            </div>
+          </div>
+
+          <div class="lang-example" id="panel-de" role="tabpanel" aria-labelledby="tab-de" lang="de">
+            <div class="example-input">
+              <div class="input-label">USER INPUT</div>
+              <p class="input-text">Ich brauche eine App für meinen Laden, um Produkte, Lagerbestand, Verkäufe und knappe Artikel zu verwalten.</p>
+            </div>
+            <div class="transformation-flow">
+              <div class="transform-step"><span class="transform-icon">&#9998;</span><span class="transform-label">Intent</span></div>
+              <span class="transform-arrow" aria-hidden="true">→</span>
+              <div class="transform-step"><span class="transform-icon">&#9881;</span><span class="transform-label">Model</span></div>
+              <span class="transform-arrow" aria-hidden="true">→</span>
+              <div class="transform-step"><span class="transform-icon">&#10003;</span><span class="transform-label">Requirements</span></div>
+            </div>
+          </div>
+        </div>
+
+        <p class="mother-tongue-caption">Speak naturally. Build technically.</p>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         SECTION 7 — FINAL CTA
+         ============================================================ -->
+    <section id="cta" aria-label="Call to action">
+      <div class="container">
+        <div class="cta-content">
+          <h2 class="cta-statement">Your workflow is already software. We just haven't built it yet.</h2>
+          <div class="cta-buttons">
+            <a href="#hero" id="waitlist-trigger" aria-haspopup="dialog" class="btn btn-primary btn-large">Turn My Workflow Into Software</a>
+            <a href="#pipeline" class="btn btn-secondary btn-large">Explore the Process</a>
+          </div>
+          <p class="cta-open-source">Open source — the models, the pipeline, the tooling.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-brand">FlowForge</div>
+      <p class="footer-tagline">From human workflow to working software.</p>
+      <p class="footer-open-source">Open source</p>
+      <p class="footer-copy">&copy; 2026 FlowForge</p>
+    </div>
+  </footer>
+
+  <dialog id="waitlist-dialog" class="waitlist-dialog" aria-labelledby="waitlist-title">
+    <div class="waitlist-card">
+      <button type="button" class="waitlist-close" id="waitlist-close" aria-label="Close">
+        <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="M3 3l10 10M13 3L3 13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+
+      <div id="waitlist-form-wrap">
+        <h2 id="waitlist-title" class="waitlist-title">Be the first to know</h2>
+        <p class="waitlist-subtitle">FlowForge isn't open yet. Leave your email and you'll be first in line.</p>
+        <form id="waitlist-form" class="waitlist-form" novalidate>
+          <div class="waitlist-field">
+            <label class="waitlist-label" for="waitlist-email">Email address</label>
+            <input class="waitlist-input" type="email" id="waitlist-email" name="email" inputmode="email" autocomplete="email" spellcheck="false" placeholder="you@example.com" required aria-describedby="waitlist-error">
+            <p class="waitlist-error" id="waitlist-error" role="alert" hidden></p>
+          </div>
+          <button type="submit" class="btn btn-primary" id="waitlist-submit">Get early access</button>
+          <p class="waitlist-note">No spam. One email when it's ready.</p>
+        </form>
+      </div>
+
+      <div id="waitlist-success" hidden>
+        <svg class="waitlist-success-icon" viewBox="0 0 24 24" width="40" height="40" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="none" stroke="var(--green)" stroke-width="2"/><polyline points="7,12 10.5,15.5 17,8.5" fill="none" stroke="var(--green)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <h2 class="waitlist-success-title">You're on the list.</h2>
+        <p class="waitlist-success-sub">We'll email you the moment FlowForge is ready.</p>
+        <button type="button" class="btn btn-secondary" id="waitlist-success-close">Done</button>
+      </div>
+    </div>
+  </dialog>
+
+  <script>
+    /* ============================================================
+       Language Tab Switching (click + keyboard)
+       ============================================================ */
+    document.addEventListener('DOMContentLoaded', function() {
+      var langTabs = document.querySelectorAll('.lang-tab');
+      var langExamples = document.querySelectorAll('.lang-example');
+
+      function activateTab(index, setFocus) {
+        langTabs.forEach(function(tab, i) {
+          var isActive = i === index;
+          tab.classList.toggle('active', isActive);
+          tab.setAttribute('aria-selected', String(isActive));
+          tab.setAttribute('tabindex', isActive ? '0' : '-1');
+        });
+        langExamples.forEach(function(panel, i) {
+          var isActive = i === index;
+          panel.classList.toggle('active', isActive);
+          panel.setAttribute('tabindex', isActive ? '0' : '-1');
+          if (isActive && setFocus) panel.focus();
+        });
+      }
+
+      langTabs.forEach(function(tab, index) {
+        tab.addEventListener('click', function() { activateTab(index, false); });
+        tab.addEventListener('keydown', function(e) {
+          var newIndex = index;
+          switch (e.key) {
+            case 'ArrowRight': e.preventDefault(); newIndex = (index + 1) % langTabs.length; break;
+            case 'ArrowLeft': e.preventDefault(); newIndex = (index - 1 + langTabs.length) % langTabs.length; break;
+            case 'Home': e.preventDefault(); newIndex = 0; break;
+            case 'End': e.preventDefault(); newIndex = langTabs.length - 1; break;
+            default: return;
+          }
+          activateTab(newIndex, true);
+        });
+      });
+    });
+
+    /* ============================================================
+       Hero Typing Animation
+       ============================================================ */
+    document.addEventListener('DOMContentLoaded', function() {
+      var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reducedMotion) return;
+      var heroText = "I need an app to manage customers, orders and payments for my workshop.";
+      var heroEl = document.getElementById('typed-text');
+      var heroCursor = document.getElementById('typed-cursor');
+      if (!heroEl) return;
+      var charIndex = 0;
+      function typeHeroChar() {
+        if (charIndex < heroText.length) {
+          heroEl.textContent += heroText.charAt(charIndex);
+          charIndex++;
+          setTimeout(typeHeroChar, 35 + Math.random() * 30);
+        } else {
+          setTimeout(function() {
+            if (heroCursor) heroCursor.style.animation = 'none';
+            setTimeout(function() { if (heroCursor) heroCursor.style.display = 'none'; }, 2000);
+          }, 3000);
+        }
+      }
+      setTimeout(typeHeroChar, 800);
+    });
+
+    /* ============================================================
+       Product-in-Action: Interactive Chat Walkthrough
+       ============================================================ */
+    document.addEventListener('DOMContentLoaded', function() {
+      var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      // --- Scenario data ---
+      var SCENARIOS = {
+        workshop: {
+          request: '"I need software to manage my workshop customers, orders, payments and revenue."',
+          entities: ['Customers', 'Orders', 'Payments', 'Monthly Revenue'],
+          repoName: 'workshop-app',
+          url: 'workshop-app.flowforge.app',
+          testCount: 24,
+          tokenCount: '12,400',
+          codeSnippet: '<span class="cmt">// routes/orders.js</span>\n<span class="kw">const</span> express = <span class="fn">require</span>(<span class="str">\'express\'</span>);\n<span class="kw">const</span> router = express.<span class="fn">Router</span>();\n\nrouter.<span class="fn">get</span>(<span class="str">\'/\'</span>, <span class="kw">async</span> (req, res) => {\n  <span class="kw">const</span> orders = <span class="kw">await</span> Order.<span class="fn">findAll</span>({\n    include: [<span class="str">\'customer\'</span>, <span class="str">\'payments\'</span>]\n  });\n  res.<span class="fn">json</span>(orders);\n});',
+          mockupV1: function() { return buildWorkshopV1(); },
+          mockupV11: function() { return buildWorkshopV11(); },
+          steps: [
+            {
+              caption: 'You explain the need in your own words.',
+              user: 'I need software to manage my workshop customers, orders, payments and revenue.',
+              flowforge: 'Got it. Let me work out what you need.',
+              artifact: null
+            },
+            {
+              caption: 'FlowForge determines the app type and confirms the plan with you.',
+              user: null,
+              flowforge: 'I\'ll build a web app with four parts: Customers, Orders, Payments and Monthly Revenue. Does that cover it?',
+              artifact: null
+            },
+            {
+              caption: 'A repository and CI/CD pipeline are created.',
+              user: 'Yes \u2014 that\'s exactly what I meant.',
+              flowforge: 'Repository created. CI/CD configured, and Google Sheets is the data store.',
+              artifact: 'repo'
+            },
+            {
+              caption: 'The agent writes the code.',
+              user: null,
+              flowforge: 'Code generated — wiring up routes, models and views.',
+              artifact: 'code'
+            },
+            {
+              caption: 'Build, tests and security checks run — failures loop back to be fixed.',
+              user: null,
+              flowforge: 'All green.',
+              artifact: 'validate'
+            },
+            {
+              caption: 'The validated version is tagged and deployed.',
+              user: null,
+              flowforge: 'v1.0.0 tagged and deployed.',
+              artifact: 'browser-v1'
+            },
+            {
+              caption: 'Your changes feed back in and the software evolves.',
+              user: 'Can you also show monthly revenue as a chart?',
+              flowforge: 'Done — chart added. v1.1.0 deployed.',
+              artifact: 'browser-v11'
+            },
+            {
+              caption: 'AI usage is metered in tokens.',
+              user: null,
+              flowforge: 'Session complete. Here\'s your usage summary.',
+              artifact: 'summary'
+            }
+          ]
+        },
+        salon: {
+          request: '"I need an app for my salon to manage appointments, customers, staff availability and daily revenue."',
+          entities: ['Appointments', 'Customers', 'Staff', 'Daily Revenue'],
+          repoName: 'salon-app',
+          url: 'salon-app.flowforge.app',
+          testCount: 21,
+          tokenCount: '10,800',
+          codeSnippet: '<span class="cmt">// routes/appointments.js</span>\n<span class="kw">const</span> express = <span class="fn">require</span>(<span class="str">\'express\'</span>);\n<span class="kw">const</span> router = express.<span class="fn">Router</span>();\n\nrouter.<span class="fn">get</span>(<span class="str">\'/today\'</span>, <span class="kw">async</span> (req, res) => {\n  <span class="kw">const</span> appts = <span class="kw">await</span> Appointment.<span class="fn">findToday</span>({\n    include: [<span class="str">\'customer\'</span>, <span class="str">\'staff\'</span>]\n  });\n  res.<span class="fn">json</span>(appts);\n});',
+          mockupV1: function() { return buildSalonV1(); },
+          mockupV11: function() { return buildSalonV11(); },
+          steps: [
+            {
+              caption: 'You explain the need in your own words.',
+              user: 'I need an app for my salon to manage appointments, customers, staff availability and daily revenue.',
+              flowforge: 'Got it. Let me work out what you need.',
+              artifact: null
+            },
+            {
+              caption: 'FlowForge determines the app type and confirms the plan with you.',
+              user: null,
+              flowforge: 'I\'ll build a web app with four parts: Appointments, Customers, Staff and Daily Revenue. Does that cover it?',
+              artifact: null
+            },
+            {
+              caption: 'A repository and CI/CD pipeline are created.',
+              user: 'Yes \u2014 that\'s exactly what I meant.',
+              flowforge: 'Repository created. CI/CD configured, and Google Sheets is the data store.',
+              artifact: 'repo'
+            },
+            {
+              caption: 'The agent writes the code.',
+              user: null,
+              flowforge: 'Code generated — wiring up routes, models and views.',
+              artifact: 'code'
+            },
+            {
+              caption: 'Build, tests and security checks run — failures loop back to be fixed.',
+              user: null,
+              flowforge: 'All green.',
+              artifact: 'validate'
+            },
+            {
+              caption: 'The validated version is tagged and deployed.',
+              user: null,
+              flowforge: 'v1.0.0 tagged and deployed.',
+              artifact: 'browser-v1'
+            },
+            {
+              caption: 'Your changes feed back in and the software evolves.',
+              user: 'Can you add a weekly schedule view?',
+              flowforge: 'Done — weekly schedule view added. v1.1.0 deployed.',
+              artifact: 'browser-v11'
+            },
+            {
+              caption: 'AI usage is metered in tokens.',
+              user: null,
+              flowforge: 'Session complete. Here\'s your usage summary.',
+              artifact: 'summary'
+            }
+          ]
+        },
+        retail: {
+          request: '"I need an app to track products, inventory, sales and low-stock items."',
+          entities: ['Products', 'Inventory', 'Sales', 'Low-stock'],
+          repoName: 'retail-app',
+          url: 'retail-app.flowforge.app',
+          testCount: 19,
+          tokenCount: '9,600',
+          codeSnippet: '<span class="cmt">// routes/inventory.js</span>\n<span class="kw">const</span> express = <span class="fn">require</span>(<span class="str">\'express\'</span>);\n<span class="kw">const</span> router = express.<span class="fn">Router</span>();\n\nrouter.<span class="fn">get</span>(<span class="str">\'/low-stock\'</span>, <span class="kw">async</span> (req, res) => {\n  <span class="kw">const</span> items = <span class="kw">await</span> Product.<span class="fn">findLowStock</span>({\n    threshold: <span class="str">10</span>\n  });\n  res.<span class="fn">json</span>(items);\n});',
+          mockupV1: function() { return buildRetailV1(); },
+          mockupV11: function() { return buildRetailV11(); },
+          steps: [
+            {
+              caption: 'You explain the need in your own words.',
+              user: 'I need an app to track products, inventory, sales and low-stock items.',
+              flowforge: 'Got it. Let me work out what you need.',
+              artifact: null
+            },
+            {
+              caption: 'FlowForge determines the app type and confirms the plan with you.',
+              user: null,
+              flowforge: 'I\'ll build a web app with four parts: Products, Inventory, Sales and Low-stock alerts. Does that cover it?',
+              artifact: null
+            },
+            {
+              caption: 'A repository and CI/CD pipeline are created.',
+              user: 'Yes \u2014 that\'s exactly what I meant.',
+              flowforge: 'Repository created. CI/CD configured, and Google Sheets is the data store.',
+              artifact: 'repo'
+            },
+            {
+              caption: 'The agent writes the code.',
+              user: null,
+              flowforge: 'Code generated — wiring up routes, models and views.',
+              artifact: 'code'
+            },
+            {
+              caption: 'Build, tests and security checks run — failures loop back to be fixed.',
+              user: null,
+              flowforge: 'All green.',
+              artifact: 'validate'
+            },
+            {
+              caption: 'The validated version is tagged and deployed.',
+              user: null,
+              flowforge: 'v1.0.0 tagged and deployed.',
+              artifact: 'browser-v1'
+            },
+            {
+              caption: 'Your changes feed back in and the software evolves.',
+              user: 'Can you add a reorder button for low-stock items?',
+              flowforge: 'Done — reorder button added. v1.1.0 deployed.',
+              artifact: 'browser-v11'
+            },
+            {
+              caption: 'AI usage is metered in tokens.',
+              user: null,
+              flowforge: 'Session complete. Here\'s your usage summary.',
+              artifact: 'summary'
+            }
+          ]
+        }
+      };
+
+      var STEP_NAMES = ['Describe', 'Detect', 'Provision', 'Engineer', 'Validate', 'Release', 'User Feedback', 'Meter'];
+      var STEP_NUMS = ['01', '02', '03', '04', '05', '06', '07', '08'];
+
+      // --- State ---
+      var currentScenario = 'workshop';
+      var currentStep = 0;
+      var renderToken = 0;
+      var stepComplete = false;
+      var started = false;
+      var autoPlayEnabled = false;
+      var autoplayTimeout = null;
+      var manualPauseUntil = 0;
+      var walkthroughEl = document.getElementById('walkthrough');
+      var railEl = document.getElementById('step-rail');
+      var stepFrameEl = document.getElementById('step-frame');
+      var stepNumberEl = document.getElementById('step-number');
+      var stepTitleEl = document.getElementById('step-title');
+      var stepCaptionEl = document.getElementById('step-caption');
+      var chatAreaEl = document.getElementById('chat-area');
+      var artifactEl = document.getElementById('step-artifact');
+      var prevBtn = document.getElementById('step-prev');
+      var nextBtn = document.getElementById('step-next');
+      var tabs = document.querySelectorAll('#walkthrough-tabs .scenario-tab');
+
+      // --- Mockup builders ---
+      function buildWorkshopV1() {
+        return '<div class="browser-bar">' +
+          '<span class="term-dot red"></span><span class="term-dot yellow"></span><span class="term-dot green"></span>' +
+          '<span class="browser-url">' + SCENARIOS.workshop.url + '</span>' +
+          '</div><div class="browser-body"><div class="mock-workshop">' +
+          '<div class="mock-sidebar">' +
+          '<div class="mock-sidebar-logo">WorkshopApp</div>' +
+          '<div class="mock-nav-item mock-active">Dashboard</div>' +
+          '<div class="mock-nav-item">Customers</div>' +
+          '<div class="mock-nav-item">Orders</div>' +
+          '<div class="mock-nav-item">Payments</div>' +
+          '<div class="mock-nav-item">Reports</div>' +
+          '</div><div class="mock-dashboard">' +
+          '<div class="mock-stats">' +
+          '<div class="mock-stat-card"><div class="mock-stat-label">Customers</div><div class="mock-stat-value cyan">142</div></div>' +
+          '<div class="mock-stat-card"><div class="mock-stat-label">Active Orders</div><div class="mock-stat-value amber">23</div></div>' +
+          '<div class="mock-stat-card"><div class="mock-stat-label">Revenue (MTD)</div><div class="mock-stat-value green">\u20ac12,480</div></div>' +
+          '</div>' +
+          '<div class="mock-table">' +
+          '<div class="mock-table-header"><span>Order</span><span>Customer</span><span>Amount</span><span>Status</span></div>' +
+          '<div class="mock-table-row"><span>#1042</span><span>M. Jansen</span><span>\u20ac320</span><span class="mock-chip mock-chip-paid">Paid</span></div>' +
+          '<div class="mock-table-row"><span>#1041</span><span>A. de Vries</span><span>\u20ac185</span><span class="mock-chip mock-chip-pending">Pending</span></div>' +
+          '<div class="mock-table-row"><span>#1040</span><span>S. Bakker</span><span>\u20ac540</span><span class="mock-chip mock-chip-paid">Paid</span></div>' +
+          '</div></div></div></div>';
+      }
+
+      function buildWorkshopV11() {
+        return '<div class="browser-bar">' +
+          '<span class="term-dot red"></span><span class="term-dot yellow"></span><span class="term-dot green"></span>' +
+          '<span class="browser-url">' + SCENARIOS.workshop.url + '/reports</span>' +
+          '</div><div class="browser-body"><div class="mock-workshop">' +
+          '<div class="mock-sidebar">' +
+          '<div class="mock-sidebar-logo">WorkshopApp</div>' +
+          '<div class="mock-nav-item">Dashboard</div>' +
+          '<div class="mock-nav-item">Customers</div>' +
+          '<div class="mock-nav-item">Orders</div>' +
+          '<div class="mock-nav-item">Payments</div>' +
+          '<div class="mock-nav-item mock-active">Reports</div>' +
+          '</div><div class="mock-dashboard">' +
+          '<div class="mock-chart">' +
+          '<div class="mock-chart-title">Monthly Revenue</div>' +
+          '<div class="mock-chart-bars">' +
+          '<div class="mock-bar" style="height:40%"></div><div class="mock-bar" style="height:55%"></div>' +
+          '<div class="mock-bar" style="height:45%"></div><div class="mock-bar" style="height:70%"></div>' +
+          '<div class="mock-bar" style="height:60%"></div><div class="mock-bar" style="height:80%"></div>' +
+          '<div class="mock-bar" style="height:65%"></div><div class="mock-bar" style="height:90%"></div>' +
+          '<div class="mock-bar" style="height:75%"></div><div class="mock-bar" style="height:85%"></div>' +
+          '<div class="mock-bar" style="height:95%"></div><div class="mock-bar" style="height:100%"></div>' +
+          '</div></div></div></div></div>';
+      }
+
+      function buildSalonV1() {
+        return '<div class="browser-bar">' +
+          '<span class="term-dot red"></span><span class="term-dot yellow"></span><span class="term-dot green"></span>' +
+          '<span class="browser-url">' + SCENARIOS.salon.url + '</span>' +
+          '</div><div class="browser-body"><div class="mock-salon">' +
+          '<div class="mock-salon-header">' +
+          '<div class="mock-salon-title">Salon Dashboard \u2014 Today</div>' +
+          '<div class="mock-revenue-figure">\u20ac845</div>' +
+          '</div><div class="mock-salon-grid">' +
+          '<div class="mock-appointments">' +
+          '<div class="mock-appt-title">Today\'s Appointments</div>' +
+          '<div class="mock-appt-item"><span class="mock-appt-time">09:00</span><span class="mock-appt-name">E. de Jong \u2014 Cut &amp; Style</span><span class="mock-appt-status done">Done</span></div>' +
+          '<div class="mock-appt-item"><span class="mock-appt-time">10:30</span><span class="mock-appt-name">M. Peters \u2014 Color</span><span class="mock-appt-status confirmed">Confirmed</span></div>' +
+          '<div class="mock-appt-item"><span class="mock-appt-time">11:45</span><span class="mock-appt-name">K. Willems \u2014 Trim</span><span class="mock-appt-status waiting">Waiting</span></div>' +
+          '<div class="mock-appt-item"><span class="mock-appt-time">14:00</span><span class="mock-appt-name">R. Bos \u2014 Highlights</span><span class="mock-appt-status confirmed">Confirmed</span></div>' +
+          '</div>' +
+          '<div class="mock-staff">' +
+          '<div class="mock-staff-title">Staff on Duty</div>' +
+          '<div class="mock-staff-item"><div class="mock-staff-avatar">LvA</div><div><div class="mock-staff-name">L. van Amstel</div><div class="mock-staff-role">Senior Stylist</div></div></div>' +
+          '<div class="mock-staff-item"><div class="mock-staff-avatar">SB</div><div><div class="mock-staff-name">S. Brouwer</div><div class="mock-staff-role">Colorist</div></div></div>' +
+          '<div class="mock-staff-item"><div class="mock-staff-avatar">JH</div><div><div class="mock-staff-name">J. Hendriks</div><div class="mock-staff-role">Junior Stylist</div></div></div>' +
+          '</div></div>' +
+          '<div class="mock-customers">' +
+          '<div class="mock-customers-title">Recent Customers</div>' +
+          '<div class="mock-customer-item"><span>E. de Jong</span><span>+31 6 1122</span><span>12 visits</span></div>' +
+          '<div class="mock-customer-item"><span>M. Peters</span><span>+31 6 3344</span><span>8 visits</span></div>' +
+          '<div class="mock-customer-item"><span>K. Willems</span><span>+31 6 5566</span><span>3 visits</span></div>' +
+          '</div></div></div></div>';
+      }
+
+      function buildSalonV11() {
+        return '<div class="browser-bar">' +
+          '<span class="term-dot red"></span><span class="term-dot yellow"></span><span class="term-dot green"></span>' +
+          '<span class="browser-url">' + SCENARIOS.salon.url + '/schedule</span>' +
+          '</div><div class="browser-body"><div class="mock-salon">' +
+          '<div class="mock-salon-header">' +
+          '<div class="mock-salon-title">Weekly Schedule</div>' +
+          '<div class="mock-revenue-figure">\u20ac845</div>' +
+          '</div><div class="mock-schedule-view">' +
+          '<div class="mock-schedule-row"><span class="mock-schedule-day">Mon</span><span class="mock-schedule-slot booked">LvA, SB</span><span class="mock-schedule-slot booked">LvA, JH</span><span class="mock-schedule-slot available">SB, JH</span></div>' +
+          '<div class="mock-schedule-row"><span class="mock-schedule-day">Tue</span><span class="mock-schedule-slot booked">LvA, SB</span><span class="mock-schedule-slot available">LvA, JH</span><span class="mock-schedule-slot booked">SB, JH</span></div>' +
+          '<div class="mock-schedule-row"><span class="mock-schedule-day">Wed</span><span class="mock-schedule-slot available">LvA, SB</span><span class="mock-schedule-slot booked">LvA, JH</span><span class="mock-schedule-slot available">SB, JH</span></div>' +
+          '<div class="mock-schedule-row"><span class="mock-schedule-day">Thu</span><span class="mock-schedule-slot booked">LvA, SB</span><span class="mock-schedule-slot available">LvA, JH</span><span class="mock-schedule-slot booked">SB, JH</span></div>' +
+          '<div class="mock-schedule-row"><span class="mock-schedule-day">Fri</span><span class="mock-schedule-slot booked">LvA</span><span class="mock-schedule-slot off">JH off</span><span class="mock-schedule-slot booked">SB</span></div>' +
+          '</div></div></div></div>';
+      }
+
+      function buildRetailV1() {
+        return '<div class="browser-bar">' +
+          '<span class="term-dot red"></span><span class="term-dot yellow"></span><span class="term-dot green"></span>' +
+          '<span class="browser-url">' + SCENARIOS.retail.url + '</span>' +
+          '</div><div class="browser-body"><div class="mock-retail">' +
+          '<div class="mock-retail-header">' +
+          '<div class="mock-retail-title">Inventory Overview</div>' +
+          '<div class="mock-alert-badge">3 low-stock alerts</div>' +
+          '</div>' +
+          '<div class="mock-retail-stats">' +
+          '<div class="mock-retail-stat"><div class="mock-retail-stat-label">Products</div><div class="mock-retail-stat-value">234</div></div>' +
+          '<div class="mock-retail-stat"><div class="mock-retail-stat-label">Today\'s Sales</div><div class="mock-retail-stat-value" style="color:var(--green);">\u20ac1,890</div></div>' +
+          '<div class="mock-retail-stat"><div class="mock-retail-stat-label">Low Stock</div><div class="mock-retail-stat-value" style="color:#ef4444;">3</div></div>' +
+          '</div>' +
+          '<div class="mock-inventory">' +
+          '<div class="mock-inv-header"><span>Product</span><span>Stock</span><span>Level</span><span>Status</span></div>' +
+          '<div class="mock-inv-row"><span>Wireless Mouse</span><span>142</span><div class="mock-stock-bar"><div class="mock-stock-fill high" style="width:85%"></div></div><span style="color:var(--green);">In Stock</span></div>' +
+          '<div class="mock-inv-row"><span>USB-C Cable</span><span>8</span><div class="mock-stock-bar"><div class="mock-stock-fill low" style="width:15%"></div></div><span class="mock-inv-low">Low</span></div>' +
+          '<div class="mock-inv-row"><span>Laptop Stand</span><span>37</span><div class="mock-stock-bar"><div class="mock-stock-fill mid" style="width:45%"></div></div><span style="color:var(--amber);">Medium</span></div>' +
+          '<div class="mock-inv-row"><span>Monitor Arm</span><span>5</span><div class="mock-stock-bar"><div class="mock-stock-fill low" style="width:10%"></div></div><span class="mock-inv-low">Low</span></div>' +
+          '<div class="mock-inv-row"><span>Keyboard</span><span>9</span><div class="mock-stock-bar"><div class="mock-stock-fill low" style="width:18%"></div></div><span class="mock-inv-low">Low</span></div>' +
+          '</div></div></div></div>';
+      }
+
+      function buildRetailV11() {
+        return '<div class="browser-bar">' +
+          '<span class="term-dot red"></span><span class="term-dot yellow"></span><span class="term-dot green"></span>' +
+          '<span class="browser-url">' + SCENARIOS.retail.url + '</span>' +
+          '</div><div class="browser-body"><div class="mock-retail">' +
+          '<div class="mock-retail-header">' +
+          '<div class="mock-retail-title">Inventory Overview</div>' +
+          '<div class="mock-alert-badge">3 low-stock alerts</div>' +
+          '</div>' +
+          '<div class="mock-inventory">' +
+          '<div class="mock-inv-header"><span>Product</span><span>Stock</span><span>Level</span><span>Action</span></div>' +
+          '<div class="mock-inv-row"><span>Wireless Mouse</span><span>142</span><div class="mock-stock-bar"><div class="mock-stock-fill high" style="width:85%"></div></div><span style="color:var(--green);">In Stock</span></div>' +
+          '<div class="mock-inv-row"><span>USB-C Cable</span><span>8</span><div class="mock-stock-bar"><div class="mock-stock-fill low" style="width:15%"></div></div><span class="mock-reorder-btn">Reorder</span></div>' +
+          '<div class="mock-inv-row"><span>Laptop Stand</span><span>37</span><div class="mock-stock-bar"><div class="mock-stock-fill mid" style="width:45%"></div></div><span style="color:var(--amber);">Medium</span></div>' +
+          '<div class="mock-inv-row"><span>Monitor Arm</span><span>5</span><div class="mock-stock-bar"><div class="mock-stock-fill low" style="width:10%"></div></div><span class="mock-reorder-btn">Reorder</span></div>' +
+          '<div class="mock-inv-row"><span>Keyboard</span><span>9</span><div class="mock-stock-bar"><div class="mock-stock-fill low" style="width:18%"></div></div><span class="mock-reorder-btn">Reorder</span></div>' +
+          '</div></div></div></div>';
+      }
+
+      // --- Render ---
+      function renderRail() {
+        var sc = SCENARIOS[currentScenario];
+        var html = '';
+        for (var i = 0; i < STEP_NAMES.length; i++) {
+          var cls = 'step-rail-chip';
+          var currentAttr = '';
+          if (i === currentStep) {
+            cls += ' active';
+            currentAttr = ' aria-current="step"';
+          } else if (i < currentStep) {
+            cls += ' done';
+          }
+          html += '<button class="' + cls + '"' + currentAttr + ' data-step="' + i + '" aria-label="Step ' + STEP_NUMS[i] + ' ' + STEP_NAMES[i] + '">' + STEP_NUMS[i] + ' ' + STEP_NAMES[i] + '</button>';
+        }
+        railEl.innerHTML = html;
+
+        // Bind clicks
+        railEl.querySelectorAll('.step-rail-chip').forEach(function(chip) {
+          chip.addEventListener('click', function() {
+            goToStep(parseInt(chip.dataset.step));
+          });
+        });
+      }
+
+      // --- Timing ---
+      var USER_CPS = 40;
+      var FF_CPS = 26;
+      var THINK_PAUSE = 700;
+      var STEP_HOLD = 2000;
+      var LOOP_HOLD = 2800;
+      var MANUAL_PAUSE = 6000;
+
+      function typewriter(el, text, cps, token, done) {
+        if (reducedMotion) { el.textContent = text; if (done) done(); return; }
+        var i = 0;
+        var cursor = document.createElement('span');
+        cursor.className = 'type-cursor';
+        cursor.setAttribute('aria-hidden', 'true');
+        el.appendChild(cursor);
+        (function tick() {
+          if (token !== renderToken) return;
+          if (i < text.length) {
+            el.insertBefore(document.createTextNode(text.charAt(i)), cursor);
+            i++;
+            setTimeout(tick, 1000 / cps);
+          } else {
+            cursor.remove();
+            if (done) done();
+          }
+        })();
+      }
+
+      function replay(el) {
+        el.style.animation = 'none';
+        void el.offsetWidth;
+        el.style.animation = '';
+      }
+
+      function renderArtifact(step, sc) {
+        var artHTML = '';
+        switch (step.artifact) {
+          case 'repo':
+            artHTML = '<div class="artifact-repo">' +
+              '<span class="repo-badge">repo created</span>' +
+              '<span class="repo-badge" style="background:var(--green-dim);color:var(--green);">ci configured</span>' +
+              '<span style="font-family:var(--font-mono);font-size:0.75rem;color:var(--text-tertiary);">' + sc.repoName + '</span>' +
+              '</div>';
+            break;
+          case 'code':
+            artHTML = '<div class="artifact-code">' + sc.codeSnippet + '</div>';
+            break;
+          case 'validate':
+            artHTML = '<div class="artifact-validate">' +
+              '<span class="validate-badge"><svg width="12" height="12" viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3" fill="none" stroke="currentColor" stroke-width="2"/></svg>build passed</span>' +
+              '<span class="validate-badge"><svg width="12" height="12" viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3" fill="none" stroke="currentColor" stroke-width="2"/></svg>' + sc.testCount + ' tests passed</span>' +
+              '<span class="validate-badge"><svg width="12" height="12" viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3" fill="none" stroke="currentColor" stroke-width="2"/></svg>security: clean</span>' +
+              '</div>';
+            break;
+          case 'browser-v1':
+            artHTML = '<div class="artifact-browser" id="artifact-browser">' + sc.mockupV1() + '</div>' +
+              '<div style="text-align:center;margin-top:var(--space-sm);"><span class="version-badge">v1.0.0 released</span></div>';
+            break;
+          case 'browser-v11':
+            artHTML = '<div class="artifact-browser" id="artifact-browser">' + sc.mockupV11() + '</div>' +
+              '<div style="text-align:center;margin-top:var(--space-sm);"><span class="version-badge">v1.0.0<span class="version-arrow">\u2192</span>v1.1.0 deployed</span></div>';
+            break;
+          case 'summary':
+            artHTML = '<div class="artifact-summary">' +
+              '<div class="summary-row"><span class="summary-label">Tokens used</span><span class="summary-value">' + sc.tokenCount + '</span></div>' +
+              '<div class="summary-row"><span class="summary-label">Versions shipped</span><span class="summary-value">2 (v1.0.0, v1.1.0)</span></div>' +
+              '<div class="summary-row"><span class="summary-label">Data store</span><span class="summary-value">Google Sheets</span></div>' +
+              '</div>';
+            break;
+        }
+        artifactEl.innerHTML = artHTML;
+        replay(artifactEl);
+
+        if (step.artifact === 'browser-v1' || step.artifact === 'browser-v11') {
+          var browserEl = document.getElementById('artifact-browser');
+          if (browserEl) {
+            if (reducedMotion) browserEl.classList.add('visible');
+            else setTimeout(function() { browserEl.classList.add('visible'); }, 100);
+          }
+        }
+      }
+
+      function renderStep() {
+        var token = ++renderToken;
+        stepComplete = false;
+        clearTimeout(autoplayTimeout);
+        autoplayTimeout = null;
+
+        var sc = SCENARIOS[currentScenario];
+        var step = sc.steps[currentStep];
+
+        stepNumberEl.textContent = STEP_NUMS[currentStep] + ' \u00b7 ';
+        stepTitleEl.textContent = STEP_NAMES[currentStep].toUpperCase();
+        stepCaptionEl.textContent = step.caption;
+
+        // Chat bubbles (empty, streamed in)
+        chatAreaEl.innerHTML = '';
+        var userBubble = null, ffBubble = null;
+        if (step.user) {
+          userBubble = document.createElement('div');
+          userBubble.className = 'chat-bubble chat-bubble-user';
+          userBubble.setAttribute('aria-label', 'You');
+          chatAreaEl.appendChild(userBubble);
+        }
+        if (step.flowforge) {
+          ffBubble = document.createElement('div');
+          ffBubble.className = 'chat-bubble chat-bubble-flowforge';
+          ffBubble.setAttribute('aria-label', 'FlowForge');
+          chatAreaEl.appendChild(ffBubble);
+        }
+
+        // Hide the artifact until the chat finishes
+        artifactEl.innerHTML = '';
+
+        if (!started) {
+          prevBtn.disabled = currentStep === 0;
+          nextBtn.disabled = currentStep === STEP_NAMES.length - 1;
+          renderRail();
+          replay(stepFrameEl);
+          return;
+        }
+
+        function finish() {
+          if (token !== renderToken) return;
+          stepComplete = true;
+          renderArtifact(step, sc);
+          onStepComplete();
+        }
+
+        function startFlowforge() {
+          if (token !== renderToken) return;
+          if (!ffBubble) { finish(); return; }
+          var dots = document.createElement('span');
+          dots.className = 'typing-indicator';
+          dots.setAttribute('aria-hidden', 'true');
+          dots.innerHTML = '<span></span><span></span><span></span>';
+          ffBubble.appendChild(dots);
+          setTimeout(function() {
+            if (token !== renderToken) return;
+            dots.remove();
+            typewriter(ffBubble, step.flowforge, FF_CPS, token, finish);
+          }, THINK_PAUSE);
+        }
+
+        if (userBubble) {
+          typewriter(userBubble, step.user, USER_CPS, token, function() {
+            if (token !== renderToken) return;
+            if (ffBubble) startFlowforge();
+            else finish();
+          });
+        } else {
+          startFlowforge();
+        }
+
+        prevBtn.disabled = currentStep === 0;
+        nextBtn.disabled = currentStep === STEP_NAMES.length - 1;
+        renderRail();
+        replay(stepFrameEl);
+      }
+
+      // --- Navigation ---
+      function goToStep(n) {
+        if (n < 0 || n >= STEP_NAMES.length) return;
+        currentStep = n;
+        pauseAutoplay();
+        renderStep();
+      }
+
+      function nextStep() {
+        if (currentStep < STEP_NAMES.length - 1) {
+          currentStep++;
+          renderStep();
+        }
+      }
+
+      function prevStep() {
+        if (currentStep > 0) {
+          currentStep--;
+          renderStep();
+        }
+      }
+
+      prevBtn.addEventListener('click', function() { pauseAutoplay(); prevStep(); });
+      nextBtn.addEventListener('click', function() { pauseAutoplay(); nextStep(); });
+
+      // Keyboard navigation on walkthrough
+      walkthroughEl.addEventListener('keydown', function(e) {
+        if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+          e.preventDefault();
+          pauseAutoplay();
+          nextStep();
+        } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+          e.preventDefault();
+          pauseAutoplay();
+          prevStep();
+        }
+      });
+      walkthroughEl.setAttribute('tabindex', '0');
+
+      // --- Autoplay (completion-driven) ---
+      function onStepComplete() {
+        if (!autoPlayEnabled || reducedMotion) return;
+        clearTimeout(autoplayTimeout);
+        var hold = currentStep >= STEP_NAMES.length - 1 ? LOOP_HOLD : STEP_HOLD;
+        autoplayTimeout = setTimeout(function() {
+          if (Date.now() < manualPauseUntil) { onStepComplete(); return; }
+          if (currentStep >= STEP_NAMES.length - 1) currentStep = 0;
+          else currentStep++;
+          renderStep();
+        }, hold);
+      }
+
+      function startAutoplay() {
+        if (reducedMotion || !started) return;
+        autoPlayEnabled = true;
+        if (stepComplete) onStepComplete();
+      }
+
+      function startWalkthrough() {
+        if (started) return;
+        started = true;
+        currentStep = 0;
+        renderStep();
+        startAutoplay();
+      }
+
+      function stopAutoplay() {
+        autoPlayEnabled = false;
+        clearTimeout(autoplayTimeout);
+        autoplayTimeout = null;
+      }
+
+      function pauseAutoplay() {
+        manualPauseUntil = Date.now() + MANUAL_PAUSE;
+      }
+
+      // --- Scenario tabs ---
+      function switchScenario(name) {
+        currentScenario = name;
+        currentStep = 0;
+        tabs.forEach(function(tab) {
+          var isActive = tab.dataset.scenario === name;
+          tab.classList.toggle('active', isActive);
+          tab.setAttribute('aria-selected', String(isActive));
+          tab.setAttribute('tabindex', isActive ? '0' : '-1');
+        });
+        renderStep();
+        startAutoplay();
+      }
+
+      tabs.forEach(function(tab) {
+        tab.addEventListener('click', function() {
+          switchScenario(tab.dataset.scenario);
+        });
+      });
+
+      // Tab keyboard navigation
+      var tabList = document.getElementById('walkthrough-tabs');
+      tabList.addEventListener('keydown', function(e) {
+        var tabArr = Array.from(tabs);
+        var idx = tabArr.indexOf(document.activeElement);
+        if (idx === -1) return;
+        var newIdx = idx;
+        if (e.key === 'ArrowRight') { e.preventDefault(); newIdx = (idx + 1) % tabArr.length; }
+        else if (e.key === 'ArrowLeft') { e.preventDefault(); newIdx = (idx - 1 + tabArr.length) % tabArr.length; }
+        else if (e.key === 'Home') { e.preventDefault(); newIdx = 0; }
+        else if (e.key === 'End') { e.preventDefault(); newIdx = tabArr.length - 1; }
+        else return;
+        tabArr[newIdx].focus();
+        switchScenario(tabArr[newIdx].dataset.scenario);
+      });
+
+      // --- IntersectionObserver ---
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function(entries) {
+          entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+              startWalkthrough();
+              startAutoplay();
+            } else {
+              stopAutoplay();
+            }
+          });
+        }, { threshold: 0.5 });
+        observer.observe(document.getElementById('product-in-action'));
+      } else {
+        startWalkthrough();
+      }
+
+      // --- Init ---
+      renderStep();
+    });
+    /* ============================================================
+       8-Step Circular Factory
+       ============================================================ */
+    document.addEventListener('DOMContentLoaded', function() {
+      var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var container = document.querySelector('.factory-container');
+      if (!container) return;
+
+      var steps = [
+        { num: '01', title: 'DESCRIBE', desc: 'User explains the need in natural language.' },
+        { num: '02', title: 'DETECT', desc: 'AI uncovers the real need through active dialogue and writes the product spec that the Validate step later uses to confirm the build matches what the user asked for.' },
+        { num: '03', title: 'PROVISION', desc: 'Create a GitHub repository, configure the CI/CD workflow, and set up Google Sheets as the data store when lightweight persistence is appropriate.' },
+        { num: '04', title: 'ENGINEER', desc: 'A harness guides the LLM to generate code that correctly implements the product spec.' },
+        { num: '05', title: 'VALIDATE', desc: 'Build, lint, test and security checks validate the output against the spec from Detect; failures loop back to Engineer to be fixed.' },
+        { num: '06', title: 'RELEASE', desc: 'The validated application is tagged, released and deployed.' },
+        { num: '07', title: 'USER FEEDBACK', desc: 'User feedback feeds back into the spec, making it richer and evolving the software to match what the user needs.' },
+        { num: '08', title: 'METER', desc: 'AI usage is metered through tokens; when included usage is exhausted, the user can purchase more.' }
+      ];
+
+      var N = steps.length;
+      var fcNum = document.getElementById('fc-num');
+      var fcTitle = document.getElementById('fc-title');
+      var fcDesc = document.getElementById('fc-desc');
+
+      // Create nodes
+      var nodes = [];
+      for (var i = 0; i < N; i++) {
+        var node = document.createElement('button');
+        node.className = 'factory-node';
+        node.setAttribute('role', 'button');
+        node.setAttribute('tabindex', '0');
+        node.setAttribute('aria-label', 'Step ' + steps[i].num + ': ' + steps[i].title);
+        node.dataset.index = i;
+
+        var inner = document.createElement('div');
+        inner.className = 'factory-node-inner';
+        inner.innerHTML = '<span class="node-title">' + steps[i].title + '</span>';
+        node.appendChild(inner);
+        container.appendChild(node);
+        nodes.push(node);
+      }
+
+      // Create SVG connecting lines between adjacent steps
+      var svgEl = container.querySelector('.factory-lines');
+      if (svgEl) {
+        svgEl.innerHTML = '';
+        for (var i = 0; i < N; i++) {
+          var next = (i + 1) % N;
+          var line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+          line.setAttribute('stroke', 'var(--cyan)');
+          line.setAttribute('stroke-width', '1.5');
+          line.setAttribute('stroke-opacity', '0.4');
+          line.setAttribute('stroke-linecap', 'round');
+          line.dataset.from = i;
+          line.dataset.to = next;
+          svgEl.appendChild(line);
+        }
+      }
+
+      // Cached geometry — avoids a forced reflow (getBoundingClientRect) every frame,
+      // which was the main source of choppy rotation.
+      var geo = { size: 0, r: 0, center: 0 };
+      function updateGeo() {
+        var rect = container.getBoundingClientRect();
+        var w = Math.min(rect.width, rect.height) || 1;
+        geo.size = w;
+        geo.r = w * 0.42;
+        geo.center = w / 2;
+        if (svgEl) svgEl.setAttribute('viewBox', '0 0 ' + w + ' ' + w);
+      }
+      updateGeo();
+
+      function positionNodes(angle) {
+        var r = geo.r;
+        for (var i = 0; i < N; i++) {
+          var nodeAngle = (i * (360 / N)) - 90 + angle;
+          var rad = nodeAngle * Math.PI / 180;
+          var x = r * Math.cos(rad);
+          var y = r * Math.sin(rad);
+          nodes[i].style.transform = 'translate(' + x + 'px, ' + y + 'px)';
+        }
+
+        // Update SVG lines (viewBox now matches container px, so lines align with nodes)
+        if (svgEl) {
+          var lines = svgEl.querySelectorAll('line');
+          var cx = geo.center, cy = geo.center;
+          for (var j = 0; j < lines.length; j++) {
+            var fromIdx = parseInt(lines[j].dataset.from);
+            var toIdx = parseInt(lines[j].dataset.to);
+            var fromAngle = (fromIdx * (360 / N)) - 90 + angle;
+            var toAngle = (toIdx * (360 / N)) - 90 + angle;
+            var fr = fromAngle * Math.PI / 180;
+            var tr = toAngle * Math.PI / 180;
+            lines[j].setAttribute('x1', cx + r * Math.cos(fr));
+            lines[j].setAttribute('y1', cy + r * Math.sin(fr));
+            lines[j].setAttribute('x2', cx + r * Math.cos(tr));
+            lines[j].setAttribute('y2', cy + r * Math.sin(tr));
+          }
+        }
+      }
+
+      function getActiveIndex(angle) {
+        // Which node is nearest 12 o'clock (top = -90 degrees in our system)?
+        // node i is at angle (i * 40 - 90 + orbitAngle)
+        // We want the one closest to -90 (top), so: i * 40 + orbitAngle ≈ 0 mod 360
+        var normalized = ((-angle) % 360 + 360) % 360;
+        return Math.round(normalized / (360 / N)) % N;
+      }
+
+      var currentAngle = 0;
+      var activeStep = 0;
+      var autoRotating = !reducedMotion;
+      var cycleDuration = 20000; // 20s per full cycle
+      var angularVelocity = (360 / cycleDuration); // degrees per ms
+      var lastTimestamp = 0;
+      var pauseUntil = 0;
+      var rafId = null;
+
+      function showStep(index) {
+        if (index === activeStep) return;
+        activeStep = index;
+        nodes.forEach(function(n, i) { n.classList.toggle('active', i === index); });
+        if (fcNum) fcNum.textContent = steps[index].num;
+        if (fcTitle) fcTitle.textContent = steps[index].title;
+        if (fcDesc) {
+          fcDesc.classList.remove('visible');
+          setTimeout(function() {
+            fcDesc.textContent = steps[index].desc;
+            fcDesc.classList.add('visible');
+          }, 150);
+        }
+      }
+
+      function animate(timestamp) {
+        if (!lastTimestamp) lastTimestamp = timestamp;
+        var dt = timestamp - lastTimestamp;
+        lastTimestamp = timestamp;
+
+        if (autoRotating && timestamp > pauseUntil) {
+          currentAngle -= angularVelocity * dt;
+          if (currentAngle < 0) currentAngle += 360;
+        }
+
+        positionNodes(currentAngle);
+
+        var newActive = getActiveIndex(currentAngle);
+        if (newActive !== activeStep) showStep(newActive);
+
+        rafId = requestAnimationFrame(animate);
+      }
+
+      if (!reducedMotion) {
+        rafId = requestAnimationFrame(animate);
+      } else {
+        positionNodes(0);
+        showStep(0);
+      }
+
+      // Pause on hover
+      container.addEventListener('mouseenter', function() {
+        if (autoRotating) {
+          autoRotating = false;
+          pauseUntil = performance.now() + 5000;
+        }
+      });
+      container.addEventListener('mouseleave', function() {
+        // Resume after 5s pause
+        setTimeout(function() { autoRotating = true; }, 5000);
+      });
+
+      // Click to rotate node to top
+      nodes.forEach(function(node) {
+        node.addEventListener('click', function() {
+          var idx = parseInt(node.dataset.index);
+          var targetAngle = -idx * (360 / N);
+          var currentNormalized = currentAngle % 360;
+          var diff = targetAngle - currentNormalized;
+          // Normalize diff to shortest rotation
+          while (diff > 180) diff -= 360;
+          while (diff < -180) diff += 360;
+
+          autoRotating = false;
+          pauseUntil = performance.now() + 5000;
+
+          var startAngle = currentAngle;
+          var endAngle = currentAngle + diff;
+          var duration = 700;
+          var startTime = performance.now();
+
+          function easeInOut(t) { return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t; }
+
+          function animateClick(now) {
+            var elapsed = now - startTime;
+            var progress = Math.min(elapsed / duration, 1);
+            currentAngle = startAngle + diff * easeInOut(progress);
+            positionNodes(currentAngle);
+            var newActive = getActiveIndex(currentAngle);
+            if (newActive !== activeStep) showStep(newActive);
+            if (progress < 1) requestAnimationFrame(animateClick);
+          }
+          requestAnimationFrame(animateClick);
+        });
+
+        node.addEventListener('keydown', function(e) {
+          if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+            e.preventDefault();
+            var next = (parseInt(node.dataset.index) + 1) % N;
+            nodes[next].focus();
+            nodes[next].click();
+          } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+            e.preventDefault();
+            var prev = (parseInt(node.dataset.index) - 1 + N) % N;
+            nodes[prev].focus();
+            nodes[prev].click();
+          }
+        });
+      });
+
+      // Recalculate geometry and redraw on resize
+      window.addEventListener('resize', function() {
+        updateGeo();
+        positionNodes(currentAngle);
+      });
+    });
+
+    /* ============================================================
+       Human in the Loop — Circular Animation
+       ============================================================ */
+    document.addEventListener('DOMContentLoaded', function() {
+      var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var hitlContainer = document.querySelector('.hitl-circle-container');
+      if (!hitlContainer) return;
+
+      var hitlNodes = [
+        { label: 'YOU DECIDE', type: 'human' },
+        { label: 'AI BUILDS', type: 'machine' },
+        { label: 'YOU REVIEW', type: 'human' },
+        { label: 'YOUR FEEDBACK', type: 'human' }
+      ];
+
+      var N = hitlNodes.length;
+      var signalEl = hitlContainer.querySelector('.hitl-signal');
+
+      // Create nodes
+      var hitlEls = [];
+      for (var i = 0; i < N; i++) {
+        var node = document.createElement('div');
+        node.className = 'hitl-node node-' + hitlNodes[i].type;
+        node.innerHTML = '<span class="hitl-node-icon">' + hitlNodes[i].label + '</span>';
+        node.dataset.index = i;
+        hitlContainer.appendChild(node);
+        hitlEls.push(node);
+      }
+
+      // Cached radius — avoids a forced reflow (getBoundingClientRect) every frame
+      var hitlR = 0;
+      function updateHitlGeo() {
+        var rect = hitlContainer.getBoundingClientRect();
+        hitlR = Math.min(rect.width, rect.height) * 0.37;
+      }
+      updateHitlGeo();
+
+      function positionHitlNodes() {
+        for (var i = 0; i < N; i++) {
+          var angle = (i * (360 / N)) - 90;
+          var rad = angle * Math.PI / 180;
+          var x = hitlR * Math.cos(rad);
+          var y = hitlR * Math.sin(rad);
+          hitlEls[i].style.transform = 'translate(' + x + 'px, ' + y + 'px)';
+        }
+      }
+
+      function positionSignal(angle) {
+        if (!signalEl) return;
+        var rad = angle * Math.PI / 180;
+        var x = hitlR * Math.cos(rad) - 5;
+        var y = hitlR * Math.sin(rad) - 5;
+        signalEl.style.transform = 'translate(' + x + 'px, ' + y + 'px)';
+
+        // Determine nearest node
+        var nearest = Math.round(((angle + 90) % 360 + 360) % 360 / (360 / N)) % N;
+        hitlEls.forEach(function(el, i) {
+          el.classList.toggle('active', i === nearest);
+        });
+
+        // Signal color
+        signalEl.className = 'hitl-signal';
+        if (hitlNodes[nearest].type === 'human') signalEl.classList.add('at-human');
+        else if (hitlNodes[nearest].type === 'validate') signalEl.classList.add('at-validate');
+      }
+
+      positionHitlNodes();
+
+      if (!reducedMotion) {
+        var hitlAngle = -90;
+        var hitlDuration = 12000; // 12s per cycle
+        var hitlVelocity = 360 / hitlDuration;
+        var hitlLast = 0;
+
+        function animateHitl(timestamp) {
+          if (!hitlLast) hitlLast = timestamp;
+          var dt = timestamp - hitlLast;
+          hitlLast = timestamp;
+          hitlAngle += hitlVelocity * dt;
+          if (hitlAngle >= 360) hitlAngle -= 360;
+          positionSignal(hitlAngle);
+          requestAnimationFrame(animateHitl);
+        }
+        requestAnimationFrame(animateHitl);
+      } else {
+        // Static: show first node active
+        hitlEls[0].classList.add('active');
+      }
+
+      // Reposition on resize
+      var resizeTimer;
+      window.addEventListener('resize', function() {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(function() {
+          updateHitlGeo();
+          positionHitlNodes();
+        }, 100);
+      });
+    });
+  </script>
+
+  <script>
+    /* FlowForge analytics: tracks pageview, click, scroll depth, section view,
+       and view time; POSTs batched events to a Google Apps Script Web App that
+       appends rows to a Google Sheet (see analytics-gas.js). Disabled until
+       ENDPOINT is set. */
+    (function () {
+      var ENDPOINT = 'https://script.google.com/macros/s/AKfycbxvmv_do01oxSSPG-UYQkw05Q_ngV8JkG32wSIIFIZW_s54xM--mP5_JRJIjd6pnHdwrA/exec';
+
+      if (!ENDPOINT) return;
+
+      var sessionId = 's' + Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+      var startTime = Date.now();
+      var queue = [];
+      var flushTimer = null;
+      var viewTimeReported = false;
+
+      function send(batch) {
+        if (!batch.length) return;
+        var body = JSON.stringify(batch);
+        var sent = false;
+        if (navigator.sendBeacon) {
+          try { sent = navigator.sendBeacon(ENDPOINT, body); } catch (e) { sent = false; }
+        }
+        if (!sent) {
+          try {
+            fetch(ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=UTF-8' }, body: body, keepalive: true }).catch(function () {});
+          } catch (e) {}
+        }
+      }
+
+      function flush() {
+        clearTimeout(flushTimer);
+        flushTimer = null;
+        if (!queue.length) return;
+        send(queue.splice(0, queue.length));
+      }
+
+      function scheduleFlush() {
+        if (flushTimer) return;
+        flushTimer = setTimeout(flush, 5000);
+      }
+
+      function track(type, data) {
+        var event = { sessionId: sessionId, type: type, ts: new Date().toISOString(), path: location.pathname };
+        for (var k in (data || {})) event[k] = data[k];
+        queue.push(event);
+        if (queue.length >= 25) flush();
+        scheduleFlush();
+      }
+      window.ffTrack = track;
+
+      track('pageview', { label: document.title, referrer: document.referrer, lang: navigator.language });
+
+      document.addEventListener('click', function (e) {
+        var el = e.target && e.target.closest ? e.target.closest('a, button, [role="tab"]') : null;
+        if (!el) return;
+        var label = (el.textContent || '').trim().slice(0, 100) || el.id || el.getAttribute('aria-label') || el.tagName;
+        track('click', { label: label, tag: el.tagName.toLowerCase(), href: el.getAttribute('href') || '' });
+      }, true);
+
+      var depths = { 25: false, 50: false, 75: false, 100: false };
+      var scrollTick = false;
+      window.addEventListener('scroll', function () {
+        if (scrollTick) return;
+        scrollTick = true;
+        requestAnimationFrame(function () {
+          scrollTick = false;
+          var doc = document.documentElement;
+          var pct = (doc.scrollTop + window.innerHeight) / doc.scrollHeight * 100;
+          for (var d in depths) {
+            if (!depths[d] && pct >= Number(d)) {
+              depths[d] = true;
+              track('scroll', { label: d + '%' });
+            }
+          }
+        });
+      }, { passive: true });
+
+      var seenSections = {};
+      if ('IntersectionObserver' in window) {
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting && entry.target.id && !seenSections[entry.target.id]) {
+              seenSections[entry.target.id] = true;
+              track('section', { label: entry.target.id });
+            }
+          });
+        }, { threshold: 0.5 });
+        document.querySelectorAll('main section[id], header#hero').forEach(function (sec) { io.observe(sec); });
+      }
+
+      function reportViewTime() {
+        if (viewTimeReported) return;
+        viewTimeReported = true;
+        track('viewtime', { label: 'seconds', value: Math.round((Date.now() - startTime) / 1000) });
+        flush();
+      }
+      document.addEventListener('visibilitychange', function () { if (document.hidden) reportViewTime(); });
+      window.addEventListener('pagehide', reportViewTime);
+    })();
+  </script>
+
+  <script>
+    /* Waitlist signup: opens from the primary CTA and posts the email to
+       WAITLIST_ENDPOINT (Google Apps Script, "waitlist" sheet). */
+    (function () {
+      var dialog = document.getElementById('waitlist-dialog');
+      var trigger = document.getElementById('waitlist-trigger');
+      if (!dialog || !trigger) return;
+
+      var WAITLIST_ENDPOINT = 'https://script.google.com/macros/s/AKfycbxvmv_do01oxSSPG-UYQkw05Q_ngV8JkG32wSIIFIZW_s54xM--mP5_JRJIjd6pnHdwrA/exec';
+
+      var form = document.getElementById('waitlist-form');
+      var formWrap = document.getElementById('waitlist-form-wrap');
+      var successEl = document.getElementById('waitlist-success');
+      var emailInput = document.getElementById('waitlist-email');
+      var errorEl = document.getElementById('waitlist-error');
+      var submitBtn = document.getElementById('waitlist-submit');
+
+      var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+      function setError(msg) {
+        errorEl.textContent = msg || '';
+        errorEl.hidden = !msg;
+        emailInput.setAttribute('aria-invalid', msg ? 'true' : 'false');
+      }
+
+      function open() {
+        formWrap.hidden = false;
+        successEl.hidden = true;
+        emailInput.value = '';
+        setError('');
+        if (typeof dialog.showModal === 'function') dialog.showModal();
+        else dialog.setAttribute('open', '');
+        emailInput.focus();
+        if (window.ffTrack) window.ffTrack('waitlist', { label: 'open' });
+      }
+
+      function close() {
+        if (typeof dialog.close === 'function') dialog.close();
+        else dialog.removeAttribute('open');
+      }
+
+      trigger.addEventListener('click', function (e) { e.preventDefault(); open(); });
+      document.getElementById('waitlist-close').addEventListener('click', close);
+      document.getElementById('waitlist-success-close').addEventListener('click', close);
+
+      dialog.addEventListener('click', function (e) { if (e.target === dialog) close(); });
+      dialog.addEventListener('close', function () { trigger.focus(); });
+      emailInput.addEventListener('input', function () { setError(''); });
+
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var email = emailInput.value.trim();
+
+        if (!email) { setError('Enter your email address.'); emailInput.focus(); return; }
+        if (!EMAIL_RE.test(email)) { setError("That email doesn't look right — check it and try again."); emailInput.focus(); return; }
+
+        setError('');
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Submitting…';
+
+        function showSuccess() {
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Get early access';
+          formWrap.hidden = true;
+          successEl.hidden = false;
+          if (window.ffTrack) window.ffTrack('waitlist', { label: 'signup' });
+        }
+
+        if (!WAITLIST_ENDPOINT) {
+          console.warn('FlowForge: WAITLIST_ENDPOINT is empty — email not stored.');
+          showSuccess();
+          return;
+        }
+
+        fetch(WAITLIST_ENDPOINT, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=UTF-8' },
+          body: JSON.stringify({ type: 'waitlist', email: email, ts: new Date().toISOString(), path: location.pathname }),
+          keepalive: true
+        }).then(function (res) {
+          if (!res.ok) throw new Error('HTTP ' + res.status);
+          showSuccess();
+        }).catch(function () {
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Get early access';
+          setError('Something went wrong. Please try again.');
+        });
+      });
+    })();
+  </script>
+</body>
+</html>
